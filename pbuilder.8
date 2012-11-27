@@ -379,6 +379,21 @@ Use this option rather than using
 .B "\-\-debbuildopts -B"
 
 .TP
+.BI "\-\-bin\-nmu [" "changelog message" "]"
+Specify to build a binary-NMU instead of a standard package.
+This option takes the changelog message to pass to the binary-NMU package as parameter.
+
+.TP
+.BI "\-\-bin\-nmu\-maintainer [" "maintainer" "]"
+Specify the maintainer name and email address to be displayed in the changes file.
+If no maintainer is provided, it defaults to the last uploader.
+
+.TP
+.BI "\-\-bin\-nmu\-version [" "version number" "]"
+Specify the number to append to the version in the binary-NMU package.
+If no number is provided, it defaults to 1.
+
+.TP
 .BI "\-\-bindmounts " "bind-mount-points"
 Bind-mount the specified directories to inside the chroot.
 .I "bind-mount-points"

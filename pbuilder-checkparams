@@ -33,6 +33,7 @@ CHROOTEXEC=""
 OVERRIDE_APTLINES="no"
 OVERRIDE_APTLINES_WARN="" # set this if --override-config option should be set.
 BINARY_ARCH="no"
+BIN_NMU="no"
 PBUILDER_BUILD_LOGFILE=
 PRESERVE_BUILDPLACE="no"
 unset EXTRA_CONFIGFILE || true
@@ -198,6 +199,22 @@ while [ -n "$1" ]; do
 	    # XXX this might be overwriten by --debbuildopts ""
 	    DEBBUILDOPTS="${DEBBUILDOPTS} -B"
 	    shift;
+	    ;;
+	--bin-nmu)
+	    BIN_NMU="yes"
+	    BINARY_ARCH="yes"
+	    # XXX this might be overwriten by --debbuildopts ""
+	    DEBBUILDOPTS="${DEBBUILDOPTS} -B"
+	    BINNMU_MESSAGE="$2"
+	    shift; shift;
+	    ;;
+	--bin-nmu-maintainer)
+	    BINNMU_MAINTAINER="$2"
+	    shift; shift;
+	    ;;
+	--bin-nmu-version)
+	    BINNMU_VERSION="$2"
+	    shift; shift;
 	    ;;
 	--preserve-buildplace)
 	    PRESERVE_BUILDPLACE="yes"
