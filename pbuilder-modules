@@ -557,7 +557,7 @@ function extractbuildplace () {
         if [ "$EATMYDATA" = "yes" ]; then
             TAR="eatmydata tar"
         fi
-        if ! (cd "$BUILDPLACE" && $TAR -x --use-compress-program "$COMPRESSPROG" -p -f "$BASETGZ"); then
+        if ! (cd "$BUILDPLACE" && $TAR -x -p -f "$BASETGZ"); then
             log.e "failed to extract $BASETGZ to $BUILDPLACE"
             exit 1
         fi
