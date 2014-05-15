@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # pbuilder hook script: choose optional compiler rather than default one
-#  
+#
 # Sometimes we want to choose other compiler than default, because of improving
 # code to conform to standard, check compiler quality or so. This script will
 # ease it. Try enable hook script and set "CHOOSE_COMPILER" variables as clang,
@@ -18,8 +18,14 @@ set -e
 # check whether we are asked to change the compiler.
 case "${CHOOSE_COMPILER}" in
     clang)
-	newcc=/usr/bin/"${CHOOSE_COMPILER}"
-	newcxx=/usr/bin/"${CHOOSE_COMPILER}"++
+        newcc=/usr/bin/"${CHOOSE_COMPILER}"
+        newcxx=/usr/bin/"${CHOOSE_COMPILER}"++
+        ;;
+    clang-*)
+        use_clang_version=$(echo ${CHOOSE_COMPILER} | sed -e s/clang-//)
+	    clang_package=clang-"${use_clang_version}"
+	    newcc=/usr/bin/clang-"${use_clang_version}"
+	    newcxx=/usr/bin/clang++-"${use_clang_version}"
   	;;
     gcc-*)
         use_gcc_version=$(echo ${CHOOSE_COMPILER} | sed -e s/gcc-//)
@@ -42,7 +48,7 @@ case "${CHOOSE_COMPILER}" in
 	;;
 esac
 
-apt-get -y install "${CHOOSE_COMPILER}" ${gxx_package}
+apt-get -y install "${CHOOSE_COMPILER}" ${gxx_package} ${clang_package}
 
 if [ ! -x /usr/bin/"${CHOOSE_COMPILER}" ]; then
     echo >&2 "E: Package ${CHOOSE_COMPILER} does not contain compiler driver?"
