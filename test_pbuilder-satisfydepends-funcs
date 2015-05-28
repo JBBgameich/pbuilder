@@ -100,6 +100,56 @@ expect_output "bar, foo" test_filter_arch_deps "bar, foo [amd64]" "amd64"
 expect_output "bar | foo" test_filter_arch_deps "bar | foo [amd64]" "amd64"
 expect_output "bar" test_filter_arch_deps "bar | foo [amd64]" "i386"
 
+expect_fail checkbuilddep_restrictiondeps "foo <!stage1>" ""
+expect_success checkbuilddep_restrictiondeps "foo <!stage1>" "stage1"
+expect_fail checkbuilddep_restrictiondeps "foo <!stage1>" "notest"
+expect_success checkbuilddep_restrictiondeps "foo <!stage1>" "stage1 notest"
+
+expect_success checkbuilddep_restrictiondeps "foo <stage1>" ""
+expect_fail checkbuilddep_restrictiondeps "foo <stage1>" "stage1"
+expect_success checkbuilddep_restrictiondeps "foo <stage1>" "notest"
+expect_fail checkbuilddep_restrictiondeps "foo <stage1>" "stage1 notest"
+
+expect_fail checkbuilddep_restrictiondeps "foo <!stage1 !notest>" ""
+expect_success checkbuilddep_restrictiondeps "foo <!stage1 !notest>" "stage1"
+expect_success checkbuilddep_restrictiondeps "foo <!stage1 !notest>" "notest"
+expect_success checkbuilddep_restrictiondeps "foo <!stage1 !notest>" "stage1 notest"
+
+expect_success checkbuilddep_restrictiondeps "foo <stage1 notest>" ""
+expect_success checkbuilddep_restrictiondeps "foo <stage1 notest>" "stage1"
+expect_success checkbuilddep_restrictiondeps "foo <stage1 notest>" "notest"
+expect_fail checkbuilddep_restrictiondeps "foo <stage1 notest>" "stage1 notest"
+
+expect_success checkbuilddep_restrictiondeps "foo <!stage1 notest>" ""
+expect_success checkbuilddep_restrictiondeps "foo <!stage1 notest>" "stage1"
+expect_fail checkbuilddep_restrictiondeps "foo <!stage1 notest>" "notest"
+expect_success checkbuilddep_restrictiondeps "foo <!stage1 notest>" "stage1 notest"
+
+expect_success checkbuilddep_restrictiondeps "foo <stage1 !notest>" ""
+expect_fail checkbuilddep_restrictiondeps "foo <stage1 !notest>" "stage1"
+expect_success checkbuilddep_restrictiondeps "foo <stage1 !notest>" "notest"
+expect_success checkbuilddep_restrictiondeps "foo <stage1 !notest>" "stage1 notest"
+
+test_filter_restriction_deps() {
+    echo "$1" | filter_restriction_deps "$2"
+}
+
+expect_output "foo" test_filter_restriction_deps "foo <!stage1>" ""
+expect_output "" test_filter_restriction_deps "foo <!stage1>" "stage1"
+expect_output "foo" test_filter_restriction_deps "foo <stage1>" "stage1"
+expect_output "bar, foo" test_filter_restriction_deps "bar, foo <stage1>" "stage1"
+expect_output "bar | foo" test_filter_restriction_deps "bar | foo <stage1>" "stage1"
+expect_output "bar" test_filter_restriction_deps "bar | foo <!stage1>" "stage1"
+
+test_filter_arch_restriction_deps() {
+    echo "$1" | filter_arch_deps "$2" | filter_restriction_deps "$3"
+}
+
+expect_output "foo" test_filter_arch_restriction_deps "foo [amd64] <!stage1>" "amd64" ""
+expect_output "" test_filter_arch_restriction_deps "foo [amd64] <stage1>" "amd64" ""
+expect_output "foo" test_filter_arch_restriction_deps "foo [amd64] <!stage1>" "amd64" ""
+expect_output "" test_filter_arch_restriction_deps "foo [i386] <stage1>" "amd64" "stage1"
+
 expect_output "debhelper (>= 7)" test_get_build_deps_dsc
 
 testlib_summary

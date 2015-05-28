@@ -148,6 +148,37 @@ filter_arch_deps() {
     xargs --no-run-if-empty
 }
 
+# filter out dependencies sent on input not for selected build profiles; deps
+# can have multiple lines; output is on a single line or "" if empty
+filter_restriction_deps() {
+    local profiles="$1"
+    local INSTALLPKGMULTI
+    local INSTALLPKG
+
+    # split on ","
+    sed 's/[[:space:]]*,[[:space:]]*/\n/g' |
+    while read INSTALLPKGMULTI; do
+        echo "$INSTALLPKGMULTI" |
+            # split on "|"
+            sed 's/[[:space:]]*|[[:space:]]*/\n/g' |
+            while read INSTALLPKG; do
+                if echo "$INSTALLPKG" | grep -q '<'; then
+                    if checkbuilddep_restrictiondeps "$INSTALLPKG" "$profiles"; then
+                        continue
+                    fi
+                fi
+                # output the selected package
+                echo "$INSTALLPKG"
+            done |
+            # remove the restriction list and add " | " between entries
+            sed 's/<.*>//; $,$! s/$/ |/' |
+            xargs --no-run-if-empty
+    done |
+    # add ", " between entries
+    sed '$,$! s/$/,/' |
+    xargs --no-run-if-empty
+}
+
 checkbuilddep_archdeps() {
     # returns FALSE on INSTALL
     local INSTALLPKG="$1"
@@ -180,6 +211,48 @@ checkbuilddep_archdeps() {
         return 0
     fi
     return 1
+}
+
+checkbuilddep_restrictiondeps() {
+    # returns FALSE on INSTALL
+    local INSTALLPKG="$1"
+    local PROFILES="$2"
+    # restrictions listed between < and > for this dep
+    local DEP_RESTRICTIONS="$(echo "$INSTALLPKG" | sed -e 's/[^<]*<\(.*\)>.*/\1/' -e 's/>\s\+</;/g')"
+    local PKG="$(echo "$INSTALLPKG" | cut -d ' ' -f 1)"
+    local SEEN_PROFILE
+    local PROFILE
+    local NEGATED
+    local FOUND
+    IFS=';' read -ra RESTRLISTS <<< "$DEP_RESTRICTIONS"
+    for restrlist in "${RESTRLISTS[@]}"; do
+        SEEN_PROFILE="yes"
+        for restr in $restrlist; do
+            if [[ "$restr" == '!'* ]]; then
+                NEGATED="yes"
+                PROFILE=${restr#!}
+            else
+                NEGATED="no"
+                PROFILE=${restr}
+            fi
+            FOUND="no"
+            for p in $PROFILES; do
+                if [ "$p" = "$PROFILE" ]; then
+                    FOUND="yes"
+                    break
+                fi
+            done
+            if [ "$FOUND" = "$NEGATED" ]; then
+                SEEN_PROFILE="no"
+                break
+            fi
+        done
+
+        if [ "$SEEN_PROFILE" = "yes" ]; then
+            return 1
+        fi
+    done
+    return 0
 }
 
 checkbuilddep_provides() {

@@ -33,8 +33,10 @@ function checkbuilddep_internal () {
     local DEPENDS
     local CONFLICTS
     echo " -> Attempting to satisfy build-dependencies"
-    DEPENDS="$(get_build_deps | filter_arch_deps "$ARCH")"
-    CONFLICTS="$(get_build_conflicts | filter_arch_deps "$ARCH")"
+    DEPENDS="$(get_build_deps | filter_arch_deps "$ARCH" |
+        filter_restriction_deps \"$DEB_BUILD_PROFILES\" )"
+    CONFLICTS="$(get_build_conflicts | filter_arch_deps "$ARCH" |
+        filter_restriction_deps \"$DEB_BUILD_PROFILES\" )"
     echo " -> Creating pbuilder-satisfydepends-dummy package"
     BUILD_DEP_DEB_DIR="/tmp/satisfydepends-aptitude"
     BUILD_DEP_DEB_CONTROL="$BUILD_DEP_DEB_DIR/pbuilder-satisfydepends-dummy/DEBIAN/control"
