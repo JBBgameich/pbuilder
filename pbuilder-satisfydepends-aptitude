@@ -25,38 +25,6 @@ export PBUILDER_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder
 
 . "$PBUILDER_PKGLIBDIR"/pbuilder-satisfydepends-funcs
 
-
-# filter out dependencies sent on input not for this arch; deps can have
-# multiple lines; output is on a single line or "" if empty
-function filter_arch_deps() {
-    local arch="$1"
-    local INSTALLPKGMULTI
-    local INSTALLPKG
-
-    # split on ","
-    sed 's/[[:space:]]*,[[:space:]]*/\n/g' |
-    while read INSTALLPKGMULTI; do
-        echo "$INSTALLPKGMULTI" |
-            # split on "|"
-            sed 's/[[:space:]]*|[[:space:]]*/\n/g' |
-            while read INSTALLPKG; do
-                if echo "$INSTALLPKG" | grep -q '\['; then
-                    if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
-                        continue
-                    fi
-                fi
-                # output the selected package
-                echo "$INSTALLPKG"
-            done |
-            # remove the arch list and add " | " between entries
-            sed 's/\[.*\]//; $,$! s/$/ |/' |
-            xargs --no-run-if-empty
-    done |
-    # add ", " between entries
-    sed '$,$! s/$/,/' |
-    xargs --no-run-if-empty
-}
-
 function checkbuilddep_internal () {
 # Use this function to fulfill the dependency (almost)
     local ARCH=$($CHROOTEXEC dpkg-architecture -qDEB_HOST_ARCH)

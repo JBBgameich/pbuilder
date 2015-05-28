@@ -84,6 +84,22 @@ expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-d
 expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev" \
     test_get_build_deps "yes"
 
+expect_fail checkbuilddep_archdeps "foo [amd64]" "amd64"
+expect_success checkbuilddep_archdeps "foo [i386]" "amd64"
+expect_fail checkbuilddep_archdeps "foo [i386 amd64]" "amd64"
+expect_success checkbuilddep_archdeps "foo [!amd64]" "amd64"
+expect_success checkbuilddep_archdeps "foo [!i386 !amd64]" "amd64"
+
+test_filter_arch_deps() {
+    echo "$1" | filter_arch_deps "$2"
+}
+
+expect_output "foo" test_filter_arch_deps "foo" "amd64"
+expect_output "foo" test_filter_arch_deps "foo [amd64]" "amd64"
+expect_output "bar, foo" test_filter_arch_deps "bar, foo [amd64]" "amd64"
+expect_output "bar | foo" test_filter_arch_deps "bar | foo [amd64]" "amd64"
+expect_output "bar" test_filter_arch_deps "bar | foo [amd64]" "i386"
+
 expect_output "debhelper (>= 7)" test_get_build_deps_dsc
 
 testlib_summary
