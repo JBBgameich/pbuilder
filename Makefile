@@ -58,6 +58,7 @@ PKGLIB_SCRIPTS += \
 	pbuilder-satisfydepends-gdebi \
 	pbuilder-selftest \
 	pbuilder-uml-checkparams \
+	pbuilder-unshare-wrapper \
 	pbuilder-updatebuildenv \
 	pdebuild-checkparams \
 	pdebuild-internal \

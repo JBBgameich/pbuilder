@@ -37,7 +37,7 @@ if [ -n "$BUILDUSERNAME" -a -n "$BUILDUSERID" ]; then
     # environment, so cowdancer shouldn't have to run, and fakeroot
     # should be running later, so it shouldn't matter.
     # LOGNAME: set this to shut up some tools.
-    SUTOUSER=" env LD_PRELOAD= LOGNAME=$BUILDUSERNAME /sbin/start-stop-daemon --start --pidfile /dev/null --chuid $BUILDUSERNAME --startas /bin/sh"
+    SUTOUSER="LD_PRELOAD= LOGNAME=$BUILDUSERNAME /sbin/start-stop-daemon --start --pidfile /dev/null --chuid $BUILDUSERNAME --startas /bin/sh"
     DEBBUILDOPTS="${DEBBUILDOPTS:+$DEBBUILDOPTS }-rfakeroot"
     EXTRAPACKAGES="${EXTRAPACKAGES} fakeroot"
     log "I: using fakeroot in build."
@@ -45,9 +45,10 @@ else
     # run the build in root
     BUILDUSERID=0
     BUILDUSERNAME=root
-    SUTOUSER=" env LOGNAME=$BUILDUSERNAME /bin/sh"
+    SUTOUSER="LOGNAME=$BUILDUSERNAME /bin/sh"
 fi
 
+UNSHARE=
 case $USENETWORK in
 yes)
 	if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
@@ -56,9 +57,9 @@ yes)
 	fi
 	;;
 *)
-	if $CHROOTEXEC /usr/bin/unshare -n true; then
+	if /usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper true; then
 		USENETWORK=no
-		SUTOUSER="/usr/bin/unshare -n -- $SUTOUSER"
+		UNSHARE="/usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper"
 		log "I: pbuilder: network access will be disabled during build"
 	else
 		USENETWORK=yes
@@ -115,7 +116,7 @@ recover_aptcache
 createbuilduser
 CCACHE_ENV=
 setup_ccache
-SUTOUSER=${SUTOUSER/ env / env $CCACHE_ENV }
+SUTOUSER="$CCACHE_ENV $SUTOUSER"
 log "I: Installing the build-deps"
 executehooks "D"
 trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup sigpipe
@@ -134,7 +135,7 @@ else
     log "E: pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
     exit 1;
 fi
-if echo "( cd tmp/buildd; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename $PACKAGENAME) )" | $CHROOTEXEC $SUTOUSER ; then
+if echo "( cd tmp/buildd; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename $PACKAGENAME) )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
     : # success
 else
     log "E: pbuilder: Failed extracting the source"
@@ -154,7 +155,7 @@ DPKG_COMMANDLINE="env PATH=\"$PATH\" dpkg-buildpackage -us -uc ${DEBEMAIL:+\"-e$
     fi
     DPKG_COMMANDLINE="cd tmp/buildd/*/ && $DPKG_COMMANDLINE"
     log "I: Running $DPKG_COMMANDLINE"
-    echo "$DPKG_COMMANDLINE" | $CHROOTEXEC $SUTOUSER
+    echo "$DPKG_COMMANDLINE" | $UNSHARE $CHROOTEXEC env $SUTOUSER
 ) &
 BUILD_PID=$!
 if [ -n "${TIMEOUT_TIME}" ]; then

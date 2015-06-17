@@ -27,6 +27,7 @@ Depends: coreutils (>= 4.5.8-1),
          wget,
          ${misc:Depends}
 Recommends: fakeroot,
+            net-tools | iproute2,
             sudo,
             devscripts
 Suggests: pbuilder-uml,
