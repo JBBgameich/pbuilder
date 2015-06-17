@@ -13,4 +13,4 @@ all: $(PDFFILES)
 	latex $<
 
 clean:
-	-rm *~ *.log *.aux *.snm *.toc *.out *.nav *.dvi
+	rm -fv *~ *.log *.aux *.snm *.toc *.out *.nav *.dvi *.pdf *.pdf

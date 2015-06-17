@@ -190,8 +190,10 @@ full-check:
 
 clean:
 	rm -f *.bak *~ TAGS
-	rm -f testsuite/testimage
-	rm -rf testsuite/testbuild testsuite/testbuild2
+	rm -rfv testsuite/testimage \
+		testsuite/testbuild \
+		testsuite/testbuild2 \
+		testsuite/regression/work
 	$(MAKE) -C pbuildd $@
 	$(MAKE) -C Documentation $@
 

@@ -39,8 +39,19 @@ preview: pbuilder-doc.html
 release: pbuilder-doc.html pbuilder-doc.xml pbuilder-doc.css pbuilder-doc.xsl pbuilder-doc.pdf
 	scp $^ ${ALIOTH_FILEHOSTING}:/home/groups/pbuilder/htdocs/ 
 
-clean: 
-	rm -f pbuilder-doc.pdf pbuilder-doc.glo pbuilder-doc.idx pbuilder-doc.log pbuilder-doc.out \
-		pbuilder-doc.aux pbuilder-doc.html.tmp
+clean:
+	rm -fv \
+		pbuilder-doc.pdf \
+		pbuilder-doc.glo \
+		pbuilder-doc.idx \
+		pbuilder-doc.log \
+		pbuilder-doc.out \
+		pbuilder-doc.aux \
+		pbuilder-doc.html \
+		pbuilder-doc.de.html \
+		pbuilder-doc.fr.html \
+		pbuilder-doc.ja.html \
+		pbuilder-doc.html.tmp
+	$(MAKE) -C debconf7 $@
 
 .PHONY: preview release-netfort release clean
