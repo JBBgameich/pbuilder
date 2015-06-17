@@ -36,8 +36,8 @@ if [ -n "$BUILDUSERNAME" -a -n "$BUILDUSERID" ]; then
     # LD_PRELOAD: Normal users don't have write access to build
     # environment, so cowdancer shouldn't have to run, and fakeroot
     # should be running later, so it shouldn't matter.
-    # LOGNAME: set this to shut up some tools.
-    SUTOUSER="LD_PRELOAD= LOGNAME=$BUILDUSERNAME /sbin/start-stop-daemon --start --pidfile /dev/null --chuid $BUILDUSERNAME --startas /bin/sh"
+    # LOGNAME and USER: set this to shut up some tools.
+    SUTOUSER="LD_PRELOAD= LOGNAME=$BUILDUSERNAME USER=$BUILDUSERNAME /sbin/start-stop-daemon --start --pidfile /dev/null --chuid $BUILDUSERNAME --startas /bin/sh"
     DEBBUILDOPTS="${DEBBUILDOPTS:+$DEBBUILDOPTS }-rfakeroot"
     EXTRAPACKAGES="${EXTRAPACKAGES} fakeroot"
     log "I: using fakeroot in build."

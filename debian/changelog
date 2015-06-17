@@ -1,8 +1,12 @@
 pbuilder (0.215+nmu4) UNRELEASED; urgency=medium
 
   * debian/source/format: 3.0 (native).
-  * Do real cleanup, don't hide temporary files under .gitignore, rather teach
-    makefiles' clean targets how to deal with them properly.
+  * Do real cleanup, don't hide temporary files under .gitignore, rather
+    teach makefiles' clean targets how to deal with them properly.
+  * set the USER env variable to BUILDUSERNAME, to fix FTBFS of some package
+    which check for not being run as root using that variable.
+    Thanks to Tim Landscheidt <tim@tim-landscheidt.de> for the initial patch.
+    Closes: #677666
 
  -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 17 Jun 2015 20:36:23 +0000
 
