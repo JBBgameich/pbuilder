@@ -380,6 +380,14 @@ are many software which fail miserably when there is no
 .B /dev/pts
 being mounted.
 .TP
+.BI "USENETWORK=" "no"
+Specify
+.B yes
+when you do not want to disable network access during build.
+Network is not available on a Debian buildd, so you might
+want to keep the default.
+Disabling network access currently only works on Linux.
+.TP
 .BI "USERUNSHM=" "yes"
 Specify
 .B yes

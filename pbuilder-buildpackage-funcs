@@ -107,8 +107,7 @@ function setup_ccache() {
             mkdir -p "$BUILDPLACE/$CCACHEDIR"
         fi
         chown -R $BUILDUSERID:$BUILDUSERID "$BUILDPLACE/$CCACHEDIR"
-        # Unfortunate difference between pbuilder-style and ccache-style config
-        # env vars   :-/
-        export CCACHE_DIR="$CCACHEDIR"
+	CCACHE_ENV="CCACHE_DIR=$CCACHEDIR"
+	unset CCACHE_DIR
     fi
 }

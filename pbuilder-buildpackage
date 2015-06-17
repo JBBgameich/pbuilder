@@ -37,17 +37,38 @@ if [ -n "$BUILDUSERNAME" -a -n "$BUILDUSERID" ]; then
     # environment, so cowdancer shouldn't have to run, and fakeroot
     # should be running later, so it shouldn't matter.
     # LOGNAME: set this to shut up some tools.
-    # su -p : switch to user preserving env vars, we need most of them. 
-    SUTOUSER="env LD_PRELOAD= LOGNAME=$BUILDUSERNAME su -p $BUILDUSERNAME"
+    SUTOUSER=" env LD_PRELOAD= LOGNAME=$BUILDUSERNAME /sbin/start-stop-daemon --start --pidfile /dev/null --chuid $BUILDUSERNAME --startas /bin/sh"
     DEBBUILDOPTS="${DEBBUILDOPTS:+$DEBBUILDOPTS }-rfakeroot"
     EXTRAPACKAGES="${EXTRAPACKAGES} fakeroot"
     log "I: using fakeroot in build."
 else
     # run the build in root
-    SUTOUSER="su -p "
     BUILDUSERID=0
     BUILDUSERNAME=root
+    SUTOUSER=" env LOGNAME=$BUILDUSERNAME /bin/sh"
 fi
+
+case $USENETWORK in
+yes)
+	if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
+		# omit the warning when running on kFreeBSD or Hurd
+		log "W: pbuilder: network will not be disabled during build!"
+	fi
+	;;
+*)
+	if $CHROOTEXEC /usr/bin/unshare -n true; then
+		USENETWORK=no
+		SUTOUSER="/usr/bin/unshare -n -- $SUTOUSER"
+		log "I: pbuilder: network access will be disabled during build"
+	else
+		USENETWORK=yes
+		if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
+			log "W: pbuilder: unshare CLONE_NEWNET not available"
+		fi
+		log "I: pbuilder: network access is available during build!"
+	fi
+	;;
+esac
 
 
 # created files should have these UID/GIDs outside of chroot.
@@ -92,7 +113,9 @@ fi
 
 recover_aptcache
 createbuilduser
+CCACHE_ENV=
 setup_ccache
+SUTOUSER=${SUTOUSER/ env / env $CCACHE_ENV}
 log "I: Installing the build-deps"
 executehooks "D"
 trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup sigpipe

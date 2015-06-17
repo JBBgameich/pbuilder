@@ -10,6 +10,7 @@ MIRRORSITE=http://cdn.debian.net/debian
 #export http_proxy=http://your-proxy:8080/
 USEPROC=yes
 USEDEVPTS=yes
+USENETWORK=no
 USERUNSHM=yes
 USEDEVFS=no
 BUILDRESULT=/var/cache/pbuilder/result/

@@ -1,3 +1,15 @@
+pbuilder (0.215+nmu1) unstable; urgency=low
+
+  [ Ivo De Decker ]
+  * Only set CCACHE_DIR when running as build user. (closes: #666525)
+
+  [ Thorsten Glaser ]
+  * Non-maintainer upload.
+  * Disable network access during build by default on Linux (Closes: #748967)
+  * Replace use of su as requested by Helmut Grohne (Closes: #747946)
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Thu, 22 May 2014 20:37:51 +0200
+
 pbuilder (0.215) unstable; urgency=low
 
   * Do not try to use /dev/shm if /run/shm is not present. (closes: #702811, #702102)
