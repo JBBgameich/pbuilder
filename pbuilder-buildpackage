@@ -115,7 +115,7 @@ recover_aptcache
 createbuilduser
 CCACHE_ENV=
 setup_ccache
-SUTOUSER=${SUTOUSER/ env / env $CCACHE_ENV}
+SUTOUSER=${SUTOUSER/ env / env $CCACHE_ENV }
 log "I: Installing the build-deps"
 executehooks "D"
 trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup sigpipe

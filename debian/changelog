@@ -1,3 +1,9 @@
+pbuilder (0.215+nmu2) unstable; urgency=low
+
+  * Fix missing space, thanks gregoa for spotting (Closes: #753690)
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 04 Jul 2014 13:20:42 +0200
+
 pbuilder (0.215+nmu1) unstable; urgency=low
 
   [ Ivo De Decker ]
