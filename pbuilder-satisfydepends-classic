@@ -45,7 +45,7 @@ split_alternates() {
 # architecture or version specifier; e.g. "/foo/(>=/2)/[i386/amd64]" becomes
 # "foo"
 get_pkg_name() {
-    echo "$*" | sed 's#^/*##; s#[[/(].*##'
+    echo "$*" | sed 's#^/*##; s#[[/(<].*##'
 }
 
 # filter operator and version of a "/" escaped versioned build-dep; e.g.
@@ -78,6 +78,13 @@ checkbuilddep_internal() {
 	    if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
 		SATISFIED="yes"
 		echo "   -> This package is not for this architecture"
+		continue
+	    fi
+	fi
+	if echo "$INSTALLPKG" | grep -q '<'; then
+	    if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
+		SATISFIED="yes"
+		echo "   -> This package is not for the current build profiles"
 		continue
 	    fi
 	fi
@@ -150,6 +157,13 @@ checkbuilddep_internal() {
 	      echo "I: Ignoring other-arch"
 	      continue
 	  fi
+      fi
+      if echo "$INSTALLPKG" | greq -q '<'; then
+          # this package has build-profiles-conflicts.
+          if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
+              echo "I: Ignoring other-buildprofiles"
+              continue
+          fi
       fi
       if echo "$INSTALLPKG" | grep -q '('; then
 	  # this package has version-conflicts
