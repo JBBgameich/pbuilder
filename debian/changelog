@@ -1,5 +1,8 @@
 pbuilder (0.215+nmu4) UNRELEASED; urgency=medium
 
+  * Non-maintainer upload.
+
+  [ Mattia Rizzolo ]
   * debian/source/format: 3.0 (native).
   * Do real cleanup, don't hide temporary files under .gitignore, rather
     teach makefiles' clean targets how to deal with them properly.
@@ -7,6 +10,37 @@ pbuilder (0.215+nmu4) UNRELEASED; urgency=medium
     which check for not being run as root using that variable.
     Thanks to Tim Landscheidt <tim@tim-landscheidt.de> for the initial patch.
     Closes: #677666
+
+  [ Johannes Schauer ]
+  * move filter_arch_deps to pbuilder-satisfydepends-funcs and add tests
+  * build profile parsing support
+
+  [ Andreas Henriksson ]
+  * Fix DEB_BUILD_PROFILES quoting.
+    Thanks to Michael Stapelberg for spotting this
+  * Support build-profiles in classic satisfydeps
+  * Force dpkg-architecture to use arguments over env
+  * Fix up License paragraph in debian/copyright
+    - fixes lintian warnings:
+      missing-license-paragraph-in-dep5-copyright
+      copyright-should-refer-to-common-license-file-for-gpl
+  * Install bash-completion under /usr/share/ instead of /etc
+    - fixes lintian warning package-install-into-obsolete-dir
+  * Use dpkg-maintscript-helper rm_conffile to clean up
+    old /etc/bash_completion.d/pbuilder
+  * Minor syntax updates to pbuilder bash-completion to make it
+    function properly under its new location.
+    - drop "have" check and add "&&" before complete.
+
+  [ Axel Beckert ]
+  * Use "none" instead of "/dev/pts" as device for the /dev/pts mount
+    inside the chroot (Closes: #788580)
+
+  [ Frédéric Brière ]
+  * Mark pbuilder as "Multi-Arch: foreign" (Closes: #752545)
+
+  [ Mert Dirik ]
+  * Add Turkish debconf template translation (Closes: #757505)
 
  -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 17 Jun 2015 20:36:23 +0000
 
