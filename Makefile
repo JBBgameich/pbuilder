@@ -19,7 +19,7 @@ endef
 NULL :=
 
 ALLDIRS += BASHCOMPLETION
-BASHCOMPLETIONDIR := $(SYSCONFDIR)/bash_completion.d
+BASHCOMPLETIONDIR := $(PKGDATADIR)/../bash-completion/completions/
 BASHCOMPLETION_DATA += \
 	bash_completion.d/pbuilder \
 	$(NULL)
