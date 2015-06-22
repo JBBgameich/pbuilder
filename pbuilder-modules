@@ -270,7 +270,7 @@ function mountproc () {
 	TTYGRP=5
 	TTYMODE=620
 	[ -f /etc/default/devpts ] && . /etc/default/devpts
-	mount -t devpts /dev/pts "$BUILDPLACE/dev/pts" -onoexec,nosuid,gid=$TTYGRP,mode=$TTYMODE
+	mount -t devpts none "$BUILDPLACE/dev/pts" -onoexec,nosuid,gid=$TTYGRP,mode=$TTYMODE
 	mounted[${#mounted[@]}]="$BUILDPLACE/dev/pts"
     fi
     if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
