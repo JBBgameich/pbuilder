@@ -9,5 +9,8 @@ if [ "$1" = purge ]; then
 	fi
 fi
 
+dpkg-maintscript-helper rm_conffile \
+	/etc/bash_completion.d/pbuilder 0.215+nmu4~ pbuilder -- "$@"
+
 #DEBHELPER#
 exit 0
