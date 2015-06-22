@@ -13,7 +13,7 @@ pbuilder (0.215+nmu4) UNRELEASED; urgency=medium
 
   [ Johannes Schauer ]
   * move filter_arch_deps to pbuilder-satisfydepends-funcs and add tests
-  * build profile parsing support
+  * build profile parsing support (Closes: #740577)
 
   [ Andreas Henriksson ]
   * Fix DEB_BUILD_PROFILES quoting.
