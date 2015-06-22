@@ -7,7 +7,6 @@
 # adapted to pbuilder, the license is GPLv2 or later.
 # Copyright 2007 Junichi Uekawa <dancer@debian.org>
 
-have pbuilder && {
 _pbuilder()
 {
     local cur prev command i
@@ -75,6 +74,5 @@ _pbuilder()
     esac
 
     return 0
-}
+} &&
 complete -F _pbuilder pbuilder
-}
