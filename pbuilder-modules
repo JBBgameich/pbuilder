@@ -153,6 +153,7 @@ function seems_truly_unmounted() {
 }
 
 function umount_one () {
+    DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "${IGNORE_UMOUNT}" = "yes" ]; then
 	# support ignore umount option.
 	log "I: ignoring umount of $1 filesystem"
@@ -221,7 +222,7 @@ function umountproc () {
     if [ "$USEDEVFS" = "yes" ]; then
 	umount_one "dev"
     fi
-    if [ "$USERUNSHM" = "yes" ]; then
+    if [ "$USERUNSHM" = "yes" ] && [ "$DEB_BUILD_ARCH_OS" != "hurd" ]; then
 	umount_one "run/shm"
     fi
     if [ "$USEPROC" = "yes" ]; then
@@ -233,6 +234,17 @@ function umountproc () {
     if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ]; then
         umount_one "sys"
     fi
+    if [ "$DEB_BUILD_ARCH_OS" = "hurd" ]; then
+        umount_one "servers"
+        umount_one "dev"
+
+        # Workaround to remove chroot on Hurd: once /dev firmlink is
+        # removed, chroot removal either gets stuck or fails by removing
+        # some devices.
+        for dev in $BUILDPLACE/dev/{netdde,tty*,pty*,fd,vcs}; do
+            settrans -fg $dev
+        done
+    fi
 }
 
 
@@ -243,12 +255,20 @@ function mountproc () {
     DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "$USEPROC" = "yes" ]; then
 	log "I: mounting /proc filesystem"
-	mkdir -p $BUILDPLACE/proc
-	PROCFS="proc"
-	if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ]; then
-	    PROCFS="linprocfs"
-	fi
-	mount -t $PROCFS /proc "$BUILDPLACE/proc"
+	mkdir -p "$BUILDPLACE"/proc
+        case "$DEB_BUILD_ARCH_OS" in
+            kfreebsd)
+                PROCFS="linprocfs"
+                ;;
+            hurd)
+                settrans -fg "$BUILDPLACE/proc"
+                PROCFS="firmlink"
+                ;;
+            *)
+                PROCFS="proc"
+                ;;
+        esac
+        mount -t "$PROCFS" /proc "$BUILDPLACE/proc" || [ "$DEB_BUILD_ARCH_OS" = hurd ]
 	ln -s ../proc/mounts $BUILDPLACE/etc/mtab 2> /dev/null || true
 	mounted[${#mounted[@]}]="$BUILDPLACE/proc"
     fi
@@ -278,6 +298,14 @@ function mountproc () {
 	mkdir -p $BUILDPLACE/selinux
 	mount -t selinuxfs /selinux "$BUILDPLACE/selinux"
 	mounted[${#mounted[@]}]="$BUILDPLACE/selinux"
+    fi
+    if [ "$DEB_BUILD_ARCH_OS" = "hurd" ]; then
+        # /dev and /servers might have already been mounted at
+        # debootstrap chroot creation
+        mount -t firmlink /dev "$BUILDPLACE/dev" || true
+        mounted[${#mounted[@]}]="$BUILDPLACE/dev"
+        mount -t firmlink /servers "$BUILDPLACE/servers" || true
+        mounted[${#mounted[@]}]="$BUILDPLACE/servers"
     fi
     MOUNTPARAMS="-obind"
     [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] && MOUNTPARAMS="-t nullfs"

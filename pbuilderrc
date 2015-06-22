@@ -4,7 +4,7 @@
 BASETGZ=/var/cache/pbuilder/base.tgz
 #EXTRAPACKAGES=""
 #export DEBIAN_BUILDARCH=athlon
-BUILDPLACE=/var/cache/pbuilder/build/
+BUILDPLACE=/var/cache/pbuilder/build
 MIRRORSITE=http://cdn.debian.net/debian
 #OTHERMIRROR="deb http://www.home.com/updates/ ./"
 #export http_proxy=http://your-proxy:8080/
