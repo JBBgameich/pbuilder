@@ -1,4 +1,4 @@
-pbuilder (0.215+nmu4) UNRELEASED; urgency=medium
+pbuilder (0.215+nmu4) unstable; urgency=low
 
   * Non-maintainer upload.
 
@@ -42,7 +42,7 @@ pbuilder (0.215+nmu4) UNRELEASED; urgency=medium
   [ Mert Dirik ]
   * Add Turkish debconf template translation (Closes: #757505)
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 17 Jun 2015 20:36:23 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Mon, 22 Jun 2015 15:58:41 +0000
 
 pbuilder (0.215+nmu3) unstable; urgency=low
 
