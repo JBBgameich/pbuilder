@@ -18,4 +18,7 @@ else
 	exit 1
 fi
 
+# having this variable set could cause programs looking for unreachable machines
+unset http_proxy
+
 exec "$@"
