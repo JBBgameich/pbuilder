@@ -1,3 +1,18 @@
+pbuilder (0.215+nmu5) UNRELEASED; urgency=medium
+
+  [ Mattia Rizzolo ]
+  * pbuilder-unshare-wrapper: fix typo.
+    Thanks to Thorsten Glaser <tg@mirbsd.de> for the reminder and Raphael
+    Geissert <atomo64@gmail.com> for the report.  (Closes: #772290)
+  * pbuilder-unshare-wrapper: unset the http_proxy variable, as that can lead
+    to programs looking for unreachable machines.
+    Thanks to Thorsten Glaser <tg@mirbsd.de> for the idea (Closes: #780587)
+
+  [ Gabriele Giacone ]
+  * Add support for hurd. (Closes: #753801, #755441)
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 23 Jun 2015 09:01:50 +0000
+
 pbuilder (0.215+nmu4) unstable; urgency=low
 
   * Non-maintainer upload.
