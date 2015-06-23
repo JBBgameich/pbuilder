@@ -1,0 +1,3 @@
+Tests: build-procenv
+Depends: @, debian-keyring, distro-info, lsb-release
+Restrictions: needs-root
