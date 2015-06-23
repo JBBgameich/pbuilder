@@ -435,6 +435,7 @@ EOF
     # configure /etc/apt.conf.d/15pbuilder
     cat > "$BUILDPLACE"/etc/apt/apt.conf.d/15pbuilder <<EOF
 APT::Install-Recommends "false";
+Acquire::Languages none;
 EOF
     if [ -n "$EXPERIMENTAL" ]; then
 	log "I: Installing apt-lines and pinning for experimental"
