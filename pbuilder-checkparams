@@ -138,6 +138,12 @@ while [ -n "$1" ]; do
 		exit 1
 	    fi
 	    . "$2";
+        # deprecated in v0.216
+        if [ -n "$PKGNAME_LOGFILE_EXTENTION" ] ; then
+            echo "W: The configuration option PKGNAME_LOGFILE_EXTENTION is deprecated in favour of PKGNAME_LOGFILE_EXTENSION. Though, while you have the former set it'll take precedence over the latter."
+            echo "W: PKGNAME_LOGFILE_EXTENTION will be removed at some point, please update your config!"
+            PKGNAME_LOGFILE_EXTENSION="$PKGNAME_LOGFILE_EXTENTION"
+        fi
 	    EXTRA_CONFIGFILE[${#EXTRA_CONFIGFILE[@]}]="$2";
 	    shift; shift; 
 	    ;;
