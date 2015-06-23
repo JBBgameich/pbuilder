@@ -6,15 +6,15 @@ Uploaders: Junichi Uekawa <dancer@debian.org>,
            Loïc Minier <lool@dooz.org>,
            Matt Kraai <kraai@debian.org>,
            Mattia Rizzolo <mattia@mapreri.org>
-Build-Depends: debhelper (>= 7),
+Build-Depends: dblatex,
+               debconf | debconf-2.0,
+               debhelper (>= 7),
                docbook-xsl,
-               ldp-docbook-xsl (>= 0.0.20040321-0.1),
-               xsltproc,
                dpkg-dev (>= 1.13.19),
-               dblatex,
-               debconf|debconf-2.0,
+               ldp-docbook-xsl (>= 0.0.20040321-0.1),
                po-debconf,
-               po4a
+               po4a,
+               xsltproc
 Standards-Version: 3.9.1
 Vcs-Git: git://git.debian.org/git/pbuilder/pbuilder.git
 Vcs-Browser: http://git.debian.org/?p=pbuilder/pbuilder.git
@@ -24,28 +24,28 @@ Package: pbuilder
 Architecture: all
 Multi-Arch: foreign
 Depends: coreutils (>= 4.5.8-1),
+         debianutils (>= 1.13.1),
          debootstrap | cdebootstrap,
          dpkg-dev,
-         debianutils (>= 1.13.1),
          wget,
          ${misc:Depends}
-Recommends: fakeroot,
+Recommends: devscripts,
+            fakeroot,
             net-tools | iproute2,
-            sudo,
-            devscripts
-Suggests: pbuilder-uml,
+            sudo
+Suggests: cowdancer,
           gdebi-core,
-          cowdancer
+          pbuilder-uml
 Homepage: http://pbuilder.alioth.debian.org
 Description: personal package builder for Debian packages
  pbuilder constructs a chroot system, and builds a package inside the
- chroot. 
- It is an ideal system to use to check 
+ chroot.
+ It is an ideal system to use to check
  that a package has correct build-dependencies.
  It uses apt extensively, and a local mirror, or a fast connection
  to a Debian mirror is ideal, but not necessary.
  .
- "pbuilder create" uses debootstrap to create a chroot image. 
+ "pbuilder create" uses debootstrap to create a chroot image.
  .
  "pbuilder update" updates the image to the current state of
  testing/unstable/whatever
@@ -57,14 +57,14 @@ Description: personal package builder for Debian packages
  pbuilder just like "debuild", as a normal user.
 
 Package: pbuilder-uml
-Architecture: i386 amd64
-Depends: rootstrap (>= 0.3.9-1),
+Architecture: amd64 i386
+Depends: pbuilder (= ${source:Version}),
+         rootstrap (>= 0.3.9-1),
          user-mode-linux,
-         pbuilder (= ${source:Version}),
          ${misc:Depends}
 Description: user-mode-linux version of pbuilder
  pbuilder-uml uses a User-mode-linux system, and builds Debian packages
- inside the UML image. It is an ideal system to use to check 
+ inside the UML image. It is an ideal system to use to check
  that a package has correct build-dependencies.
  It uses apt extensively, and a local mirror, or a fast connection
  to a Debian mirror is ideal, but not necessary.
