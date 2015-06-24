@@ -146,7 +146,7 @@ log "I: Building the package"
 
 executehooks "A"
 
-DPKG_COMMANDLINE="env PATH=\"$PATH\" dpkg-buildpackage -us -uc ${DEBEMAIL:+\"-e$DEBEMAIL\"} $DEBBUILDOPTS"
+DPKG_COMMANDLINE="env PATH=\"$PATH\" dpkg-buildpackage -us -uc $DEBBUILDOPTS"
 
 (
     : Build process
