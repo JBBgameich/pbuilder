@@ -1,0 +1,142 @@
+#!/bin/bash
+#
+# This file is part of  pbuilder -- personal Debian package builder
+#
+# Copyright © 2015 Mattia Rizzolo <mattia@mapreri.org>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, see <http://www.gnu.org/licenses/>.
+#   On Debian systems, the full text of the GNU General Public
+#   License version 2 can be found in the file
+#   `/usr/share/common-licenses/GPL-2'.
+
+
+# testsuite to test pbuilder-satisfydepends-funcs.
+
+
+if [ -n "$PBUILDER_CHECKOUT" ]; then
+    . "$PBUILDER_CHECKOUT/testlib.sh"
+
+    . "$PBUILDER_CHECKOUT/pbuilder-buildpackage-funcs"
+else
+    # these currently don't need to be exported
+    PBUILDER_TEST_ROOT="${PBUILDER_ROOT:-}"
+    PBUILDER_TEST_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder}"
+    . "$PBUILDER_TEST_PKGLIBDIR/testlib.sh"
+
+    . "$PBUILDER_TEST_PKGLIBDIR/pbuilder-buildpackage-funcs"
+fi
+
+DEBIAN_CONTROL=""
+
+cleanup() {
+    if [ -n "$DEBIAN_CONTROL" ]; then
+        rm -f "$DEBIAN_CONTROL"
+    fi
+}
+
+test_getdscfilesNormal () {
+
+    cat > "$DEBIAN_CONTROL" << EOF
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Format: 3.0 (quilt)
+Source: libeatmydata
+Binary: eatmydata, libeatmydata1
+Architecture: any all
+Version: 82-6
+Maintainer: Modestas Vainius <modax@debian.org>
+Uploaders: Mattia Rizzolo <mattia@mapreri.org>
+Homepage: https://launchpad.net/libeatmydata
+Standards-Version: 3.9.6
+Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libeatmydata.git
+Vcs-Git: git://anonscm.debian.org/collab-maint/libeatmydata.git
+Build-Depends: autotools-dev, debhelper (>= 9), strace [!hurd-any !kfreebsd-any]
+Package-List:
+ eatmydata deb utils optional arch=all
+ libeatmydata1 deb utils optional arch=any
+Checksums-Sha1:
+ c8d3cd2d9a872302c8a1494813565639bd4c2aa8 407977 libeatmydata_82.orig.tar.gz
+ 4a76697591072662acee1e25d7f86c1f6ac503dd 43484 libeatmydata_82-6.debian.tar.xz
+Checksums-Sha256:
+ 0b675f58069f912727cee5eb75f9ff1a6a8300fe7e3fe4fc6bdd03b7c2c15b29 407977 libeatmydata_82.orig.tar.gz
+ 3b5aede6617ed161211aee6f421d6af3c1ae22a4f4d11dc6545138359d7eea2c 43484 libeatmydata_82-6.debian.tar.xz
+Files:
+ 56a4d342f209ab75a9ee360236e3e5bc 407977 libeatmydata_82.orig.tar.gz
+ 06c197d3d4142b546e836d72fbe4b895 43484 libeatmydata_82-6.debian.tar.xz
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iD8DBQFUfLA320zMSyow1ykRAkRxAJ4zYyuUByiYq31sxbrB902PybqADwCfd/Gd
+SPXUusVdt4obPwG2sauWLlc=
+=e9Vj
+-----END PGP SIGNATURE-----
+EOF
+    getdscfiles "$DEBIAN_CONTROL"
+}
+
+test_getdscfilesWithoutNL () {
+
+    cat > "$DEBIAN_CONTROL" << EOF
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Format: 3.0 (quilt)
+Source: golang-xmpp-dev
+Binary: golang-xmpp-dev
+Architecture: all
+Version: 0.0~git20140304-1
+Maintainer: Jacob Appelbaum <jacob@appelbaum.net>
+Homepage: https://www.github.com/agl/xmpp
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9)
+Package-List: 
+ golang-xmpp-dev deb devel extra
+Checksums-Sha1: 
+ 2175fd06e8fcf9787044036837f21b7e6c3d2ceb 10040 golang-xmpp-dev_0.0~git20140304.orig.tar.gz
+ 72b5180710909e30208627bd77dd899751475309 2208 golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz
+Checksums-Sha256: 
+ 41805d983433423eb967628c43f033a19f6c8363c3d40a5931a5eb28f4e9133c 10040 golang-xmpp-dev_0.0~git20140304.orig.tar.gz
+ 54f49f52c2c1399c8262afc582e1ce38ef99cd4d95cd06f9350a91960176a925 2208 golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz
+Files: 
+ a00613a2e965c11c9713268c25486a1b 10040 golang-xmpp-dev_0.0~git20140304.orig.tar.gz
+ e5bc6c49ca86922344531418dee9e5dd 2208 golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz
+-----BEGIN PGP SIGNATURE-----
+
+iQGVAwUBUxYUR1kMfZESRfeDAQgvCwv8CM7a+LcQQnk5Gil3jHHlr4EO6NvuDMpW
+4+yviAFZCmOVq3poUKYpojNNtIBPSGh2+POEOZu+6h1rQxQpPeiqrIteS4pMhR7s
+bptUqqAbRH/Yy9pcmPOf+yDeeGAr/xaga9vvankdn60Q5D7Xk85Bhl6a3KucCwGA
+h5s/ywDXZVOtjqywoB+zR5Jd2kuhjJUUdnUxTvVrw+rZXaKcwgAM1zUv6Tqkdkij
+NRJFW5p17c1gg0v7KvWcCJoNcF5Mn1avnTF7OhZm5ODreM9kgpcd+8yuG3n6j/Ey
+o4E6p2Tf5wTQ2t44OaU1uu8+0mjPhDxfEjGKcdThWQyrqO0hkGAfLkubLGRB4EZo
+dcWK+KNxOR5HzgQGJw+rEGn/x7kcQtdDeXn3EsHeAhJscicdbJW9nCM47+PLM7Pn
+B3WfTzfwrzVC/IcSM1303chIW0dfsMTCP0ubFZOqoMMflSKRPiJ3vPvJFFzmrS31
+M4EDxlS+nvAHZbzQ49QGnU/dMocDzvAH
+=XSwB
+-----END PGP SIGNATURE-----
+EOF
+    getdscfiles "$DEBIAN_CONTROL"
+
+}
+
+trap cleanup sigpipe sighup exit
+
+# FIXME move to build dir also because we have to hardoce /tmp/ on the result below
+DEBIAN_CONTROL="$(tempfile)"
+
+expect_output "$DEBIAN_CONTROL /tmp/libeatmydata_82.orig.tar.gz /tmp/libeatmydata_82-6.debian.tar.xz" test_getdscfilesNormal
+expect_output "$DEBIAN_CONTROL /tmp/golang-xmpp-dev_0.0~git20140304.orig.tar.gz /tmp/golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz" test_getdscfilesWithoutNL
+
+testlib_summary

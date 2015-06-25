@@ -18,14 +18,26 @@
 
 # functions local to pbuilder-buildpackage
 
-function copydsc () {
+getdscfiles () {
     local DSCFILE="$1"
+    local DSCFILES=()
+    DSCFILES+=("$DSCFILE")
+    DSCFILES+=("$(cat "$DSCFILE" |
+        awk 'BEGIN{p=0}
+             ! /^[ \t]/ {p=0}
+             /^Files:/ {p=1}
+             ! /^[ \t]*/ {p=0}
+             /^ / {if (p){print "'$(dirname "$DSCFILE")'/" $3}}' |
+        tr '\n' ' ' | sed -e 's/[[:space:]]*$//')")
+    #  ↑↑↑ because we are really picky (and we have picky tests...)
+    echo "${DSCFILES[@]}"
+}
+
+function copydsc () {
+    local DSCFILE=$(getdscfiles "$1")
     local TARGET="$2"
-    for FILE in \
-      "$DSCFILE" \
-	$(cat "$DSCFILE" | \
-	awk 'BEGIN{p=0} /^$/ {p=0} /^.*:/ {p=0} {if (p){print "'$(dirname "$DSCFILE")'/" $3}} /^Files:/{p=1}' ) ; do
-	log "I: copying [$FILE]"
+    for FILE in ${DSCFILE[@]} ; do
+    log "I: copying [$FILE]"
         cp -p "$FILE" "$TARGET" 
     done
 }
