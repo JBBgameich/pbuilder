@@ -75,7 +75,7 @@ else
     if ! dpkg-checkbuilddeps -B ; then
 	log "W: Unmet build-dependency in source"
     fi
-    echo "dpkg-buildpackage -S -us -uc -r${BUILDSOURCEROOTCMD} $DEBBUILDOPTS" | \
+    echo "dpkg-buildpackage -S -d -us -uc -r${BUILDSOURCEROOTCMD} $DEBBUILDOPTS" | \
 	perl -pe 's/(^|\s)-[AbBF](\s|$)/$1$2/g' | \
 	/bin/bash
     ${PBUILDERROOTCMD} \
