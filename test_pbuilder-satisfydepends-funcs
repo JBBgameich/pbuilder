@@ -77,7 +77,8 @@ EOF
 test_get_source_control_field_with_comments() {
     cat <<EOF >"$DEBIAN_CONTROL"
 # This is a comment
-# So is this
+
+# So is this, but with a blank line above me
 Format: 1.0
 Source: something-funny
 Build-Depends: debhelper, something-else
