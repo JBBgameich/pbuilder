@@ -35,10 +35,12 @@ if [ "$distro" = debian ] ; then
     release=$(distro-info --testing)
     components="main"
     mirror="http://httpredir.debian.org/debian"
+    keyring="/usr/share/keyrings/debian-archive-keyring.gpg"
 elif [ "$distro" = ubuntu ] ; then
     release=$(distro-info --devel)
     components="main universe"
     mirror="http://archive.ubuntu.com/ubuntu"
+    keyring="/usr/share/keyrings/ubuntu-archive-keyring.gpg"
 else
     die "need to know where archive is for distro '$distro'"
 fi
@@ -46,10 +48,11 @@ fi
 # Have to redirect stderr to avoid ADT thinking the test has failed
 # (the return code is still being checked, so this seems reasonable).
 echo "INFO: Creating pbuilder chroot for release '$release'"
-echo "+ pbuilder --create --debug --distribution $release --components '$components' --mirror '$mirror'"
+echo "+ pbuilder --create --debug --distribution '$release' --components '$components' --debootstrapopts --keyring='$keyring' --mirror '$mirror'"
 pbuilder --create --debug \
     --distribution "$release" \
     --components "$components" \
+    --debootstrapopts --keyring="$keyring" \
     --mirror "$mirror" 2>&1
 
 if [ ! -d "$resultdir" ] ; then
