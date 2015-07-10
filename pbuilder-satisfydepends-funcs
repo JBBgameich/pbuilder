@@ -235,6 +235,10 @@ checkbuilddep_restrictiondeps() {
     local PROFILE
     local NEGATED
     local FOUND
+    if [ "$DEP_RESTRICTIONS" = "$INSTALLPKG" ]; then
+        # there is not a build profile, rather it's a version costraint
+        return 1
+    fi
     IFS=';' read -ra RESTRLISTS <<< "$DEP_RESTRICTIONS"
     for restrlist in "${RESTRLISTS[@]}"; do
         SEEN_PROFILE="yes"
