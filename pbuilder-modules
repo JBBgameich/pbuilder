@@ -723,7 +723,7 @@ function binNMU() {
         log.w "No maintainer provided for binNMU entry, fall back to last uploader."
         BINNMU_MAINTAINER=$(dpkg-parsechangelog -l $tmpcl -c 1 --show-field Maintainer)
     fi
-    DEBBUILDOPTS="${DEBBUILDOPTS} -m\"$BINNMU_MAINTAINER\" -e\"$BINNMU_MAINTAINER\""
+    DEBBUILDOPTS="${DEBBUILDOPTS} -e\"$BINNMU_MAINTAINER\""
     cat > "$cl" << EOF
 $package ($version+b$BINNMU_VERSION) $DISTRIBUTION; urgency=low, binary-only=yes
   * Binary-only non-maintainer upload for $arch; no source changes.
