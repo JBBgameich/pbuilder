@@ -482,7 +482,7 @@ function extractbuildplace () {
 	    exit 1
 	fi
 	log "I: creating local configuration"
-	hostname -f > "$BUILDPLACE/etc/mailname"
+	hostname -f || hostname -A > "$BUILDPLACE/etc/mailname"
     fi
     copy_local_configuration
 
