@@ -6,7 +6,7 @@ BASETGZ=/var/cache/pbuilder/base.tgz
 #export DEBIAN_BUILDARCH=athlon
 BUILDPLACE=/var/cache/pbuilder/build
 # directory inside the chroot where the build happens. See #789404
-BUILDDIR=/tmp/buildd
+BUILDDIR=/build
 MIRRORSITE=http://cdn.debian.net/debian
 #OTHERMIRROR="deb http://www.home.com/updates/ ./"
 #export http_proxy=http://your-proxy:8080/

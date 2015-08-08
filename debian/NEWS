@@ -1,3 +1,17 @@
+pbuilder (0.216) unstable; urgency=medium
+
+  The default build directory has been moved from /tmp/buildd to /build.
+  This both prevents tempering with /tmp (which is normally world-writable, and
+  as such a user could create the directory before pbuilder and thus owning it,
+  and then it could temper with the build process).  See #789404 for more info.
+  Also this align pbuilder's behaviour to sbuild's making produced builds more
+  similar (and thus helping the reproducible builds effort).
+
+  Please update your hook scripts to use the new directory or change it back
+  (discouraged) by setting the BUILDDIR configure option.
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Sat, 08 Aug 2015 16:34:14 +0000
+
 pbuilder (0.207) unstable; urgency=low
 
   The default configuration will now only install trusted packages.  This
