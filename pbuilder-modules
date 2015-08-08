@@ -494,7 +494,9 @@ function extractbuildplace () {
     fi
 
     mountproc
-    mkdir -p "$BUILDPLACE/tmp/buildd"
+    # FIXME maybe add more checks here? - actually it's not even really needed,
+    # since it's created at chroot creation time too.
+    mkdir -p "${BUILDPLACE}${BUILDDIR}"
 }
 
 function echobacktime () {

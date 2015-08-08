@@ -56,7 +56,7 @@ case "$1" in
 	. /usr/lib/pbuilder/pbuilder-runhooks
 	extractbuildplace
 	trap umountproc_cleanbuildplace_trap exit sighup
-	copyinputfile "${BUILDPLACE}/tmp/buildd"
+	copyinputfile "${BUILDPLACE}$BUILDDIR"
 	loadhooks
 	recover_aptcache
 	trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup
@@ -111,7 +111,7 @@ File extracted to: $BUILDPLACE
 	extractbuildplace
 
 	trap umountproc_cleanbuildplace_trap exit sighup
-	copyinputfile "${BUILDPLACE}/tmp/buildd"
+	copyinputfile "${BUILDPLACE}$BUILDDIR"
 	loadhooks
 	recover_aptcache
 	trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup

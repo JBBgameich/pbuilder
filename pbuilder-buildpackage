@@ -76,7 +76,7 @@ esac
 BUILDRESULTUID="${BUILDRESULTUID:-${SUDO_UID:-0}}"
 BUILDRESULTGID="${BUILDRESULTGID:-${SUDO_GID:-0}}"
 
-export HOME="/tmp/buildd"
+export HOME="$BUILDDIR"
 
 echobacktime
 extractbuildplace 
@@ -125,17 +125,17 @@ save_aptcache
 trap umountproc_cleanbuildplace_trap exit sighup sigpipe
 
 log "I: Copying source file"
-copydsc "$PACKAGENAME" "$BUILDPLACE/tmp/buildd"
-copyinputfile "$BUILDPLACE/tmp/buildd"
+copydsc "$PACKAGENAME" "${BUILDPLACE}$BUILDDIR"
+copyinputfile "${BUILDPLACE}$BUILDDIR"
 
 log "I: Extracting source"
-if echo "chown $BUILDUSERNAME:$BUILDUSERNAME /tmp/buildd /tmp/buildd/*" | $CHROOTEXEC /bin/bash; then
+if echo "chown $BUILDUSERNAME:$BUILDUSERNAME $BUILDDIR $BUILDDIR/*" | $CHROOTEXEC /bin/bash; then
     : # success
 else
     log "E: pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
     exit 1;
 fi
-if echo "( cd tmp/buildd; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename $PACKAGENAME) )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
+if echo "( cd $BUILDDIR; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename $PACKAGENAME) )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
     : # success
 else
     log "E: pbuilder: Failed extracting the source"
@@ -153,7 +153,7 @@ DPKG_COMMANDLINE="env PATH=\"$PATH\" dpkg-buildpackage -us -uc $DEBBUILDOPTS"
     if [ -n "$TWICE" ]; then
         DPKG_COMMANDLINE="$DPKG_COMMANDLINE && $DPKG_COMMANDLINE"
     fi
-    DPKG_COMMANDLINE="cd tmp/buildd/*/ && $DPKG_COMMANDLINE"
+    DPKG_COMMANDLINE="cd ${BUILDDIR}/*/ && $DPKG_COMMANDLINE"
     log "I: Running $DPKG_COMMANDLINE"
     echo "$DPKG_COMMANDLINE" | $UNSHARE $CHROOTEXEC env $SUTOUSER
 ) &
@@ -188,16 +188,16 @@ trap cleanbuildplace_trap exit sighup sigpipe
 umountproc
 
 if [ -d "${BUILDRESULT}" ]; then
-    chown "${BUILDRESULTUID}:${BUILDRESULTGID}" "${BUILDPLACE}"/tmp/buildd/*
-    chgrp "${BUILDRESULTGID}" "${BUILDPLACE}"/tmp/buildd/*
-    for FILE in "${BUILDPLACE}"/tmp/buildd/*; do
+    chown "${BUILDRESULTUID}:${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
+    chgrp "${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
+    for FILE in "${BUILDPLACE}$BUILDDIR"/*; do
 	if [ -f "${FILE}" ]; then
 	    cp -p ${FILE} "${BUILDRESULT}" || true
 	fi
     done
     for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do
 	log "I: Trying to save additional result ${FILE}"
-	cp -a "${BUILDPLACE}/tmp/buildd/"*"/${FILE}" "${BUILDRESULT}" || true
+	cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
     done
 else
     log "E: BUILDRESULT=[$BUILDRESULT] is not a directory."

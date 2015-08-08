@@ -65,6 +65,16 @@ An Example:
 BINDMOUNTS="/home /mnt/test"
 .EE
 .TP
+.BI "BUILDDIR=" "/tmp/buildd"
+The directory inside the chroot where the build happens. This will also be the
+.B HOME
+of the build user.
+
+Attention! Some directories \(em such as
+.B /tmp
+\(em are not safe to use since they can be world-writable, and external user can
+temper with the build process.
+.TP
 .BI "BUILDPLACE=" "/var/cache/pbuilder/build/"
 The default place which the chroot is constructed.
 .B pbuilder

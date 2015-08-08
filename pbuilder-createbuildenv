@@ -84,7 +84,7 @@ log "I: debootstrap finished"
 loadhooks
 
 
-mkdir -p "$BUILDPLACE/tmp/buildd"
+mkdir -p "${BUILDPLACE}$BUILDDIR"
 
 copy_local_configuration
 installaptlines
