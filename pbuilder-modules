@@ -451,7 +451,7 @@ EOF
 
 function copy_local_configuration () {
     log "I: copying local configuration"
-    for a in hosts hostname resolv.conf; do 
+    for a in hosts hostname resolv.conf mailname; do
 	if [ -f "/etc/$a" ]; then
 		rm -f "$BUILDPLACE/etc/$a"
 		cp $( readlink -f "/etc/$a" ) "$BUILDPLACE/etc/$a";
@@ -481,8 +481,6 @@ function extractbuildplace () {
 	    log "E: failed to extract $BASETGZ to $BUILDPLACE"
 	    exit 1
 	fi
-	log "I: creating local configuration"
-	hostname -f > "$BUILDPLACE/etc/mailname"
     fi
     copy_local_configuration
 
