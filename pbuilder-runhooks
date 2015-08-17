@@ -74,36 +74,36 @@ function unloadhooks () {
 function executehooks () {
     local prefix="$1"
     if [ -z "$HOOKDIR" ]; then
-	return ;
+        return
     fi
     for fn in "$BUILDPLACE/$hooks/$prefix"[0-9][0-9]* ; do
-	case "$fn" in
-	    "$BUILDPLACE/$hooks/$prefix"'[0-9][0-9]*')
-		log "W: no hooks of type ${prefix} found -- ignoring"
-		;;
-	    *~)
-		log "W: skipping an editor backup file $fn"
-		;;
-	    *.bak)
-		log "W: skipping a backup file $fn"
-		;;
-	    *)	
-		if [ -x "$fn" ]; then
-		    log "I: user script $fn starting"
-            BUILDDIR="$BUILDDIR" \
-		    $CHROOTEXEC "/$hooks/"$(basename "$fn")
-		    log "I: user script $fn finished"
-		else
-		    if [ -f "$fn" ]; then
-			filetype=$(basename "$fn" ) 
-			log "W: execute priv not set on file $filetype, not executing."
-		    else
-			# Should it reach here ? This case should be caught in the above case.
-			log "W: no hooks of type ${prefix} found -- internal error in logic"
-		    fi
-		fi  
-	        ;;	
-	esac
+       case "$fn" in
+           "$BUILDPLACE/$hooks/$prefix"'[0-9][0-9]*')
+               log "W: no hooks of type ${prefix} found -- ignoring"
+               ;;
+           *~)
+               log "W: skipping an editor backup file $fn"
+               ;;
+           *.bak)
+               log "W: skipping a backup file $fn"
+               ;;
+           *)
+               if [ -x "$fn" ]; then
+                   log "I: user script $fn starting"
+                   BUILDDIR="$BUILDDIR" \
+                       $CHROOTEXEC "/$hooks/"$(basename "$fn")
+                   log "I: user script $fn finished"
+               else
+                   if [ -f "$fn" ]; then
+                       filetype=$(basename "$fn" )
+                       log "W: execute priv not set on file $filetype, not executing."
+                   else
+                       # Should it reach here ? This case should be caught in the above case.
+                       log "W: no hooks of type ${prefix} found -- internal error in logic"
+                   fi
+               fi
+               ;;
+       esac
     done
 }
 
