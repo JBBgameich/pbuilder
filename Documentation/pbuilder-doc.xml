@@ -1507,7 +1507,7 @@ $ pdebuild --pbuilder cowbuilder</screen>
       <para>
 	Current implementation of ccache support has several bugs,
 	that CCACHEDIR must be owned by the pbuilder build user, and
-	parallel runs of pbuilder is not supported. Therefore it is
+	parallel runs of pbuilder are not supported. Therefore it is
 	not enabled by default.
       </para>
     </sect1>
