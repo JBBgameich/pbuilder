@@ -8,7 +8,7 @@
     <title>pbuilder User's Manual</title>
     <abbrev>pbuilder-doc</abbrev>
     <subtitle>Usage and operations</subtitle>
-    <releaseinfo>documentation in progress</releaseinfo>
+    <releaseinfo>This documentation is work in progress, it might be incomplete and outdated</releaseinfo>
     <authorgroup>
       <author>
 	<firstname>Junichi</firstname>
