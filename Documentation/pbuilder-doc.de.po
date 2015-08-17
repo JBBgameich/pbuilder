@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pbuilder 0.199+nmu4\n"
 "Report-Msgid-Bugs-To: pbuilder@packages.debian.org\n"
-"POT-Creation-Date: 2013-03-02 16:37+0900\n"
-"PO-Revision-Date: 2011-08-01 19:11+0100\n"
+"POT-Creation-Date: 2015-08-17 15:33+0000\n"
+"PO-Revision-Date: 2015-08-17 15:28+0000\n"
 "Last-Translator: Chris Leick <c.leick@vollbio.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -44,8 +44,11 @@ msgstr "Aufruf und Betrieb"
 
 #. type: Content of: <book><bookinfo><releaseinfo>
 #: pbuilder-doc.xml:11
-msgid "documentation in progress"
-msgstr "Dokumentation in Entwicklung"
+msgid ""
+"This documentation is work in progress, it might be incomplete and outdated"
+msgstr ""
+"Diese Dokumentation ist noch in Bearbeitung und möglicherweise unvollständig "
+"oder nicht mehr aktuell."
 
 #. type: Content of: <book><bookinfo><authorgroup><author><firstname>
 #: pbuilder-doc.xml:14
@@ -3043,9 +3046,13 @@ msgstr ""
 #: pbuilder-doc.xml:1508
 msgid ""
 "Current implementation of ccache support has several bugs, that CCACHEDIR "
-"must be owned by the pbuilder build user, and parallel runs of pbuilder is "
+"must be owned by the pbuilder build user, and parallel runs of pbuilder are "
 "not supported. Therefore it is not enabled by default."
 msgstr ""
+"Die aktuelle Implementierung der ccache-Unterstützung hat einige Fehler, "
+"nämlich dass CCACHEDIR dem pbuilder Builduser gehören muss und dass das "
+"parallele Ausführen von pbuilder nicht unterstützt wird. Deshalb ist es "
+"standardmäßig nicht eingeschaltet."
 
 #. type: Content of: <book><chapter><title>
 #: pbuilder-doc.xml:1516

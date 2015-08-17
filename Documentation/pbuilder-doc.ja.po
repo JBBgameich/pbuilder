@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: xxx\n"
-"POT-Creation-Date: 2013-03-02 16:37+0900\n"
+"POT-Creation-Date: 2015-08-17 15:33+0000\n"
 "PO-Revision-Date: 2008-06-27 15:35+0900\n"
 "Last-Translator: Junichi Uekawa <dancer@debian.org>\n"
 "Language-Team: Junichi Uekawa <dancer@debian.org>\n"
@@ -44,11 +44,11 @@ msgstr ""
 msgid "Usage and operations"
 msgstr "利用と操作方法について"
 
-# type: Content of: <book><bookinfo><releaseinfo>
 #. type: Content of: <book><bookinfo><releaseinfo>
 #: pbuilder-doc.xml:11
-msgid "documentation in progress"
-msgstr "草稿"
+msgid ""
+"This documentation is work in progress, it might be incomplete and outdated"
+msgstr ""
 
 #. type: Content of: <book><bookinfo><authorgroup><author><firstname>
 #: pbuilder-doc.xml:14
@@ -2721,7 +2721,7 @@ msgstr ""
 #: pbuilder-doc.xml:1508
 msgid ""
 "Current implementation of ccache support has several bugs, that CCACHEDIR "
-"must be owned by the pbuilder build user, and parallel runs of pbuilder is "
+"must be owned by the pbuilder build user, and parallel runs of pbuilder are "
 "not supported. Therefore it is not enabled by default."
 msgstr ""
 

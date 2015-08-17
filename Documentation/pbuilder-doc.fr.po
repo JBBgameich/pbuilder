@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pbuilder-0.171\n"
-"POT-Creation-Date: 2013-03-02 16:37+0900\n"
+"POT-Creation-Date: 2015-08-17 15:33+0000\n"
 "PO-Revision-Date: 2008-05-07 00:28+0200\n"
 "Last-Translator: Vincent Bernat <bernat@luffy.cx>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -42,11 +42,11 @@ msgstr ""
 msgid "Usage and operations"
 msgstr "Mode d'emploi"
 
-# type: Content of: <book><bookinfo><releaseinfo>
 #. type: Content of: <book><bookinfo><releaseinfo>
 #: pbuilder-doc.xml:11
-msgid "documentation in progress"
-msgstr "documentation en construction"
+msgid ""
+"This documentation is work in progress, it might be incomplete and outdated"
+msgstr ""
 
 #. type: Content of: <book><bookinfo><authorgroup><author><firstname>
 #: pbuilder-doc.xml:14
@@ -1041,8 +1041,8 @@ msgstr ""
 "Il est possible d'utiliser user-mode-linux en invoquant <command>pbuilder-"
 "user-mode-linux</command> plutôt que <command>pbuilder</command>. "
 "<command>pbuilder-user-mode-linux</command> ne nécessite pas les privilèges "
-"du super-utilisateur et utilise la méthode <foreignphrase>copy-on-write (COW)"
-"</foreignphrase> ce qui la rend plus rapide que le traditionnel "
+"du super-utilisateur et utilise la méthode <foreignphrase>copy-on-write "
+"(COW)</foreignphrase> ce qui la rend plus rapide que le traditionnel "
 "<command>pbuilder</command>."
 
 # type: Content of: <book><chapter><para>
@@ -3191,7 +3191,7 @@ msgstr ""
 #: pbuilder-doc.xml:1508
 msgid ""
 "Current implementation of ccache support has several bugs, that CCACHEDIR "
-"must be owned by the pbuilder build user, and parallel runs of pbuilder is "
+"must be owned by the pbuilder build user, and parallel runs of pbuilder are "
 "not supported. Therefore it is not enabled by default."
 msgstr ""
 
