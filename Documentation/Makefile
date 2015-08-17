@@ -41,6 +41,9 @@ release: pbuilder-doc.html pbuilder-doc.xml pbuilder-doc.css pbuilder-doc.xsl pb
 
 clean:
 	rm -fv \
+		pbuilder-doc.de.po~ \
+		pbuilder-doc.fr.po~ \
+		pbuilder-doc.ja.po~ \
 		pbuilder-doc.pdf \
 		pbuilder-doc.glo \
 		pbuilder-doc.idx \
