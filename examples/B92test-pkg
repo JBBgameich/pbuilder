@@ -8,16 +8,16 @@
 set -e 
 
 echo "Installing the prerequisites"
-for PKG in $(ls /tmp/buildd/*.deb | sed -e's,.*/,,;s,_.*,,' ); do
+for PKG in $(ls "$BUILDDIR"/*.deb | sed -e's,.*/,,;s,_.*,,' ); do
     apt-get install -y --force-yes "$PKG" || true 
     apt-get remove -y "$PKG" || true 
 done
 # ignore the failures since they are not the prime interest
 
-dpkg -i /tmp/buildd/*.deb || true
+dpkg -i "$BUILDDIR"/*.deb || true
 apt-get install -y -f --force-yes
 
-if chmod a+x /tmp/buildd/*/debian/pbuilder-test/*; then
+if chmod a+x "$BUILDDIR"/*/debian/pbuilder-test/*; then
     :
 else
     echo "W: no pbuilder-test script found, skipping"
@@ -30,9 +30,9 @@ unset FAIL || true
 EXIT_CODE=0
 
 # The current directory is the top of the source-tree.
-cd /tmp/buildd/*/debian/..
+cd "$BUILDDIR"/*/debian/..
 
-for SCRIPT in $(run-parts --test /tmp/buildd/*/debian/pbuilder-test) ; do
+for SCRIPT in $(run-parts --test "$BUILDDIR"/*/debian/pbuilder-test) ; do
     echo "--- BEGIN test: ${SCRIPT##*/}"
     if "${SCRIPT}"; then
     	echo SUCCESS
