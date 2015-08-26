@@ -1,25 +1,71 @@
 pbuilder (0.216) UNRELEASED; urgency=medium
 
-  [ Gabriele Giacone ]
-  * Add support for hurd. (Closes: #753801, #755441)
-
-  [ Mattia Rizzolo ]
-  * pbuilder-unshare-wrapper: fix typo.
-    Thanks to Thorsten Glaser <tg@mirbsd.de> for the reminder and Raphael
-    Geissert <atomo64@gmail.com> for the report.  (Closes: #772290)
-  * pbuilder-unshare-wrapper: unset the http_proxy variable, as that can lead
-    to programs looking for unreachable machines.
-    Thanks to Thorsten Glaser <tg@mirbsd.de> for the idea (Closes: #780587)
-  * Add a "basic" DEP-8 test.
-    Thanks to James Hunt <james.hunt@ubuntu.com> for the initial patch.
-    (Closes: #705917)
-  * debian/*: move to the debehelper 'dh' sequencer.
-  * debian/{control,compat}: debehlper compat level 7 → 9.
-  * debian/control:
-    + Add myself to the uploaders.
-    + Move the canonical git repository to collab-maint.
-    + Bump Standards-Version to 3.9.6. No changes needed.
-  * Makefile: stop providing empty /usr/share/doc/pbuilder/examples/workaround
+  * Debian packaging:
+    + Add a "basic" DEP-8 tests.  Closes: #705917
+      Thanks to James Hunt <james.hunt@ubuntu.com> for the initial patch.
+    + Move to the debehelper 'dh' sequencer.
+    + debehlper compat level 7 → 9.
+    + debian/control:
+      - Add myself to the uploaders.
+      - Bump Standards-Version to 3.9.6.  No changes needed.
+      - Canonize Vcs-{Browser,Git} field.
+    + Use pbuilder.maintscript for /etc/bash_completion.d/pbuilder removal.
+      Thanks to Andreas Beckmann for the patch.
+    + Switch to httpredir.debian.org as default mirror.  Closes: #790564
+      Thanks to Michael Prokop for the patch.
+  * pdebuild:
+    + pass -d to dpkg-buildpackage while building the source package
+      Closes: #786690
+  * pbuilder-unshare-wrapper:
+    + fix typo.  Closes: #772290
+    + unset the http_proxy variable, as that can lead to programs looking for
+      unreachable machines.  Thanks to Thorsten Glaser <tg@mirbsd.de> for the
+      idea.  Closes: #780587
+  * pbuilder-buildpackage:
+    + Remove the -e parameter from the dpkg-buildpackage invocation
+      Closes: #567484
+    + Allow .dsc files to lack a newline between the Files: line and the
+      signature.  Closes: #741617
+    + Change default BUILDDIR to /build.  Closes: 693952, 789404
+  * dependecy satisfiers:
+    + Handle comments in debian/control.  Closes: #603881.
+      Thanks to Eric Pozharski for the initial patch and to Matt Palmer for
+      finalizing it.
+    + Allow blank lines above the first paragraph  Closes: #694404
+    + Fix a case where a "strictly earlier" reletionship was considered a
+      build profile (and as a result the build-dep vanished).  Closes: #791991
+  * pbuilderrc:
+    + Deprecate the PKGNAME_LOGFILE_EXTENTION conf entry in favour of
+      PKGNAME_LOGFILE_EXTENSION to fix the typo.  Closes: #693458
+    + Parametrize the build directory using the new conf option BUILDDIR.
+  * Stop providing empty /usr/share/doc/pbuilder/examples/workaround
+  * Add support for hurd.  Closes: #753801, #755441
+    Thanks to Gabriele Giacone for the patch.
+  * pbuilder-modules:
+    + Stop downloading translations of package descriptions.  They are a waste
+      of bandwidth and time, really useless in a build chroots.  Thanks to
+      Paul Wise <pabs@debian.org> for the suggestion.  Closes: #749961
+    + Copy /etc/mailname from the host, instead of writing it after the
+      `hostname -f` output.  Closes: #637627
+    + Make BUILDDIR available to hooks, so they can know where the source and
+      the built packages are.
+    + Add a symlink from /tmp/buildd to the current BUILDD to avoid too many
+      breakages.  This change will go away someday, so please update your
+      scripts to use BUILDDIR.  The link will be created only if /tmp/buildd is
+      an empty directory (what everybody should have now) or a non-existing
+      (new chroot created from this version).
+      Thanks to Helmut for the idea.
+  * documentation:
+    + ex/D65various-compiler-support: manage the different version of clang-X.Y
+      Thanks to  Sylvestre Ledru for the patch.  Closes: #748251
+    + Use BUILDDIR instead of hardcoding /tmp/buildd on hooks examples.
+    + pbuilder.8: remove architecture examples for --architecture. It simply
+      supports whatever debootstrap support, no point in listing them.
+      Thanks to Reiner Herrmann for poiting this out.
+    + Explain that the documentation is work in progress and as such incomplete
+      and outdated.
+    + Finish German translation and refresh translations files.
+      Thanks to Reiner Herrmann <reiner@reiner-h.de>.
 
  -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 23 Jun 2015 09:01:50 +0000
 
