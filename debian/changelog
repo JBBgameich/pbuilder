@@ -1,4 +1,4 @@
-pbuilder (0.216) UNRELEASED; urgency=medium
+pbuilder (0.216) experimental; urgency=medium
 
   * Debian packaging:
     + Add a "basic" DEP-8 tests.  Closes: #705917
@@ -67,7 +67,7 @@ pbuilder (0.216) UNRELEASED; urgency=medium
     + Finish German translation and refresh translations files.
       Thanks to Reiner Herrmann <reiner@reiner-h.de>.
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 23 Jun 2015 09:01:50 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 26 Aug 2015 12:56:57 +0000
 
 pbuilder (0.215+nmu4) unstable; urgency=low
 

@@ -1,4 +1,4 @@
-pbuilder (0.216) unstable; urgency=medium
+pbuilder (0.216) experimental; urgency=medium
 
   The default build directory has been moved from /tmp/buildd to /build.
   This both prevents tempering with /tmp (which is normally world-writable, and
@@ -10,7 +10,7 @@ pbuilder (0.216) unstable; urgency=medium
   Please update your hook scripts to use the new directory or change it back
   (discouraged) by setting the BUILDDIR configure option.
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Sat, 08 Aug 2015 16:34:14 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 26 Aug 2015 12:56:57 +0000
 
 pbuilder (0.207) unstable; urgency=low
 
