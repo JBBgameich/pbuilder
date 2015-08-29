@@ -148,6 +148,9 @@ executehooks "A"
 
 DPKG_COMMANDLINE="env PATH=\"$PATH\" dpkg-buildpackage -us -uc $DEBBUILDOPTS"
 
+# https://launchpad.net/bugs/816556
+unset DISPLAY
+
 (
     : Build process
     if [ -n "$TWICE" ]; then
