@@ -498,7 +498,7 @@ function extractbuildplace () {
     # since it's created at chroot creation time too.
     mkdir -p "${BUILDPLACE}${BUILDDIR}"
     # XXX added in 0.216, to be deprecated in the future
-    # Add a compatibily symlink from the old BUILDDIR (/tmp/buildd) to the new
+    # Add a compatibility symlink from the old BUILDDIR (/tmp/buildd) to the new
     # one, if different.  (Yes, people should just fix their scripts to use
     # BUILDDIR, please file a bug if you need that variable to also be available
     # elsewhere other than hook script; given that, I won't do too fancy checks)
@@ -509,12 +509,12 @@ function extractbuildplace () {
                 rmdir "$BUILDPLACE/tmp/buildd"
                 ln -rs "${BUILDPLACE}$BUILDDIR" "$BUILDPLACE/tmp/buildd"
             else
-                log "W: Could not create compatibily symlink because /tmp/buildd is not empty"
+                log "W: Could not create compatibility symlink because /tmp/buildd is not empty"
             fi
         elif [ ! -e "$BUILDPLACE/tmp/buildd" ]; then
             ln -rs "${BUILDPLACE}$BUILDDIR" "$BUILDPLACE/tmp/buildd"
         else
-            log "W: Could not create compatibily symlink because /tmp/buildd exists and it is not a directory"
+            log "W: Could not create compatibility symlink because /tmp/buildd exists and it is not a directory"
         fi
     fi
 }
