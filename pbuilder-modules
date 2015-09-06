@@ -503,6 +503,9 @@ function extractbuildplace () {
     # BUILDDIR, please file a bug if you need that variable to also be available
     # elsewhere other than hook script; given that, I won't do too fancy checks)
     if [ "$BUILDDIR" != '/tmp/buildd' ]; then
+        if [ -h "$BUILDPLACE/tmp/buildd" ] && [ "$(readlink -f "$BUILDPLACE/tmp/buildd")" = "${BUILDPLACE}$BUILDDIR" ]; then
+            rm "$BUILDPLACE/tmp/buildd"
+        fi
         if [ -d "$BUILDPLACE/tmp/buildd" ] && [ ! -h "$BUILDPLACE/tmp/buildd" ]; then
             if [ ! "$(ls -A "$BUILDPLACE/tmp/buildd" 2>&1)" ]; then
                 # empty /tmp/buildd, let's change it to a symlink to BUILDDIR
@@ -575,6 +578,9 @@ function create_basetgz() {
 	    sleep 10s
 	done
 	log "I: creating base tarball [${BASETGZ}]"
+    if [ -h "$BUILDPLACE/tmp/buildd" ] && [ "$(readlink -f "$BUILDPLACE/tmp/buildd")" = "${BUILDPLACE}$BUILDDIR" ]; then
+        rm "$BUILDPLACE/tmp/buildd"
+    fi
 	if ! tar -c --use-compress-program "$COMPRESSPROG" -f "${BASETGZ}.tmp" * ; then
 	    log "E: failed building base tarball"
 	    rm -f "${BASETGZ}.tmp"
