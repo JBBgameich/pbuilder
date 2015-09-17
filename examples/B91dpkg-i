@@ -6,6 +6,7 @@
 echo "Trying to install resulting packages and test upgrades"
 set -ex
 
+BUILDDIR="${BUILDDIR:-/tmp/buildd}"
 
 PKGNAMES=$(cd "$BUILDDIR" && ls -1 *.deb | sed 's/_.*$//' )
 

@@ -7,6 +7,8 @@
 # 
 set -e 
 
+BUILDDIR="${BUILDDIR:-/tmp/buildd}"
+
 echo "Installing the prerequisites"
 for PKG in $(ls "$BUILDDIR"/*.deb | sed -e's,.*/,,;s,_.*,,' ); do
     apt-get install -y --force-yes "$PKG" || true 

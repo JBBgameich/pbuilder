@@ -5,6 +5,7 @@
 
 # Depends on CDBS module in debian/rules:
 # include /usr/share/cdbs/1/rules/utils.mk 
+BUILDDIR="${BUILDDIR:-/tmp/buildd}"
 echo "I: checking for missing files."
 cd "$BUILDDIR"/*/debian
 cd ..
