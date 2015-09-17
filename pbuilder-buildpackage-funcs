@@ -46,23 +46,23 @@ function checkbuilddep () {
     # call satisfydepends
     local BUILDOPT="--binary-all"
     case "${BINARY_ARCH}" in
-	yes) BUILDOPT="--binary-arch";;
-	*) ;;
+        yes) BUILDOPT="--binary-arch";;
+        *) ;;
     esac
     if "$PBUILDERSATISFYDEPENDSCMD" --control "$1" --chroot "${BUILDPLACE}" --internal-chrootexec "${CHROOTEXEC}" "${BUILDOPT}" "${PBUILDERSATISFYDEPENDSOPT[@]}"; then
-	:
+        :
     else
-    # If asked to preserve the build place, and pbuilder-satisfydepends
-    # didn't taint it, then don't clean it when exiting.
-	if [ $? -eq 2 -a "${PRESERVE_BUILDPLACE}" = "yes" ]; then
-	    trap umountproc_trap exit sighup
-	fi
-	log "E: pbuilder-satisfydepends failed."
-	exit 2
+        # If asked to preserve the build place, and pbuilder-satisfydepends
+        # didn't taint it, then don't clean it when exiting.
+        if [ $? -eq 2 -a "${PRESERVE_BUILDPLACE}" = "yes" ]; then
+            trap umountproc_trap exit sighup
+        fi
+        log "E: pbuilder-satisfydepends failed."
+        exit 2
     fi
     # install extra packages to the chroot
     if [ -n "$EXTRAPACKAGES" ]; then 
-	$CHROOTEXEC usr/bin/apt-get -q -y "${APTGETOPT[@]}" install ${EXTRAPACKAGES}
+        $CHROOTEXEC usr/bin/apt-get -q -y "${APTGETOPT[@]}" install ${EXTRAPACKAGES}
     fi
 }
 
@@ -76,39 +76,39 @@ function cowprotect () {
     # a hack for cowdancer, used when a file is edited in-place;
     # Copy the file to create a new i-node so that hardlinked original is intact
     for A in "$@"; do
-	if readlink -f "$A" > /dev/null; then
-	    A=$(readlink -f "$A")
-	    mv "$A" "$A"~
-	    cp -a "$A"~ "$A"
-	    rm -f "$A"~
-	fi
+        if readlink -f "$A" > /dev/null; then
+            A=$(readlink -f "$A")
+            mv "$A" "$A"~
+            cp -a "$A"~ "$A"
+            rm -f "$A"~
+        fi
     done
 }
 
 function createbuilduser () {
     # create the build user, if it is necessary and specified.
     if [ -n "$BUILDUSERNAME" -a -n "$BUILDUSERID" ]; then
-	if [ -e $BUILDPLACE/etc/shadow ]; then p='x'; else p='*'; fi
-	if [ -e $BUILDPLACE/etc/gshadow ]; then g='x'; else g='*'; fi
-	if ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/passwd; then
-	    cowprotect $BUILDPLACE/etc/passwd
-	    echo "$BUILDUSERNAME:$p:$BUILDUSERID:$BUILDUSERID:,,,:$BUILDDIR:/bin/sh" >> $BUILDPLACE/etc/passwd
-	fi
-	if ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/group; then
-	    cowprotect $BUILDPLACE/etc/group
-	    echo "$BUILDUSERNAME:$g:$BUILDUSERID:" >> $BUILDPLACE/etc/group
-	fi
-	if [ -e $BUILDPLACE/etc/shadow ] && ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/shadow; then
-	    cowprotect $BUILDPLACE/etc/shadow
-	    echo "$BUILDUSERNAME:!:::::::" >> $BUILDPLACE/etc/shadow
-	fi
-	if [ -e $BUILDPLACE/etc/gshadow ] && ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/gshadow; then
-	    cowprotect $BUILDPLACE/etc/gshadow
-	    echo "$BUILDUSERNAME:!::" >> $BUILDPLACE/etc/gshadow
-	fi
-	unset LOGNAME || true
+        if [ -e $BUILDPLACE/etc/shadow ]; then p='x'; else p='*'; fi
+        if [ -e $BUILDPLACE/etc/gshadow ]; then g='x'; else g='*'; fi
+        if ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/passwd; then
+            cowprotect $BUILDPLACE/etc/passwd
+            echo "$BUILDUSERNAME:$p:$BUILDUSERID:$BUILDUSERID:,,,:$BUILDDIR:/bin/sh" >> $BUILDPLACE/etc/passwd
+        fi
+        if ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/group; then
+            cowprotect $BUILDPLACE/etc/group
+            echo "$BUILDUSERNAME:$g:$BUILDUSERID:" >> $BUILDPLACE/etc/group
+        fi
+        if [ -e $BUILDPLACE/etc/shadow ] && ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/shadow; then
+            cowprotect $BUILDPLACE/etc/shadow
+            echo "$BUILDUSERNAME:!:::::::" >> $BUILDPLACE/etc/shadow
+        fi
+        if [ -e $BUILDPLACE/etc/gshadow ] && ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/gshadow; then
+            cowprotect $BUILDPLACE/etc/gshadow
+            echo "$BUILDUSERNAME:!::" >> $BUILDPLACE/etc/gshadow
+        fi
+        unset LOGNAME || true
     else
-	unset LOGNAME || true
+        unset LOGNAME || true
     fi
 }
 
@@ -119,7 +119,7 @@ function setup_ccache() {
             mkdir -p "$BUILDPLACE/$CCACHEDIR"
         fi
         chown -R $BUILDUSERID:$BUILDUSERID "$BUILDPLACE/$CCACHEDIR"
-	CCACHE_ENV="CCACHE_DIR=$CCACHEDIR"
-	unset CCACHE_DIR
+        CCACHE_ENV="CCACHE_DIR=$CCACHEDIR"
+        unset CCACHE_DIR
     fi
 }
