@@ -451,13 +451,19 @@ EOF
 
 function copy_local_configuration () {
     log "I: copying local configuration"
+    if [ -n "$CONFDIR" ] && [ -d "$CONFDIR" ]; then
+        log "I: copying files from $CONFDIR (if possible) instead of using the system ones"
+    fi
     for a in hosts hostname resolv.conf mailname; do
-	if [ -f "/etc/$a" ]; then
-		rm -f "$BUILDPLACE/etc/$a"
-		cp "$( readlink -f "/etc/$a" )" "$BUILDPLACE/etc/$a";
-	else
-		log "W: No local /etc/$a to copy, relying on $BUILDPLACE/etc/$a to be correct"
- 	fi
+        if [ -n "$CONFDIR" ] && [ -f "$CONFDIR/$a" ]; then
+            rm -f "$BUILDPLACE/etc/$a"
+            cp "$( readlink -f "$CONFDIR/$a" )" "$BUILDPLACE/etc/$a"
+        elif [ -f "/etc/$a" ]; then
+            rm -f "$BUILDPLACE/etc/$a"
+            cp "$( readlink -f "/etc/$a" )" "$BUILDPLACE/etc/$a"
+        else
+            log "W: No local /etc/$a to copy, relying on $BUILDPLACE/etc/$a to be correct"
+        fi
     done
 }
 
