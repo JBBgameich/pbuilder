@@ -226,7 +226,7 @@ function umountproc () {
 	umount_one "run/shm"
     fi
     if [ "$USEPROC" = "yes" ]; then
-	if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ -e $BUILDPLACE/proc/sys/fs/binfmt_misc/status ]; then
+	if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ -e "$BUILDPLACE/proc/sys/fs/binfmt_misc/status" ]; then
 	    umount_one "proc/sys/fs/binfmt_misc"
 	fi
 	umount_one "proc"
@@ -241,8 +241,8 @@ function umountproc () {
         # Workaround to remove chroot on Hurd: once /dev firmlink is
         # removed, chroot removal either gets stuck or fails by removing
         # some devices.
-        for dev in $BUILDPLACE/dev/{netdde,tty*,pty*,fd,vcs}; do
-            settrans -fg $dev
+        for dev in "$BUILDPLACE"/dev/{netdde,tty*,pty*,fd,vcs}; do
+            settrans -fg "$dev"
         done
     fi
 }
@@ -255,7 +255,7 @@ function mountproc () {
     DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "$USEPROC" = "yes" ]; then
 	log "I: mounting /proc filesystem"
-	mkdir -p "$BUILDPLACE"/proc
+	mkdir -p "$BUILDPLACE/proc"
         case "$DEB_BUILD_ARCH_OS" in
             kfreebsd)
                 PROCFS="linprocfs"
@@ -269,24 +269,24 @@ function mountproc () {
                 ;;
         esac
         mount -t "$PROCFS" /proc "$BUILDPLACE/proc" || [ "$DEB_BUILD_ARCH_OS" = hurd ]
-	ln -s ../proc/mounts $BUILDPLACE/etc/mtab 2> /dev/null || true
+	ln -s ../proc/mounts "$BUILDPLACE/etc/mtab" 2> /dev/null || true
 	mounted[${#mounted[@]}]="$BUILDPLACE/proc"
     fi
     if [ "$USEDEVFS" = "yes" ]; then
 	log "I: mounting /dev filesystem"
-	mkdir -p $BUILDPLACE/dev || true
+	mkdir -p "$BUILDPLACE/dev" || true
 	mount -t devfs /dev "$BUILDPLACE/dev" 
 	mounted[${#mounted[@]}]="$BUILDPLACE/dev"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USERUNSHM" = "yes" ]; then
 	log "I: mounting /run/shm filesystem"
-	mkdir -p $BUILDPLACE/run/shm || true
+	mkdir -p "$BUILDPLACE/run/shm" || true
 	mount -t tmpfs tmpfs "$BUILDPLACE/run/shm"
 	mounted[${#mounted[@]}]="$BUILDPLACE/run/shm"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
 	log "I: mounting /dev/pts filesystem"
-	mkdir -p $BUILDPLACE/dev/pts || true
+	mkdir -p "$BUILDPLACE/dev/pts" || true
 	TTYGRP=5
 	TTYMODE=620
 	[ -f /etc/default/devpts ] && . /etc/default/devpts
@@ -295,7 +295,7 @@ function mountproc () {
     fi
     if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
 	log "I: mounting selinux filesystem"
-	mkdir -p $BUILDPLACE/selinux
+	mkdir -p "$BUILDPLACE/selinux"
 	mount -t selinuxfs /selinux "$BUILDPLACE/selinux"
 	mounted[${#mounted[@]}]="$BUILDPLACE/selinux"
     fi
@@ -336,7 +336,7 @@ function mountproc () {
 #!/bin/sh
 
 while true; do
-case "\$1" in
+case \"\$1\" in
   -*) shift ;;
   makedev) exit 0;;
   x11-common) exit 0;;
@@ -381,7 +381,7 @@ function cleanbuildplace () {
             # The readlink -f is a simple way to canonicalize the path for
             # $BUILDPLACE (no dirty double slashes for *us*), so it matches
             # what will be in the output of mount.
-            if mount |grep -q -F " $(readlink -f $BUILDPLACE)/"; then
+            if mount |grep -q -F " $(readlink -f "$BUILDPLACE")/"; then
                 log "E: Something is still mounted under ${BUILDPLACE}; unmount and remove ${BUILDPLACE} manually"
             else
                 log "I: cleaning the build env "
@@ -454,7 +454,7 @@ function copy_local_configuration () {
     for a in hosts hostname resolv.conf mailname; do
 	if [ -f "/etc/$a" ]; then
 		rm -f "$BUILDPLACE/etc/$a"
-		cp $( readlink -f "/etc/$a" ) "$BUILDPLACE/etc/$a";
+		cp "$( readlink -f "/etc/$a" )" "$BUILDPLACE/etc/$a";
 	else
 		log "W: No local /etc/$a to copy, relying on $BUILDPLACE/etc/$a to be correct"
  	fi
@@ -558,8 +558,8 @@ function save_aptcache() {
 	fi
 	find "$BUILDPLACE/var/cache/apt/archives/" -maxdepth 1 -name \*.deb | \
 	    while read A ;do
-	    if [ ! -f "$APTCACHE/"$(basename "$A") -a -f "$A" ]; then
-		log "I: new cache content "$(basename "$A")" added"
+	    if [ ! -f "$APTCACHE/$(basename "$A")" -a -f "$A" ]; then
+		log "I: new cache content '$(basename "$A")' added"
 		$doit "$A" "$APTCACHE/" || true
 	    fi
 	done
@@ -581,7 +581,7 @@ function create_basetgz() {
     if [ -h "$BUILDPLACE/tmp/buildd" ] && [ "$(readlink -f "$BUILDPLACE/tmp/buildd")" = "${BUILDPLACE}$BUILDDIR" ]; then
         rm "$BUILDPLACE/tmp/buildd"
     fi
-	if ! tar -c --use-compress-program "$COMPRESSPROG" -f "${BASETGZ}.tmp" * ; then
+	if ! tar -c --use-compress-program "$COMPRESSPROG" -f "${BASETGZ}.tmp" ./* ; then
 	    log "E: failed building base tarball"
 	    rm -f "${BASETGZ}.tmp"
 	    exit 1;

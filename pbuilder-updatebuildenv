@@ -41,7 +41,7 @@ log "I: Refreshing the base.tgz "
 log "I: upgrading packages"
 $CHROOTEXEC /usr/bin/apt-get -q update
 
-case "`readlink -e "$PBUILDERSATISFYDEPENDSCMD"`" in
+case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
   *-aptitude)
     EXTRAPACKAGES="$EXTRAPACKAGES aptitude"
   ;;
@@ -84,7 +84,7 @@ if [ "${AUTOCLEANAPTCACHE}" = "yes" -a -n "$APTCACHE" ]; then
     $CHROOTEXEC /usr/bin/apt-get autoclean || true
     find "$APTCACHE/" -maxdepth 1 -name \*.deb | \
 	while read A; do
-	    if [ ! -f "$BUILDPLACE/var/cache/apt/archives/"$(basename "$A") -a \
+	    if [ ! -f "$BUILDPLACE/var/cache/apt/archives/$(basename "$A")" -a \
 		-f "$A" ]; then
 		log "I: obsolete cache content "$(basename "$A")" removed"
 		rm -f "$A" || true

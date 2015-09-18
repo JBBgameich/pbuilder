@@ -97,7 +97,7 @@ fi
 
 if [ -z "${PBUILDER_BUILD_LOGFILE}" ]; then
     if [ "${PKGNAME_LOGFILE}" = "yes" ]; then
-	PBUILDER_BUILD_LOGFILE="${BUILDRESULT}/"$(basename "${PACKAGENAME}" .dsc)"${PKGNAME_LOGFILE_EXTENSION}"
+	PBUILDER_BUILD_LOGFILE="${BUILDRESULT}/$(basename "${PACKAGENAME}" .dsc)${PKGNAME_LOGFILE_EXTENSION}"
 	exec > >(tee "${PBUILDER_BUILD_LOGFILE}") 2>&1
 	PBUILDER_BUILD_LOGFILE=$(readlink -f "${PBUILDER_BUILD_LOGFILE}")
 	log "I: Using pkgname logfile"
@@ -135,7 +135,7 @@ else
     log "E: pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
     exit 1;
 fi
-if echo "( cd $BUILDDIR; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename $PACKAGENAME) )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
+if echo "( cd $BUILDDIR; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename "$PACKAGENAME") )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
     : # success
 else
     log "E: pbuilder: Failed extracting the source"
@@ -166,14 +166,14 @@ if [ -n "${TIMEOUT_TIME}" ]; then
 	: Timeout process
 	sleep "${TIMEOUT_TIME}"
 	log "I: Terminating build process due to timeout "
-	kill ${BUILD_PID} || true
+	kill "${BUILD_PID}" || true
     ) & # timeout process
-    KILL_WAIT_PID="kill "$!" || true; echo \"I: Terminate timeout process\"; "
+    KILL_WAIT_PID="kill $! || true; echo \"I: Terminate timeout process\"; "
 else
     KILL_WAIT_PID=""
 fi
 
-if ! wait ${BUILD_PID}; then
+if ! wait "${BUILD_PID}"; then
     trap umountproc_cleanbuildplace_trap exit sighup sigpipe
     eval "${KILL_WAIT_PID}"
     log "E: Failed autobuilding of package"
@@ -195,7 +195,7 @@ if [ -d "${BUILDRESULT}" ]; then
     chgrp "${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
     for FILE in "${BUILDPLACE}$BUILDDIR"/*; do
 	if [ -f "${FILE}" ]; then
-	    cp -p ${FILE} "${BUILDRESULT}" || true
+	    cp -p "${FILE}" "${BUILDRESULT}" || true
 	fi
     done
     for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do

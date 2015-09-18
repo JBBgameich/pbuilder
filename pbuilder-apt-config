@@ -225,12 +225,12 @@ set_debootstrap_suite() {
     esac
 }
 
-getopt_output="`getopt -o "" -l help,with-sources::,arch:,components:,archive:,mirror:,mirror-map:,suite:,pockets:,profile: -n "$self" -s sh -- "$@"`"
+getopt_output="$(getopt -o "" -l help,with-sources::,arch:,components:,archive:,mirror:,mirror-map:,suite:,pockets:,profile: -n "$self" -s sh -- "$@")"
 
 eval set -- "$getopt_output"
 
 with_sources="disabled"
-arch="`dpkg --print-architecture`"
+arch="$(dpkg --print-architecture)"
 components="main"
 archive=""
 mirror=""
@@ -324,8 +324,8 @@ pockets="$(echo "$pockets" | tr , " ")"
 if [ -n "$profile" ]; then
     base_dist="${profile%%/*}"
     base_dist="${base_dist%%-*}"
-    base_archive="`guess_dist_arch_archive "$base_dist" "$arch"`"
-    base_mirror="`get_archive_url "$mirror_map" "$base_archive"`"
+    base_archive="$(guess_dist_arch_archive "$base_dist" "$arch")"
+    base_mirror="$(get_archive_url "$mirror_map" "$base_archive")"
     case "$base_archive" in
       debian|debian-archive)
         case "$profile" in
@@ -336,7 +336,7 @@ if [ -n "$profile" ]; then
           ;;
           *-proposed-updates/volatile)
             archive="debian-volatile"
-            mirror="`get_archive_url "$mirror_map" "$archive"`"
+            mirror="$(get_archive_url "$mirror_map" "$archive")"
             volatile_dist="$base_dist/volatile"
             add_output_sources "$with_sources" "$base_mirror" "$base_dist" "$components"
             add_output_sources "$with_sources" "$mirror" "$volatile_dist" "$components"
@@ -347,7 +347,7 @@ if [ -n "$profile" ]; then
                 die "Unknown Debian Volatile based profile=$profile"
             fi
             archive="debian-volatile"
-            mirror="`get_archive_url "$mirror_map" "$archive"`"
+            mirror="$(get_archive_url "$mirror_map" "$archive")"
             volatile_dist=${profile%-sloppy}
             add_output_sources "$with_sources" "$base_mirror" "$base_dist" "$components"
             add_output_sources "$with_sources" "$mirror" "$volatile_dist" "$components"
@@ -360,7 +360,7 @@ if [ -n "$profile" ]; then
                 die "Unknown Backports.org based profile=$profile"
             fi
             archive="backports.org"
-            mirror="`get_archive_url "$mirror_map" "$archive"`"
+            mirror="$(get_archive_url "$mirror_map" "$archive")"
             add_output_sources "$with_sources" "$base_mirror" "$base_dist" "$components"
             add_output_sources "$with_sources" "$mirror" "$profile" "$components"
           ;;
@@ -369,7 +369,7 @@ if [ -n "$profile" ]; then
                 die "Unknown Debian Security based profile=$profile"
             fi
             archive="debian-security"
-            mirror="`get_archive_url "$mirror_map" "$archive"`"
+            mirror="$(get_archive_url "$mirror_map" "$archive")"
             add_output_sources "$with_sources" "$base_mirror" "$base_dist" "$components"
             add_output_sources "$with_sources" "$mirror" "$profile" "$components"
           ;;
@@ -421,7 +421,7 @@ if [ -n "$profile" ]; then
         done
         if [ "$has_security" = "yes" ]; then
             archive="ubuntu-security"
-            mirror="`get_archive_url "$mirror_map" "$archive"`"
+            mirror="$(get_archive_url "$mirror_map" "$archive")"
             if [ "$mirror" != "$base_mirror" ]; then
                 add_output_sources "$with_sources" "$mirror" "$base_dist-security" "$components"
             fi
@@ -438,9 +438,9 @@ fi
 if [ -n "$suite" ]; then
     if [ -z "$mirror" ]; then
         if [ -z "$archive" ]; then
-            archive="`guess_dist_arch_archive "$suite" "$arch"`"
+            archive="$(guess_dist_arch_archive "$suite" "$arch")"
         fi
-        mirror="`get_archive_url "$mirror_map" "$archive"`"
+        mirror="$(get_archive_url "$mirror_map" "$archive")"
     fi
     add_output_sources "$with_sources" "$mirror" "$suite" "$components"
     for pocket in $pockets; do
@@ -448,13 +448,12 @@ if [ -n "$suite" ]; then
     done
     # NB: archive might be empty; best effort to try to guess it
     if [ -z "$archive" ]; then
-        archive="`guess_dist_arch_archive "$suite" "$arch"`" 2>/dev/null || true
+        archive="$(guess_dist_arch_archive "$suite" "$arch")" 2>/dev/null || true
     fi
     set_debootstrap_suite "$archive" "$suite"
     debootstrap_mirror="$mirror"
 fi
 
-command="$1"
 case $1 in
   apt-sources)
     echo "$sources"

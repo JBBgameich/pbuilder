@@ -109,10 +109,10 @@ p' \
 get_build_deps() {
     local output
 
-    output="`get_source_control_field "Build-Depends"`"
+    output="$(get_source_control_field "Build-Depends")"
     output="${output%, }"
     if [ "$BINARY_ARCH" = no ]; then
-        output="${output:+$output, }`get_source_control_field "Build-Depends-Indep"`"
+        output="${output:+$output, }$(get_source_control_field "Build-Depends-Indep")"
         output="${output%, }"
     fi
     echo "$output"
@@ -121,9 +121,9 @@ get_build_deps() {
 get_build_conflicts() {
     local output
 
-    output="`get_source_control_field "Build-Conflicts"`"
+    output="$(get_source_control_field "Build-Conflicts")"
     if [ "$BINARY_ARCH" = no ]; then
-        output="${output:+$output, }`get_source_control_field "Build-Conflicts-Indep"`"
+        output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Indep")"
     fi
     echo "$output"
 }
@@ -203,20 +203,20 @@ checkbuilddep_archdeps() {
     # Use 'dpkg-architecture' to support architecture wildcards.
     for d in $DEP_ARCHES; do
         if echo "$d" | grep -q '!'; then
-            d="$(echo $d | sed 's/!//')"
-            if dpkg-architecture -a$ARCH -i$d -f; then
+            d="$(echo "$d" | sed 's/!//')"
+            if dpkg-architecture -a"$ARCH" -i"$d" -f; then
                 IGNORE_IT="yes"
             fi
         else
-            if dpkg-architecture -a$ARCH -i$d -f; then
+            if dpkg-architecture -a"$ARCH" -i"$d" -f; then
                 USE_IT="yes"
             fi
             INCLUDE="yes"
         fi
     done
     if [ $IGNORE_IT ] && [ $USE_IT ]; then
-        printf "W: inconsistent arch restriction on $PKG: " >&2
-        printf "$DEP_ARCHES depedency\n" >&2
+        printf "W: inconsistent arch restriction on %s: "  "$PKG" >&2
+        printf "%s depedency\n" "$DEP_ARCHES" >&2
     fi
     if [ $IGNORE_IT ] || ( [ $INCLUDE ] && [ ! $USE_IT ] ); then
         return 0
@@ -273,7 +273,7 @@ checkbuilddep_restrictiondeps() {
 checkbuilddep_provides() {
     local PACKAGENAME="$1"
     # PROVIDED needs to be used outside of this function.
-    PROVIDED=$($CHROOTEXEC /usr/bin/apt-cache showpkg $PACKAGENAME \
+    PROVIDED=$($CHROOTEXEC /usr/bin/apt-cache showpkg "$PACKAGENAME" \
         | awk '{p=0}/^Reverse Provides:/,/^$/{p=1}{if(p && ($0 !~ "Reverse Provides:")){PACKAGE=$1}} END{print PACKAGE}')
 }
 
@@ -307,7 +307,7 @@ versioneddep_to_aptcmd() {
             # try the candidate version, then all available versions (asc)
             for VERSION in $CANDIDATE_VERSION $PACKAGEVERSIONS; do
                 if dpkg --compare-versions "$VERSION" "$COMPARESTRING" "$DEPSVERSION"; then
-                    if [ $VERSION != $CANDIDATE_VERSION ]; then
+                    if [ "$VERSION" != "$CANDIDATE_VERSION" ]; then
                         PACKAGE_WITHVERSION="$PACKAGE=$VERSION"
                     fi
                     break;

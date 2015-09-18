@@ -1,7 +1,7 @@
 #!/bin/sh
 
 die() {
-	echo >&2 E: $2 returned error code $1
+	echo >&2 E: "$2" returned error code "$1"
 	echo >&2 N: Could not set up the loopback interface.
 	exit 1
 }

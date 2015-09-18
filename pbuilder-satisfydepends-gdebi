@@ -30,12 +30,12 @@ function checkbuilddep_internal () {
 
     NO_RECOMMENDS=""
     if VERSION=$(/usr/bin/gdebi --version 2>/dev/null); then
-        if dpkg --compare-versions $VERSION ge 0.3.9; then
+        if dpkg --compare-versions "$VERSION" ge 0.3.9; then
             NO_RECOMMENDS="-o APT::Install-Recommends=false"
         fi
     fi
 
-    INSTALL=$(/usr/bin/gdebi --quiet --root $CHROOT --apt-line $NO_RECOMMENDS $DEBIAN_CONTROL)
+    INSTALL=$(/usr/bin/gdebi --quiet --root "$CHROOT" --apt-line "$NO_RECOMMENDS" "$DEBIAN_CONTROL")
     $CHROOTEXEC /usr/bin/apt-get install -y "${APTGETOPT[@]}" $INSTALL
 }
 
