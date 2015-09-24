@@ -1,3 +1,31 @@
+pbuilder (0.217) unstable; urgency=low
+
+  * upload to unstable.
+  * documentation changes:
+    + pbuilderrc.5: specify that quotes are needed around COMPONENTS when
+      listing multiple entries.  Closes: #659583; LP: #609106
+    + pbuilderrc.5: packages in EXTRAPACKAGES are not installed during build,
+      but they are during update.  Update manpage accordingly.  LP: #1307909
+    + pbuilderr.8: make even more clear that --architecture is just passed to
+      debootstrap.  Closes: #434113
+    + example hooks: keep /tmp/buildd as a fallback option in case BUILDDIR is
+      not setted.
+    + add a new example hook B20autopkgtest to automatically run DEP8 tests
+      when available.  Thanks to Christoph Berg and Michael Prokop for writing
+      the initial script.  Closes: #750137
+  * buildpackage:
+    + unset DISPLAY just before the build, othewise there is software that
+      tries to connect to a X server.  LP: #816556
+  * modules:
+    + remove the /tmp/buildd symlink if it points to the current BUILDDIR
+      before repacking and just after unpacking.  Closes: #797351
+    + allow copying the local configuration from a defined directory, instead
+      of the system /etc.  New configuration variable: CONFDIR.  Closes: #580086
+  * fix a whole bunch of warning from shellcheck.  Thanks to Herbert Parentes
+    Fortes Neto <hpfn@ig.com.br> for the initial patch-set in #753966.
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Thu, 24 Sep 2015 08:26:53 +0000
+
 pbuilder (0.216) experimental; urgency=medium
 
   * Debian packaging:
