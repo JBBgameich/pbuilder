@@ -99,6 +99,7 @@ EXAMPLE_SCRIPTS += \
 	examples/F90chrootmemo \
 	examples/B90list-missing \
 	examples/B91debc \
+	examples/B20autopkgtest \
 	examples/execute_installtest.sh \
 	examples/execute_paramtest.sh \
 	examples/pbuilder-distribution.sh \
