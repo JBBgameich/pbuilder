@@ -69,13 +69,13 @@ fi
 # DEBOOTSTRAPOPTS, it will override the --include=apt one and apt might not be
 # installed
 if ! ( "${DEBOOTSTRAP}" \
-    "${ARCHITECTURE:+--arch=$ARCHITECTURE}" \
+    ${ARCHITECTURE:+--arch=$ARCHITECTURE} \
     --include=apt \
     "${DEBOOTSTRAPOPTS[@]}" \
     "$DISTRIBUTION" \
     "$BUILDPLACE" \
     "$MIRRORSITE" \
-    "$DEBOOTSTRAPSCRIPT" ) ; then
+    $DEBOOTSTRAPSCRIPT ) ; then
     log "E: $DEBOOTSTRAP failed"
     exit 1
 fi
