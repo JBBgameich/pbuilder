@@ -63,15 +63,6 @@ PKGLIB_SCRIPTS += \
 	pdebuild-checkparams \
 	pdebuild-internal \
 	pdebuild-uml-checkparams \
-	testlib.sh \
-	test_pbuilder-apt-config \
-	test_pbuilder-checkparams \
-	test_pbuilder-modules \
-	test_pbuilder-buildpackage-funcs \
-	test_pbuilder-satisfydepends-checkparams \
-	test_pbuilder-satisfydepends-classic \
-	test_pbuilder-satisfydepends-funcs \
-	test_testlib.sh \
 	$(NULL)
 
 ALLDIRS += SBIN
