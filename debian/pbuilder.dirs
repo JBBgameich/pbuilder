@@ -1,7 +1,3 @@
-usr/bin
-usr/lib/pbuilder
-usr/sbin
-var/cache/pbuilder
 var/cache/pbuilder/aptcache
 var/cache/pbuilder/build
 var/cache/pbuilder/ccache
