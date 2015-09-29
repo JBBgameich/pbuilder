@@ -1,3 +1,14 @@
+pbuilder (0.218) unstable; urgency=low
+
+  * stop installing all the tests (so, pbuilder-selftest is not anymore).
+    Users are not supposed to be interested in running tests that much...
+  * move to use dh_install.  The way we previously used dh_movefiles is not
+    safe to use with `dpkg-buildpackage -A`, as with a real source-only upload,
+    since it would end up in files belonging to pbuilder-uml in the pbuilder
+    binary.  Closes: #800416
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 29 Sep 2015 09:49:55 +0000
+
 pbuilder (0.217) unstable; urgency=low
 
   * upload to unstable.
