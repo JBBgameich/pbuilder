@@ -90,7 +90,7 @@ checkbuilddep_internal() {
 	fi
 	if echo "$INSTALLPKG" | grep -q '('; then
 	    #echo "Debug: $INSTALLPKG"
-	    if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" "$(get_dep_op_and_ver "$INSTALLPKG")"; then
+	    if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" $(get_dep_op_and_ver "$INSTALLPKG"); then
 	      echo "   -> Does not satisfy version, not trying"
 	      continue
 	    fi
@@ -167,7 +167,7 @@ checkbuilddep_internal() {
       fi
       if echo "$INSTALLPKG" | grep -q '('; then
 	  # this package has version-conflicts
-	  if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" "$(get_dep_op_and_ver "$INSTALLPKG")"; then
+	  if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" $(get_dep_op_and_ver "$INSTALLPKG"); then
 	      echo "I: Satisfies version, not trying"
 	      continue
 	  fi
