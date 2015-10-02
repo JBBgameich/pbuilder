@@ -1,3 +1,11 @@
+pbuilder (0.219) unstable; urgency=medium
+
+  * p-satisfydepends-classic: remove wrong quotes from get_dep_op_and_ver()
+    invocations.  Thanks to Daniel Schepler <dschepler@gmail.com> for the bug
+    and the initial investigation.  Closes: #800628
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Fri, 02 Oct 2015 12:07:58 +0000
+
 pbuilder (0.218) unstable; urgency=low
 
   * stop installing all the tests (so, pbuilder-selftest is not anymore).
