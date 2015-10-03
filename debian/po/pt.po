@@ -43,8 +43,8 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../pbuilder.templates:1001
-msgid "Here is a valid mirror example: http://cdn.debian.net/debian"
-msgstr "Aqui está um exemplo de mirror válido: http://cdn.debian.net/debian"
+msgid "Here is a valid mirror example: http://httpredir.debian.org/debian"
+msgstr "Aqui está um exemplo de mirror válido: http://httpredir.debian.org/debian"
 
 #. Type: error
 #. Description

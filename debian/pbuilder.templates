@@ -7,7 +7,7 @@ _Description: Default mirror site:
  this information. If this attempt fails, you will be prompted again
  to insert some valid mirror information.
  .
- Here is a valid mirror example: http://cdn.debian.net/debian
+ Here is a valid mirror example: http://httpredir.debian.org/debian
 
 Template: pbuilder/nomirror
 Type: error

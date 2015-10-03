@@ -7,7 +7,7 @@ BASETGZ=/var/cache/pbuilder/base.tgz
 BUILDPLACE=/var/cache/pbuilder/build
 # directory inside the chroot where the build happens. See #789404
 BUILDDIR=/build
-MIRRORSITE=http://cdn.debian.net/debian
+MIRRORSITE=http://httpredir.debian.org/debian
 #OTHERMIRROR="deb http://www.home.com/updates/ ./"
 #export http_proxy=http://your-proxy:8080/
 USEPROC=yes
