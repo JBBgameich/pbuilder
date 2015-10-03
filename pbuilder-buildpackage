@@ -50,25 +50,25 @@ fi
 
 UNSHARE=
 case $USENETWORK in
-yes)
-	if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
-		# omit the warning when running on kFreeBSD or Hurd
-		log "W: pbuilder: network will not be disabled during build!"
-	fi
-	;;
-*)
-	if /usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper true; then
-		USENETWORK=no
-		UNSHARE="/usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper"
-		log "I: pbuilder: network access will be disabled during build"
-	else
-		USENETWORK=yes
-		if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
-			log "W: pbuilder: unshare CLONE_NEWNET not available"
-		fi
-		log "I: pbuilder: network access is available during build!"
-	fi
-	;;
+    yes)
+        if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
+            # omit the warning when running on kFreeBSD or Hurd
+            log "W: pbuilder: network will not be disabled during build!"
+        fi
+        ;;
+    *)
+        if /usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper true; then
+            USENETWORK=no
+            UNSHARE="/usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper"
+            log "I: pbuilder: network access will be disabled during build"
+        else
+            USENETWORK=yes
+            if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
+                log "W: pbuilder: unshare CLONE_NEWNET not available"
+            fi
+            log "I: pbuilder: network access is available during build!"
+        fi
+        ;;
 esac
 
 
@@ -85,23 +85,23 @@ loadhooks
 
 if [ ! -d "${BUILDRESULT}" ]; then
     if [ -n "${BUILDRESULT}" ] ; then
-	mkdir -p "${BUILDRESULT}"
+        mkdir -p "${BUILDRESULT}"
     fi
     if [ -d "${BUILDRESULT}" ]; then
-	log "I: created buildresult dir: ${BUILDRESULT}"
+        log "I: created buildresult dir: ${BUILDRESULT}"
     else
-	log "E: failed creating buildresult dir: ${BUILDRESULT}"
-	exit 1
+        log "E: failed creating buildresult dir: ${BUILDRESULT}"
+        exit 1
     fi
 fi
 
 if [ -z "${PBUILDER_BUILD_LOGFILE}" ]; then
     if [ "${PKGNAME_LOGFILE}" = "yes" ]; then
-	PBUILDER_BUILD_LOGFILE="${BUILDRESULT}/$(basename "${PACKAGENAME}" .dsc)${PKGNAME_LOGFILE_EXTENSION}"
-	exec > >(tee "${PBUILDER_BUILD_LOGFILE}") 2>&1
-	PBUILDER_BUILD_LOGFILE=$(readlink -f "${PBUILDER_BUILD_LOGFILE}")
-	log "I: Using pkgname logfile"
-	echobacktime
+        PBUILDER_BUILD_LOGFILE="${BUILDRESULT}/$(basename "${PACKAGENAME}" .dsc)${PKGNAME_LOGFILE_EXTENSION}"
+        exec > >(tee "${PBUILDER_BUILD_LOGFILE}") 2>&1
+        PBUILDER_BUILD_LOGFILE=$(readlink -f "${PBUILDER_BUILD_LOGFILE}")
+        log "I: Using pkgname logfile"
+        echobacktime
     fi
 fi
 
@@ -162,11 +162,11 @@ unset DISPLAY
 ) &
 BUILD_PID=$!
 if [ -n "${TIMEOUT_TIME}" ]; then
-    ( 
-	: Timeout process
-	sleep "${TIMEOUT_TIME}"
-	log "I: Terminating build process due to timeout "
-	kill "${BUILD_PID}" || true
+    (
+        : Timeout process
+        sleep "${TIMEOUT_TIME}"
+        log "I: Terminating build process due to timeout "
+        kill "${BUILD_PID}" || true
     ) & # timeout process
     KILL_WAIT_PID="kill $! || true; echo \"I: Terminate timeout process\"; "
 else
@@ -194,13 +194,13 @@ if [ -d "${BUILDRESULT}" ]; then
     chown "${BUILDRESULTUID}:${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
     chgrp "${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
     for FILE in "${BUILDPLACE}$BUILDDIR"/*; do
-	if [ -f "${FILE}" ]; then
-	    cp -p "${FILE}" "${BUILDRESULT}" || true
-	fi
+        if [ -f "${FILE}" ]; then
+            cp -p "${FILE}" "${BUILDRESULT}" || true
+        fi
     done
     for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do
-	log "I: Trying to save additional result ${FILE}"
-	cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
+        log "I: Trying to save additional result ${FILE}"
+        cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
     done
 else
     log "E: BUILDRESULT=[$BUILDRESULT] is not a directory."
