@@ -34,7 +34,7 @@ pbuilder (0.217) unstable; urgency=low
       the initial script.  Closes: #750137
   * buildpackage:
     + unset DISPLAY just before the build, othewise there is software that
-      tries to connect to a X server.  LP: #816556
+      tries to connect to a X server.  Closes: #589687; LP: #816556
   * modules:
     + remove the /tmp/buildd symlink if it points to the current BUILDDIR
       before repacking and just after unpacking.  Closes: #797351
