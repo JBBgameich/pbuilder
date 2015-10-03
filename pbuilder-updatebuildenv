@@ -41,6 +41,11 @@ log "I: Refreshing the base.tgz "
 log "I: upgrading packages"
 $CHROOTEXEC /usr/bin/apt-get -q update
 
+if [ "$DEBDELTA" = "yes" ]; then
+	log "I: Using debdelta-upgrade for available deltas"
+	$CHROOTEXEC /usr/bin/debdelta-upgrade
+fi
+
 case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
   *-aptitude)
     EXTRAPACKAGES="$EXTRAPACKAGES aptitude"

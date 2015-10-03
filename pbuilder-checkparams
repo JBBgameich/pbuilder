@@ -217,6 +217,10 @@ while [ -n "$1" ]; do
 	    ALLOWUNTRUSTED=yes;
 	    shift;
 	    ;;
+	--debdelta)
+	    DEBDELTA=yes;
+	    shift;
+	    ;;
 	--keyring)
 	    APTKEYRINGS[${#APTKEYRINGS[@]}]="$2";
 	    shift; shift;
