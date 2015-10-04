@@ -26,7 +26,7 @@ BUILDRESULT=/var/cache/pbuilder/result/
 # components on Debian use "main contrib non-free" and on Ubuntu "main
 # restricted universe multiverse"
 COMPONENTS="main"
-#specify the cache for APT 
+#specify the cache for APT
 APTCACHE="/var/cache/pbuilder/aptcache/"
 APTCACHEHARDLINK="yes"
 REMOVEPACKAGES=""
@@ -73,6 +73,10 @@ ALLOWUNTRUSTED=no
 export APTGETOPT=()
 # Option to pass to aptitude always.
 export APTITUDEOPT=()
+
+# Whether to use debdelta or not.  If "yes" debdelta will be installed in the
+# chroot
+DEBDELTA=no
 
 #Command-line option passed on to dpkg-buildpackage.
 #DEBBUILDOPTS="-IXXX -iXXX"

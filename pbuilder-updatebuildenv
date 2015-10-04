@@ -41,11 +41,8 @@ log "I: Refreshing the base.tgz "
 log "I: upgrading packages"
 $CHROOTEXEC /usr/bin/apt-get -q update
 
-if [ "$DEBDELTA" = "yes" ]; then
-	log "I: Using debdelta-upgrade for available deltas"
-	$CHROOTEXEC /usr/bin/debdelta-upgrade
-fi
 
+# automatically add packages needed for optional features to the chroot
 case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
   *-aptitude)
     EXTRAPACKAGES="$EXTRAPACKAGES aptitude"
@@ -61,6 +58,12 @@ else
     EXTRAPACKAGES="$EXTRAPACKAGES ccache-"
 fi
 
+if [ "$DEBDELTA" = "yes" ]; then
+    EXTRAPACKAGES="$EXTRAPACKAGES debdelta"
+else
+    EXTRAPACKAGES="$EXTRAPACKAGES debdelta-"
+fi
+
 if [ -n "$REMOVEPACKAGES" ]; then
     # FIXME this wont work if the packages have some reverse dependencies;
     # apt-get can also remove package, either with apt-get remove or purge, or
@@ -71,6 +74,19 @@ fi
 recover_aptcache
 
 $TRAP saveaptcache_umountproc_cleanbuildplace_trap exit sighup
+if [ "$DEBDELTA" = "yes" ]; then
+    if $CHROOTEXEC which debdelta-upgrade > /dev/null 2> /dev/null ; then
+        log "I: Using debdelta-upgrade for available deltas"
+        if $CHROOTEXEC debdelta-upgrade ; then
+            :
+        else
+            log "W: debdelta failed, continue and use plain apt to update the system"
+        fi
+    else
+        log "W: debdelta is enabled but not (yet) installed, not using it"
+    fi
+fi
+
 $CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" "${FORCE_CONFNEW[@]}" dist-upgrade
 # autoremove: Ignore error in case of etch because apt in etch doesn't
 # support autoremove. TODO: Do not ignore error when etch is no longer
