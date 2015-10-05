@@ -59,7 +59,7 @@ else
 fi
 
 if [ "$DEBDELTA" = "yes" ]; then
-    EXTRAPACKAGES="$EXTRAPACKAGES debdelta"
+    EXTRAPACKAGES="$EXTRAPACKAGES debdelta python-apt xdelta3"
 else
     EXTRAPACKAGES="$EXTRAPACKAGES debdelta-"
 fi
@@ -96,6 +96,11 @@ $CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" install \
     build-essential \
     dpkg-dev \
     $EXTRAPACKAGES
+# debdelta dependencies are broken (#545831)
+if [ "$DEBDELTA" = "yes" ]; then
+    $CHROOTEXEC apt-mark auto python-apt xdelta3
+fi
+
 save_aptcache
 add_additional_aptkeyrings
 
