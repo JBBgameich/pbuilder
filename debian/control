@@ -23,8 +23,7 @@ Testsuite: autopkgtest
 Package: pbuilder
 Architecture: all
 Multi-Arch: foreign
-Depends: coreutils (>= 4.5.8-1),
-         debootstrap | cdebootstrap,
+Depends: debootstrap | cdebootstrap,
          dpkg-dev,
          wget,
          ${misc:Depends}
