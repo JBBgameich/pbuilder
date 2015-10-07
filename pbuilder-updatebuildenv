@@ -75,7 +75,7 @@ recover_aptcache
 
 $TRAP saveaptcache_umountproc_cleanbuildplace_trap exit sighup
 if [ "$DEBDELTA" = "yes" ]; then
-    if $CHROOTEXEC which debdelta-upgrade > /dev/null 2> /dev/null ; then
+    if $CHROOTEXEC hash debdelta-upgrade 2> /dev/null ; then
         log "I: Using debdelta-upgrade for available deltas"
         if $CHROOTEXEC debdelta-upgrade ; then
             :
