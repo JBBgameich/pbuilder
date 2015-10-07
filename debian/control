@@ -24,7 +24,6 @@ Package: pbuilder
 Architecture: all
 Multi-Arch: foreign
 Depends: coreutils (>= 4.5.8-1),
-         debianutils (>= 1.13.1),
          debootstrap | cdebootstrap,
          dpkg-dev,
          wget,
