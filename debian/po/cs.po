@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2008-05-17 13:43+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,8 +36,8 @@ msgid ""
 "information. If this attempt fails, you will be prompted again to insert "
 "some valid mirror information."
 msgstr ""
-"Ponecháte-li pole prázdné, zkusím tuto informaci zjistit sám. Pokud se to g"
-"nepovede, budete znovu dotázáni na zadání platného zrcadla."
+"Ponecháte-li pole prázdné, zkusím tuto informaci zjistit sám. Pokud se to "
+"gnepovede, budete znovu dotázáni na zadání platného zrcadla."
 
 #. Type: string
 #. Description

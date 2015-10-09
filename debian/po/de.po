@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2008-04-03 21:52+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,7 +45,8 @@ msgstr ""
 #: ../pbuilder.templates:1001
 msgid "Here is a valid mirror example: http://httpredir.debian.org/debian"
 msgstr ""
-"Ein Beispiel für einen gültigen Spiegelserver: http://httpredir.debian.org/debian"
+"Ein Beispiel für einen gültigen Spiegelserver: http://httpredir.debian.org/"
+"debian"
 
 #. Type: error
 #. Description

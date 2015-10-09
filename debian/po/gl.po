@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2008-05-13 20:51+0100\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +43,8 @@ msgstr ""
 #. Description
 #: ../pbuilder.templates:1001
 msgid "Here is a valid mirror example: http://httpredir.debian.org/debian"
-msgstr "Velaquí un exemplo dunha réplica válida: http://httpredir.debian.org/debian"
+msgstr ""
+"Velaquí un exemplo dunha réplica válida: http://httpredir.debian.org/debian"
 
 #. Type: error
 #. Description
