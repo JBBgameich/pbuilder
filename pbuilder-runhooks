@@ -17,8 +17,8 @@
 # $BUILDPLACE is as used in pbuilder. When already inside chroot, this
 # routine can be called with $BUILDPLACE='' (from pdebuild-internal)
 
-# TODO:		* Are there any other executable backup types we should
-#		  filtered besides *~ and *.bak?
+# TODO:  * Are there any other executable backup types we should
+#          filtered besides *~ and *.bak?
 #
 #==========================================================================
 
@@ -26,22 +26,22 @@ hooks=tmp/hooks
 
 #==========================================================================
 # Set up fresh chroot'd hooks tmp script directory
-# 
+#
 
 function loadhooks () {
     if [ -z "$HOOKDIR" ]; then
-	return ;
+        return ;
     fi
     if [ -d "$BUILDPLACE/$hooks" ]; then
-	rm -rf "$BUILDPLACE/$hooks"
+        rm -rf "$BUILDPLACE/$hooks"
     fi
     if [ -d "$HOOKDIR" ]; then
-	mkdir -p "$BUILDPLACE/$hooks"
-	if ! cp -aL "$HOOKDIR/"* "$BUILDPLACE/$hooks"; then
-	    log "W: no hooks found in the hookdir '$HOOKDIR'"
-	fi
+        mkdir -p "$BUILDPLACE/$hooks"
+        if ! cp -aL "$HOOKDIR/"* "$BUILDPLACE/$hooks"; then
+            log "W: no hooks found in the hookdir '$HOOKDIR'"
+        fi
     else
-	log "W: hookdir $HOOKDIR does not exist, skipping"
+        log "W: hookdir $HOOKDIR does not exist, skipping"
     fi
 }
 
@@ -51,24 +51,24 @@ function loadhooks () {
 
 function unloadhooks () {
     if [ -z "$HOOKDIR" ]; then
-	return ;
+        return ;
     fi
     if [ -d "$BUILDPLACE/$hooks" ]; then
-	rm -rf "$BUILDPLACE/$hooks"
+        rm -rf "$BUILDPLACE/$hooks"
     else
-	log "E: Logic failure in hook handling. Directory $BUILDPLACE/$hooks should exist but it does not."
+        log "E: Logic failure in hook handling. Directory $BUILDPLACE/$hooks should exist but it does not."
     fi
 }
 
 #--------------------------------------------------------------------------
-# Execute every script found in the chroot'd target directory. We only 
+# Execute every script found in the chroot'd target directory. We only
 # test for whether a file is executable because we have no idea what
 # the user had put in their dist. If they want PL/1 and ADA on the base
-# dist or have decided to use emacslisp for everything, it's their 
+# dist or have decided to use emacslisp for everything, it's their
 # problem.
 #
-# Args:		Required prefix on hook fn name
-# Returns:	none
+# Args:    Required prefix on hook fn name
+# Returns: none
 #
 
 function executehooks () {
