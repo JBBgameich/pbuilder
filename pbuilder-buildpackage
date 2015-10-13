@@ -201,6 +201,7 @@ if [ -d "${BUILDRESULT}" ]; then
         log "I: Trying to save additional result ${FILE}"
         cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
     done
+    executehooks "I"
 else
     log "E: BUILDRESULT=[$BUILDRESULT] is not a directory."
 fi
