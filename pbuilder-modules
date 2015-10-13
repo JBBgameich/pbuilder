@@ -531,6 +531,7 @@ function extractbuildplace () {
             log "W: Could not create compatibility symlink because /tmp/buildd exists and it is not a directory"
         fi
     fi
+    executehooks "H"
 }
 
 function echobacktime () {

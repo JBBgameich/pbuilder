@@ -326,6 +326,12 @@ in
 .B "--create"
 target.
 
+.B "H<digit><digit><whatever-else-you-want>"
+is executed just after unpacking the chroot, mounting proc and any bind mount
+specified in BINDMOUNTS.  It's executed for every target that requires the
+unpacked chroot.  It's useful if you want to dynamically change the chroot guts
+before anything starts using it.
+
 \" End of hookdir description
 
 .TP
