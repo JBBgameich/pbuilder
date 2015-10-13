@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+if [ -z "$TMPDIR" ]; then
+    if [ -n "$ADTTMP" ]; then
+        TMPDIR="$ADTTMP"
+    else
+        TMPDIR="$(mktemp -d --tmpdir=/tmp pbuilder-unit-tests-XXXXXXXXXX)"
+    fi
+fi
+
+cp t/* "$TMPDIR"
+export PBUILDER_TEST_VERBOSE="yes"
+"$TMPDIR"/runtests.sh
+
+rm -r $TMPDIR
