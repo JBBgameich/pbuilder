@@ -1,4 +1,0 @@
-#!/bin/bash
-# Prepare and install packages used in the tests.
-
-apt-get install -y sudo
