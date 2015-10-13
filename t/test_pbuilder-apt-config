@@ -180,4 +180,6 @@ expect_output "sid" debootstrap_suite --profile unstable
 expect_output "ubuntu-mirror" debootstrap_mirror --profile lucid --arch amd64
 expect_output "ubuntu-ports-mirror" debootstrap_mirror --profile lucid --arch armel
 
+rm -f "$mirror_map"
+
 testlib_summary
