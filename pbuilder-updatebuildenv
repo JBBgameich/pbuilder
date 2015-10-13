@@ -36,7 +36,6 @@ echobacktime
 extractbuildplace
 $TRAP umountproc_cleanbuildplace_trap exit sighup
 
-loadhooks
 log "I: Refreshing the base.tgz "
 log "I: upgrading packages"
 $CHROOTEXEC /usr/bin/apt-get -q update
@@ -120,7 +119,6 @@ fi
 
 $TRAP umountproc_cleanbuildplace_trap exit sighup
 executehooks "E"
-unloadhooks
 
 umountproc
 $CHROOTEXEC /usr/bin/apt-get clean || true

@@ -81,7 +81,6 @@ if ! ( "${DEBOOTSTRAP}" \
 fi
 
 log "I: debootstrap finished"
-loadhooks
 
 
 mkdir -p "${BUILDPLACE}$BUILDDIR"
@@ -128,7 +127,6 @@ $CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" install \
 save_aptcache
 
 executehooks "E"
-unloadhooks
 umountproc
 $CHROOTEXEC /usr/bin/apt-get clean || true
 $TRAP cleanbuildplace_trap exit sighup

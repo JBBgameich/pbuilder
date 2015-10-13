@@ -81,7 +81,6 @@ export HOME="$BUILDDIR"
 echobacktime
 extractbuildplace 
 trap umountproc_cleanbuildplace_trap exit sighup sigpipe
-loadhooks
 
 if [ ! -d "${BUILDRESULT}" ]; then
     if [ -n "${BUILDRESULT}" ] ; then
