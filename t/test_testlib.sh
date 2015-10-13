@@ -1,13 +1,13 @@
 #!/bin/bash
 # testsuite for testlib
 
+TD="$(dirname "$0")"
 if [ -n "$PBUILDER_CHECKOUT" ]; then
-    . "$PBUILDER_CHECKOUT/testlib.sh"
+    . "$TD/testlib.sh"
+    . "$PBUILDER_CHECKOUT/pbuilder-modules"
 else
-    # these currently don't need to be exported
-    PBUILDER_TEST_ROOT="${PBUILDER_ROOT:-}"
-    PBUILDER_TEST_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder}"
-    . "$PBUILDER_TEST_PKGLIBDIR/testlib.sh"
+    . "$TD/testlib.sh"
+    . "$PBUILDER_TEST_PKGLIBDIR/pbuilder-modules"
 fi
 
 test_success() {

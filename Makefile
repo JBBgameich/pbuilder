@@ -170,7 +170,7 @@ check:
 	$(foreach script,$(CHECK_SCRIPTS),bash -n $(script)$(newline))
 	$(foreach mp,$(CHECK_MANPAGES),LANG=C MANWIDTH=80 man --warnings -l $(mp) >/dev/null$(newline))
 	# unit tests.
-	$(foreach test,$(wildcard ./test_*),$(test)$(newline))
+	$(foreach test,$(wildcard ./t/test_*),$(test)$(newline))
 
 full-check:
 	# system tests that might take long.
