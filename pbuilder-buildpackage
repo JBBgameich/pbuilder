@@ -76,8 +76,6 @@ esac
 BUILDRESULTUID="${BUILDRESULTUID:-${SUDO_UID:-0}}"
 BUILDRESULTGID="${BUILDRESULTGID:-${SUDO_GID:-0}}"
 
-export HOME="$BUILD_HOME"
-
 echobacktime
 extractbuildplace 
 trap umountproc_cleanbuildplace_trap exit sighup sigpipe
@@ -145,7 +143,7 @@ log "I: Building the package"
 
 executehooks "A"
 
-DPKG_COMMANDLINE="env PATH=\"$PATH\" dpkg-buildpackage -us -uc $DEBBUILDOPTS"
+DPKG_COMMANDLINE="env PATH=\"$PATH\" HOME=\"$BUILD_HOME\" dpkg-buildpackage -us -uc $DEBBUILDOPTS"
 
 # https://launchpad.net/bugs/816556
 unset DISPLAY
