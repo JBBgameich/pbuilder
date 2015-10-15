@@ -150,6 +150,17 @@ else
 fi
 pbuilder "$1" ${UML_EXTRAOPT} \${EXTRAOPT[@]} --buildresult "\${BUILDRESULT}" --buildplace "${UML_CHROOT_MOUNTPOINT}" --internal-build-uml ${UML_DEBUGMODE:+--debug} ${BUILDING_DSC_FILE}  ${UML_EXECUTE_EXTRAOPT} 
 echo \$? > /proc/exitcode
+cat <<SHELL > ${UML_CHROOT_MOUNTPOINT}/tmp/chrootshell
+#! /bin/bash
+${UML_DEBUGMODE}
+# the shell executed inside chroot inside UML
+    echo Stopping network inside the chroot
+    mount -t proc /proc /proc
+    /etc/init.d/networking stop
+    umount /proc
+SHELL
+chmod a+x ${UML_CHROOT_MOUNTPOINT}/tmp/chrootshell
+chroot ${UML_CHROOT_MOUNTPOINT} /tmp/chrootshell
 
 if [ -n "\${kernel_modules}" ] ; then
 	umount /lib/modules
