@@ -1,3 +1,67 @@
+pbuilder (0.220) UNRELEASED; urgency=medium
+
+  [ Ritesh Raj Sarraf ]
+  * Add debdelta support, enable optionally via pbuilderrc or the command line.
+    Closes: #602711
+
+  [ Gianfranco Costamagna ]
+  * Update translations
+  * update po during dh-clean
+
+  [ Mattia Rizzolo ]
+  * debian packaging:
+    + add a closes: in a old changelog entry, I wasn't aware of that bug.
+    + drop dependencies on essential packages, since they are available since
+      squeeze: coreutils, debianutils.
+    + debian/control: let pbuilder-uml replace pbuilder (= 0.217) so it is
+      able to take over a file wrongly placed on pbuilder due to #800416.
+      Closes: #800769
+    + debian/tests: add an autopkgtest running the unit tests.
+    + debian/pbuilder-test: remove, fully replaced by autopkgtest.
+      - Those tests were meant to be run with a pbuilder hook after the build.
+        Autopkgtest is a way more powerful test environment.
+    + debian/pbuilder.config: fix detection of mirror through
+      /etc/apt/sources.list.d/* at install time.
+      Thanks to jre <jre.winesim@gmail.com> for the patch.  Closes: 772062
+  * tests:
+    + move all tests under a t/ directory.
+    + t/test_pbuilder-apt-config: remove temporary file at the end of the test.
+  * hooks:
+    + unhooks: let unloadhooks don't fail if there are no hooks loaded.
+      This way we can call it also when hooks are not actually loaded or two
+      times in a row without fear the result.
+    + always load hooks just after extracting the build place, and unload them
+      when cleaning up.
+    + add hook type H: they run just after unpacking the chroot, for every
+      target.  Closes: #800757
+    + add hook type I: it runs after successfully build a package, after
+      copying back the build results.  Closes: #652527
+  * configuration:
+    + new config: BUILD_HOME: set the value of HOME while building.
+      Default it to /nonexistent to prevent builds from writing to /home.
+      This reverts what was done for #170762.  Closes: #441052
+  * buildpackage:
+    + only override HOME during dpkg-buildpackage invocation
+  * pdebuild:
+    + debuild-internal: carry on PATH when calling dpkg-buildpackage.
+      Thanks to Matthias Förste <foerste@schlittermann.de> for the patch.
+      Closes: #716680
+  * modules:
+    + mountproc(): mount correctly selinux: bindmount from the host, and in the
+      same place (/sys/fs/selinux >= wheezy, /selinux < wheezy).
+      Thanks to ChangZhuo Chen (陳昌倬) <czchen@gmail.com> for the patch.
+      Closes: #734193, #734454
+  * uml:
+    + stop networking before quitting, so that it can exit properly.
+      Thanks to Paul TBBle Hampson <Paul.Hampson@Pobox.com> for the patch.
+      Closes: #416918
+  * Make the debdelta implementation more rubost and document the new options
+    in the manpages.
+  * Switch all instances of cdn.debian.net to httpredir.debian.org.
+    Closes: #774468
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Thu, 15 Oct 2015 14:36:30 +0000
+
 pbuilder (0.219) unstable; urgency=medium
 
   * p-satisfydepends-classic: remove wrong quotes from get_dep_op_and_ver()
