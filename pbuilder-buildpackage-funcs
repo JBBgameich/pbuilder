@@ -92,7 +92,7 @@ function createbuilduser () {
         if [ -e $BUILDPLACE/etc/gshadow ]; then g='x'; else g='*'; fi
         if ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/passwd; then
             cowprotect $BUILDPLACE/etc/passwd
-            echo "$BUILDUSERNAME:$p:$BUILDUSERID:$BUILDUSERID:,,,:$BUILDDIR:/bin/sh" >> $BUILDPLACE/etc/passwd
+            echo "$BUILDUSERNAME:$p:$BUILDUSERID:$BUILDUSERID:,,,:$BUILD_HOME:/bin/sh" >> $BUILDPLACE/etc/passwd
         fi
         if ! grep -q ^$BUILDUSERNAME: $BUILDPLACE/etc/group; then
             cowprotect $BUILDPLACE/etc/group
