@@ -21,7 +21,6 @@
 set -e 
 
 . /usr/lib/pbuilder/pbuilder-checkparams
-. /usr/lib/pbuilder/pbuilder-runhooks
 
 if [ -z "$DISTRIBUTION" ]; then
     DISTRIBUTION=sid

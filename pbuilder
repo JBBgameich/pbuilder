@@ -53,7 +53,6 @@ case "$1" in
     --login|login)
 	shift 
 	. /usr/lib/pbuilder/pbuilder-checkparams
-	. /usr/lib/pbuilder/pbuilder-runhooks
 	extractbuildplace
 	trap umountproc_cleanbuildplace_trap exit sighup
 	copyinputfile "${BUILDPLACE}$BUILDDIR"
@@ -99,7 +98,6 @@ File extracted to: $BUILDPLACE
 	# try to execute arbitrary program.
 	shift
 	. /usr/lib/pbuilder/pbuilder-checkparams
-	. /usr/lib/pbuilder/pbuilder-runhooks
 	EXECPROGRAM="$1"
 	shift
 	if [ ! -f "${EXECPROGRAM}" ]; then
@@ -146,7 +144,6 @@ File extracted to: $BUILDPLACE
     --dumpconfig|dumpconfig)
 	shift
 	. /usr/lib/pbuilder/pbuilder-checkparams
-	. /usr/lib/pbuilder/pbuilder-runhooks
 	extractbuildplace
 	trap umountproc_cleanbuildplace_trap exit sighup
 	executehooks "F"

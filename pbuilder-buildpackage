@@ -22,7 +22,6 @@ export LC_ALL=C
 set -e
 
 . /usr/lib/pbuilder/pbuilder-checkparams
-. /usr/lib/pbuilder/pbuilder-runhooks
 . /usr/lib/pbuilder/pbuilder-buildpackage-funcs
 
 PACKAGENAME="$1"
