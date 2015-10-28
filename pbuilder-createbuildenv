@@ -20,7 +20,7 @@
 
 set -e 
 
-. /usr/lib/pbuilder/pbuilder-checkparams
+. "${BASH_SOURCE%/*}/pbuilder-checkparams"
 
 if [ -z "$DISTRIBUTION" ]; then
     DISTRIBUTION=sid

@@ -18,7 +18,7 @@
 
 set -e
 
-. /usr/lib/pbuilder/pbuilder-checkparams
+. "${BASH_SOURCE%/*}/pbuilder-checkparams"
 
 if [ -n "$DISTRIBUTION" ] && [ "$OVERRIDE_APTLINES" = "yes" ]; then
     log "I: Upgrading for distribution $DISTRIBUTION" 

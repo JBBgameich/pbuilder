@@ -21,8 +21,8 @@ export LANG=C
 export LC_ALL=C
 set -e
 
-. /usr/lib/pbuilder/pbuilder-checkparams
-. /usr/lib/pbuilder/pbuilder-buildpackage-funcs
+. "${BASH_SOURCE%/*}/pbuilder-checkparams"
+. "${BASH_SOURCE%/*}/pbuilder-buildpackage-funcs"
 
 PACKAGENAME="$1"
 if [ ! -f "$PACKAGENAME" ]; then

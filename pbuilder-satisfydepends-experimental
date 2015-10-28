@@ -25,7 +25,7 @@
 
 set -e
 
-. /usr/lib/pbuilder/pbuilder-satisfydepends-funcs
+. "${BASH_SOURCE%/*}/pbuilder-satisfydepends-funcs"
 
 # Use this function to fulfill the dependency (almost)
 function checkbuilddep_internal () {
@@ -191,5 +191,5 @@ Copyright 2002-2007  Junichi Uekawa <dancer@debian.org>
 EOF
 }
 
-. /usr/lib/pbuilder/pbuilder-satisfydepends-checkparams
+. "${BASH_SOURCE%/*}/pbuilder-satisfydepends-checkparams"
 
