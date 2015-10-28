@@ -1,12 +1,18 @@
-pbuilder (0.220) UNRELEASED; urgency=medium
+pbuilder (0.220) unstable; urgency=medium
 
   [ Ritesh Raj Sarraf ]
   * Add debdelta support, enable optionally via pbuilderrc or the command line.
     Closes: #602711
 
+  [ Guido Günther ]
+  * B20aupkgtest: Don't quote path to autopkg test dir, otherwise we're not
+    expanding the "*".  Closes: #802379
+
   [ Gianfranco Costamagna ]
-  * Update translations
-  * update po during dh-clean
+  * Update translations.
+  * update po during dh-clean.
+  * modules: change the pbuilder-runhooks source directory to be relative.
+    We can assume they are always in the same directory.
 
   [ Mattia Rizzolo ]
   * debian packaging:
@@ -41,7 +47,7 @@ pbuilder (0.220) UNRELEASED; urgency=medium
       Default it to /nonexistent to prevent builds from writing to /home.
       This reverts what was done for #170762.  Closes: #441052
   * buildpackage:
-    + only override HOME during dpkg-buildpackage invocation
+    + only override HOME during dpkg-buildpackage invocation.
   * pdebuild:
     + debuild-internal: carry on PATH when calling dpkg-buildpackage.
       Thanks to Matthias Förste <foerste@schlittermann.de> for the patch.
@@ -60,7 +66,7 @@ pbuilder (0.220) UNRELEASED; urgency=medium
   * Switch all instances of cdn.debian.net to httpredir.debian.org.
     Closes: #774468
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Thu, 15 Oct 2015 14:36:30 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 28 Oct 2015 15:08:04 +0000
 
 pbuilder (0.219) unstable; urgency=medium
 
