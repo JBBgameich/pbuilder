@@ -76,7 +76,7 @@ else
 	log "W: Unmet build-dependency in source"
     fi
     echo "dpkg-buildpackage -S -d -us -uc -r${BUILDSOURCEROOTCMD} $DEBBUILDOPTS" | \
-	perl -pe 's/(^|\s)-[AbBF](\s|$)/$1$2/g' | \
+	perl -pe 's/(^|\s)-[AbBFgG](\s|$)/$1$2/g' | \
 	/bin/bash
     ${PBUILDERROOTCMD} \
 	${PDEBUILD_PBUILDER} \
