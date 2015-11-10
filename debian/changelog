@@ -11,8 +11,6 @@ pbuilder (0.220) unstable; urgency=medium
   [ Gianfranco Costamagna ]
   * Update translations.
   * update po during dh-clean.
-  * modules: change the pbuilder-runhooks source directory to be relative.
-    We can assume they are always in the same directory.
 
   [ Mattia Rizzolo ]
   * debian packaging:
@@ -52,6 +50,12 @@ pbuilder (0.220) unstable; urgency=medium
     + debuild-internal: carry on PATH when calling dpkg-buildpackage.
       Thanks to Matthias Förste <foerste@schlittermann.de> for the patch.
       Closes: #716680
+    + hack dpkg-buildpackage command to remove possible '-g' or '-G' when
+      building the source package, and also consider the case when those flags
+      are surrounded by quotes.
+      - Thanks to Guido Günther <agx@sigxcpu.org> for the first patch.
+      - Thanks to Tomasz Buchert <tomasz@debian.org> for the better regex.
+      - Closes: #802800
   * modules:
     + mountproc(): mount correctly selinux: bindmount from the host, and in the
       same place (/sys/fs/selinux >= wheezy, /selinux < wheezy).
@@ -65,8 +69,10 @@ pbuilder (0.220) unstable; urgency=medium
     in the manpages.
   * Switch all instances of cdn.debian.net to httpredir.debian.org.
     Closes: #774468
+  * Use relative sources where possible, thanks to Gianfranco Costamagna for
+    the hint.
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 28 Oct 2015 15:08:04 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 10 Nov 2015 14:40:24 +0000
 
 pbuilder (0.219) unstable; urgency=medium
 
