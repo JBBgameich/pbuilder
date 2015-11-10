@@ -26,7 +26,7 @@ pbuilder-doc.%.po: $(MASTERXML)
 
 %.pdf: %.xml
 	# requires dblatex package.
-	dblatex $<
+	dblatex --tmpdir=docbuild $<
 
 install: $(HTMLDOCS) pbuilder-doc.pdf
 	install -d -m 755 -o root -g root $(DESTDIR)/usr/share/doc/pbuilder/
