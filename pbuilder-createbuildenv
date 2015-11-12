@@ -93,7 +93,7 @@ log "I: Refreshing the base.tgz "
 log "I: upgrading packages"
 mountproc
 $TRAP umountproc_cleanbuildplace_trap exit sighup
-$CHROOTEXEC /usr/bin/apt-get -q update
+$CHROOTEXEC /usr/bin/apt-get -q "${APTGETOPT[@]}" update
 
 case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
   *-aptitude)

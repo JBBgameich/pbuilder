@@ -37,7 +37,7 @@ $TRAP umountproc_cleanbuildplace_trap exit sighup
 
 log "I: Refreshing the base.tgz "
 log "I: upgrading packages"
-$CHROOTEXEC /usr/bin/apt-get -q update
+$CHROOTEXEC /usr/bin/apt-get -q "${APTGETOPT[@]}" update
 
 
 # automatically add packages needed for optional features to the chroot
