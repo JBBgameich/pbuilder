@@ -17,6 +17,8 @@ function test_information() {
 expect_output "I: test
 W: warning
 E: error" test_information
+expect_stderr "W: warning
+E: error" test_information
 
 function test_log() {
     log.i "info"
@@ -25,6 +27,8 @@ function test_log() {
 }
 expect_output "I: info
 W: warn
+E: error" test_log
+expect_stderr "W: warn
 E: error" test_log
 
 # test the non-copy case
