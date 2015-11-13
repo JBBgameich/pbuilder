@@ -25,7 +25,7 @@ set -e
 if [ -z "$DISTRIBUTION" ]; then
     DISTRIBUTION=sid
 fi
-log "I: Distribution is $DISTRIBUTION."
+log.i "Distribution is $DISTRIBUTION."
 
 if [ "${PBUILDER_DEBUGMODE}" = "yes" ]; then
     TRAP="echo ignoring trap "
@@ -39,7 +39,7 @@ echobacktime
 # first clean it.
 cleanbuildplace
 
-log "I: Building the build environment"
+log.i "Building the build environment"
 mkdir -p "$BUILDPLACE"
 if [ ! -d "$BUILDPLACE" ]; then
     log "E: Could not make directory [$BUILDPLACE]"
@@ -48,12 +48,12 @@ fi
 
 $TRAP cleanbuildplace exit
 
-log "I: running $DEBOOTSTRAP"
+log.i "running $DEBOOTSTRAP"
 unset DEBOOTSTRAPSCRIPT
 if [ -n "$HOOKDIR" ]; then
     if [ -f "$HOOKDIR/$DISTRIBUTION" ]; then
 	DEBOOTSTRAPSCRIPT=$(readlink -f "$HOOKDIR")"/$DISTRIBUTION"
-	log "I: Applying user distribution dist build script $DEBOOTSTRAPSCRIPT"
+	log.i "Applying user distribution dist build script $DEBOOTSTRAPSCRIPT"
     fi
 fi
 
@@ -79,7 +79,7 @@ if ! ( "${DEBOOTSTRAP}" \
     exit 1
 fi
 
-log "I: debootstrap finished"
+log.i "debootstrap finished"
 
 
 mkdir -p "${BUILDPLACE}$BUILDDIR"
@@ -89,8 +89,8 @@ installaptlines
 add_additional_aptkeyrings
 executehooks "G"
 
-log "I: Refreshing the base.tgz "
-log "I: upgrading packages"
+log.i "Refreshing the base.tgz "
+log.i "upgrading packages"
 mountproc
 $TRAP umountproc_cleanbuildplace_trap exit sighup
 $CHROOTEXEC /usr/bin/apt-get -q "${APTGETOPT[@]}" update

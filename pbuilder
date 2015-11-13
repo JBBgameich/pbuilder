@@ -42,11 +42,11 @@ case "$1" in
 	shift;
 	. /usr/lib/pbuilder/pbuilder-checkparams
 	if [ -n "$BASEBUILDPLACE" ]; then 
-	    log "I: Cleaning [$BASEBUILDPLACE]"
+	    log.i "Cleaning [$BASEBUILDPLACE]"
 	    clean_subdirectories "$BASEBUILDPLACE" || true
 	fi
 	if [ -n "$APTCACHE" ]; then
-	    log "I: Cleaning [$APTCACHE]"
+	    log.i "Cleaning [$APTCACHE]"
 	    rm "$APTCACHE"/* || true
 	fi
 	;;
@@ -60,9 +60,9 @@ case "$1" in
 	trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup
 
 	if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
-	    log "I: entering the shell"
+	    log.i "entering the shell"
 	else
-	    log "I: entering the shell
+	    log.i "entering the shell
 File extracted to: $BUILDPLACE
 "
 	fi
@@ -80,7 +80,7 @@ File extracted to: $BUILDPLACE
 		log "E: Invalid combination of internal-build-uml and save-after-login flags"
 		exit 1
 	    else
-		log "I: Saving the results, modifications to this session will persist"
+		log.i "Saving the results, modifications to this session will persist"
 		umountproc
 		trap cleanbuildplace_trap exit sighup
 		${CHROOTEXEC} /usr/bin/apt-get clean || true
@@ -127,7 +127,7 @@ File extracted to: $BUILDPLACE
 	    if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
 		log "E: Invalid combination of internal-build-uml and save-after-login flags"
 	    else
-		log "I: Saving the results, modifications to this session will persist"
+		log.i "Saving the results, modifications to this session will persist"
 		umountproc
 		trap cleanbuildplace_trap exit sighup
 		${CHROOTEXEC} /usr/bin/apt-get clean || true
@@ -147,12 +147,12 @@ File extracted to: $BUILDPLACE
 	extractbuildplace
 	trap umountproc_cleanbuildplace_trap exit sighup
 	executehooks "F"
-	log "I: start dump config"
-	log "I: set"
+	log.i "start dump config"
+	log.i "set"
 	set;
-	log "I: env"
+	log.i "env"
 	env;
-	log "I: end dump config"
+	log.i "end dump config"
 	;;
     --debuild|debuild)
 	shift

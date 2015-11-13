@@ -39,7 +39,7 @@ if [ -n "$BUILDUSERNAME" -a -n "$BUILDUSERID" ]; then
     SUTOUSER="LD_PRELOAD= LOGNAME=$BUILDUSERNAME USER=$BUILDUSERNAME /sbin/start-stop-daemon --start --pidfile /dev/null --chuid $BUILDUSERNAME --startas /bin/sh"
     DEBBUILDOPTS="${DEBBUILDOPTS:+$DEBBUILDOPTS }-rfakeroot"
     EXTRAPACKAGES="${EXTRAPACKAGES} fakeroot"
-    log "I: using fakeroot in build."
+    log.i "using fakeroot in build."
 else
     # run the build in root
     BUILDUSERID=0
@@ -59,13 +59,13 @@ case $USENETWORK in
         if /usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper true; then
             USENETWORK=no
             UNSHARE="/usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper"
-            log "I: pbuilder: network access will be disabled during build"
+            log.i "pbuilder: network access will be disabled during build"
         else
             USENETWORK=yes
             if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
                 log "W: pbuilder: unshare CLONE_NEWNET not available"
             fi
-            log "I: pbuilder: network access is available during build!"
+            log.i "pbuilder: network access is available during build!"
         fi
         ;;
 esac
@@ -84,7 +84,7 @@ if [ ! -d "${BUILDRESULT}" ]; then
         mkdir -p "${BUILDRESULT}"
     fi
     if [ -d "${BUILDRESULT}" ]; then
-        log "I: created buildresult dir: ${BUILDRESULT}"
+        log.i "created buildresult dir: ${BUILDRESULT}"
     else
         log "E: failed creating buildresult dir: ${BUILDRESULT}"
         exit 1
@@ -96,7 +96,7 @@ if [ -z "${PBUILDER_BUILD_LOGFILE}" ]; then
         PBUILDER_BUILD_LOGFILE="${BUILDRESULT}/$(basename "${PACKAGENAME}" .dsc)${PKGNAME_LOGFILE_EXTENSION}"
         exec > >(tee "${PBUILDER_BUILD_LOGFILE}") 2>&1
         PBUILDER_BUILD_LOGFILE=$(readlink -f "${PBUILDER_BUILD_LOGFILE}")
-        log "I: Using pkgname logfile"
+        log.i "Using pkgname logfile"
         echobacktime
     fi
 fi
@@ -113,18 +113,18 @@ createbuilduser
 CCACHE_ENV=
 setup_ccache
 SUTOUSER="$CCACHE_ENV $SUTOUSER"
-log "I: Installing the build-deps"
+log.i "Installing the build-deps"
 executehooks "D"
 trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup sigpipe
 checkbuilddep "$PACKAGENAME"
 save_aptcache
 trap umountproc_cleanbuildplace_trap exit sighup sigpipe
 
-log "I: Copying source file"
+log.i "Copying source file"
 copydsc "$PACKAGENAME" "${BUILDPLACE}$BUILDDIR"
 copyinputfile "${BUILDPLACE}$BUILDDIR"
 
-log "I: Extracting source"
+log.i "Extracting source"
 if echo "chown $BUILDUSERNAME:$BUILDUSERNAME $BUILDDIR $BUILDDIR/*" | $CHROOTEXEC /bin/bash; then
     : # success
 else
@@ -138,7 +138,7 @@ else
     exit 1;
 fi
 
-log "I: Building the package"
+log.i "Building the package"
 
 executehooks "A"
 
@@ -153,7 +153,7 @@ unset DISPLAY
         DPKG_COMMANDLINE="$DPKG_COMMANDLINE && $DPKG_COMMANDLINE"
     fi
     DPKG_COMMANDLINE="cd ${BUILDDIR}/*/ && $DPKG_COMMANDLINE"
-    log "I: Running $DPKG_COMMANDLINE"
+    log.i "Running $DPKG_COMMANDLINE"
     echo "$DPKG_COMMANDLINE" | $UNSHARE $CHROOTEXEC env $SUTOUSER
 ) &
 BUILD_PID=$!
@@ -161,7 +161,7 @@ if [ -n "${TIMEOUT_TIME}" ]; then
     (
         : Timeout process
         sleep "${TIMEOUT_TIME}"
-        log "I: Terminating build process due to timeout "
+        log.i "Terminating build process due to timeout "
         kill "${BUILD_PID}" || true
     ) & # timeout process
     KILL_WAIT_PID="kill $! || true; echo \"I: Terminate timeout process\"; "
@@ -195,7 +195,7 @@ if [ -d "${BUILDRESULT}" ]; then
         fi
     done
     for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do
-        log "I: Trying to save additional result ${FILE}"
+        log.i "Trying to save additional result ${FILE}"
         cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
     done
     executehooks "I"

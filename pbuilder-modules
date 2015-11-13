@@ -169,10 +169,10 @@ function umount_one () {
     DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "${IGNORE_UMOUNT}" = "yes" ]; then
         # support ignore umount option.
-        log "I: ignoring umount of $1 filesystem"
+        log.i "ignoring umount of $1 filesystem"
         return
     fi
-    log "I: unmounting $1 filesystem"
+    log.i "unmounting $1 filesystem"
     local UMOUNT_OUTPUT
     if ! UMOUNT_OUTPUT="$(LC_ALL=C umount "$BUILDPLACE/$1" 2>&1)"; then
         log "W: Could not unmount $1: $UMOUNT_OUTPUT"
@@ -267,7 +267,7 @@ function mountproc () {
     local -a mounted
     DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "$USEPROC" = "yes" ]; then
-        log "I: mounting /proc filesystem"
+        log.i "mounting /proc filesystem"
         mkdir -p "$BUILDPLACE/proc"
         case "$DEB_BUILD_ARCH_OS" in
             kfreebsd)
@@ -286,19 +286,19 @@ function mountproc () {
         mounted[${#mounted[@]}]="$BUILDPLACE/proc"
     fi
     if [ "$USEDEVFS" = "yes" ]; then
-        log "I: mounting /dev filesystem"
+        log.i "mounting /dev filesystem"
         mkdir -p "$BUILDPLACE/dev" || true
         mount -t devfs /dev "$BUILDPLACE/dev"
         mounted[${#mounted[@]}]="$BUILDPLACE/dev"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USERUNSHM" = "yes" ]; then
-        log "I: mounting /run/shm filesystem"
+        log.i "mounting /run/shm filesystem"
         mkdir -p "$BUILDPLACE/run/shm" || true
         mount -t tmpfs tmpfs "$BUILDPLACE/run/shm"
         mounted[${#mounted[@]}]="$BUILDPLACE/run/shm"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
-        log "I: mounting /dev/pts filesystem"
+        log.i "mounting /dev/pts filesystem"
         mkdir -p "$BUILDPLACE/dev/pts" || true
         TTYGRP=5
         TTYMODE=620
@@ -307,7 +307,7 @@ function mountproc () {
         mounted[${#mounted[@]}]="$BUILDPLACE/dev/pts"
     fi
     if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
-        log "I: mounting selinux filesystem"
+        log.i "mounting selinux filesystem"
         local SELINUX="$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2)"
         mkdir -p "$BUILDPLACE/$SELINUX"
         mount --bind "$SELINUX" "$BUILDPLACE/$SELINUX"
@@ -325,7 +325,7 @@ function mountproc () {
     MOUNTPARAMS="-obind"
     [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] && MOUNTPARAMS="-t nullfs"
     for mnt in $BINDMOUNTS; do
-        log "I: Mounting $mnt"
+        log.i "Mounting $mnt"
         if mkdir -p "$BUILDPLACE/$mnt" &&
             mount $MOUNTPARAMS "$mnt" "$BUILDPLACE/$mnt"; then
             # successful.
@@ -334,9 +334,9 @@ function mountproc () {
             # this part of code is the only part which is supposed to fail.
             # When unsuccessful, backtrack / umount and abort.
             if [ -n "${mounted[*]}" ]; then
-                log "I: error recovery: umount successfully mounted mount-points: ${mounted[@]}"
+                log.i "error recovery: umount successfully mounted mount-points: ${mounted[@]}"
                 for umnt in "${mounted[@]}"; do
-                    log "I: umounting $umnt"
+                    log.i "umounting $umnt"
                     umount "$umnt"
                 done
             fi
@@ -344,9 +344,9 @@ function mountproc () {
         fi
     done
     if [ -f "$BUILDPLACE/usr/sbin/policy-rc.d" ]; then
-        log "I: policy-rc.d already exists"
+        log.i "policy-rc.d already exists"
     else
-        log "I: installing dummy policy-rc.d"
+        log.i "installing dummy policy-rc.d"
         echo "\
 #!/bin/sh
 
@@ -374,7 +374,7 @@ function clean_subdirectories () {
       log "W: directory $1 does not exist in clean_subdirectories"
       return;
   fi
-  log "I: removing directory $1 and its subdirectories"
+  log.i "removing directory $1 and its subdirectories"
   find "$1" -xdev \( \! -type d \) -print0 |xargs -0 rm -f
   find "$1" -xdev -depth -type d -print0 | \
       (xargs -0 rmdir || true)
@@ -400,7 +400,7 @@ function cleanbuildplace () {
             if mount |grep -q -F " $(readlink -f "$BUILDPLACE")/"; then
                 log "E: Something is still mounted under ${BUILDPLACE}; unmount and remove ${BUILDPLACE} manually"
             else
-                log "I: cleaning the build env "
+                log.i "cleaning the build env "
                 clean_subdirectories "$BUILDPLACE"
             fi
         fi;
@@ -423,7 +423,7 @@ function saveaptcache_umountproc_cleanbuildplace () {
 }
 
 function installaptlines (){
-    log "I: Installing apt-lines"
+    log.i "Installing apt-lines"
     rm -f "$BUILDPLACE"/etc/apt/sources.list
     if [ -z "$DISTRIBUTION" ]; then
         log "E: Distribution not specified, please specify"
@@ -439,12 +439,12 @@ deb $MIRRORSITE $DISTRIBUTION $COMPONENTS
 EOF
     fi
     if [ -n "$APTCONFDIR" ]; then
-        log "I: Copy " "$APTCONFDIR"/* " to chroot"
+        log.i "Copy " "$APTCONFDIR"/* " to chroot"
         cp -a "$APTCONFDIR/"* "$BUILDPLACE"/etc/apt
     fi
 
     if [ ! -d "$BUILDPLACE"/etc/apt/apt.conf.d ]; then
-        log "I: Create /etc/apt/apt.conf.d/ inside chroot"
+        log.i "Create /etc/apt/apt.conf.d/ inside chroot"
         mkdir "$BUILDPLACE"/etc/apt/apt.conf.d
     fi
 
@@ -454,7 +454,7 @@ APT::Install-Recommends "false";
 Acquire::Languages none;
 EOF
     if [ -n "$EXPERIMENTAL" ]; then
-        log "I: Installing apt-lines and pinning for experimental"
+        log.i "Installing apt-lines and pinning for experimental"
         if [ -n "$MIRRORSITE" ] ; then
             echo "deb $MIRRORSITE experimental main" >> "$BUILDPLACE"/etc/apt/sources.list
             echo "#deb-src $MIRRORSITE experimental main" >> "$BUILDPLACE"/etc/apt/sources.list
@@ -466,9 +466,9 @@ EOF
 }
 
 function copy_local_configuration () {
-    log "I: copying local configuration"
+    log.i "copying local configuration"
     if [ -n "$CONFDIR" ] && [ -d "$CONFDIR" ]; then
-        log "I: copying files from $CONFDIR (if possible) instead of using the system ones"
+        log.i "copying files from $CONFDIR (if possible) instead of using the system ones"
     fi
     for a in hosts hostname resolv.conf mailname; do
         if [ -n "$CONFDIR" ] && [ -f "$CONFDIR/$a" ]; then
@@ -489,12 +489,12 @@ function extractbuildplace () {
 
     if [ "${INTERNAL_BUILD_UML}" != "yes" -a ! \( "${PRESERVE_BUILDPLACE}" = "yes" -a -d "$BUILDPLACE" \) ]; then
         cleanbuildplace
-        log "I: Building the build Environment"
+        log.i "Building the build Environment"
         if ! mkdir -p "$BUILDPLACE"; then
             log "E: failed to build the directory to chroot"
             exit 1
         fi
-        log "I: extracting base tarball [${BASETGZ}]"
+        log.i "extracting base tarball [${BASETGZ}]"
         if [ ! -f "$BASETGZ" ]; then
             log "E: failed to find $BASETGZ, have you done <pbuilder create> to create your base tarball yet?"
             exit 1
@@ -547,8 +547,8 @@ function extractbuildplace () {
 }
 
 function echobacktime () {
-    log "I: Current time: $(date)"
-    log "I: pbuilder-time-stamp: $(date +%s)"
+    log.i "Current time: $(date)"
+    log.i "pbuilder-time-stamp: $(date +%s)"
 }
 
 function recover_aptcache() {
@@ -560,7 +560,7 @@ function recover_aptcache() {
         else
             doit=cp
         fi
-        log "I: Obtaining the cached apt archive contents"
+        log.i "Obtaining the cached apt archive contents"
         find "$APTCACHE" -maxdepth 1 -name \*.deb | \
             while read A ; do
             $doit "$A" "$BUILDPLACE/var/cache/apt/archives/" || true
@@ -573,7 +573,7 @@ function save_aptcache() {
     # it is safe to call this function several times.
     local doit
     if [ -n "$APTCACHE" ]; then
-        log "I: Copying back the cached apt archive contents"
+        log.i "Copying back the cached apt archive contents"
         mkdir -p "$APTCACHE" ;
         if [ "$APTCACHEHARDLINK" = "yes" ]; then
             doit=ln
@@ -583,7 +583,7 @@ function save_aptcache() {
         find "$BUILDPLACE/var/cache/apt/archives/" -maxdepth 1 -name \*.deb | \
             while read A ;do
             if [ ! -f "$APTCACHE/$(basename "$A")" -a -f "$A" ]; then
-                log "I: new cache content '$(basename "$A")' added"
+                log.i "new cache content '$(basename "$A")' added"
                 $doit "$A" "$APTCACHE/" || true
             fi
         done
@@ -600,10 +600,10 @@ function create_basetgz() {
             exit 1;
         fi
         while test -f "${BASETGZ}.tmp"; do
-            log "I: Someone else has lock over ${BASETGZ}.tmp, waiting"
+            log.i "Someone else has lock over ${BASETGZ}.tmp, waiting"
             sleep 10s
         done
-        log "I: creating base tarball [${BASETGZ}]"
+        log.i "creating base tarball [${BASETGZ}]"
     if [ -h "$BUILDPLACE/tmp/buildd" ] && [ "$(readlink -f "$BUILDPLACE/tmp/buildd")" = "${BUILDPLACE}$BUILDDIR" ]; then
         rm "$BUILDPLACE/tmp/buildd"
     fi
@@ -624,7 +624,7 @@ function copyinputfile() {
         exit 1x
     fi
     if [ -n "$INPUTFILE" ]; then
-        log "I: copy ${INPUTFILE[*]} to target directory"
+        log.i "copy ${INPUTFILE[*]} to target directory"
         cp "${INPUTFILE[@]}" "${TARGETDIR}"
     fi
 }
@@ -674,7 +674,7 @@ function conditional_cp_a() {
     if [ "${parent_dir}" != "${target_dir}" ]; then
         "$cp" -a "$source_file" "$target_dir"
     else
-        log "I: file ${source_file} is already in target, not copying."
+        log.i "file ${source_file} is already in target, not copying."
     fi
 }
 
@@ -682,7 +682,7 @@ function add_additional_aptkeyrings() {
 # To support package verification inside the repository we may have to import
 # additional keys.
     for KEY in "${APTKEYRINGS[@]}"; do
-        log "I: adding apt key file ${KEY}."
+        log.i "adding apt key file ${KEY}."
         $CHROOTEXEC /usr/bin/apt-key add - < "${KEY}" > /dev/null
     done
 }

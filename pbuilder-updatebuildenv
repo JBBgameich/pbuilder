@@ -21,7 +21,7 @@ set -e
 . "${BASH_SOURCE%/*}/pbuilder-checkparams"
 
 if [ -n "$DISTRIBUTION" ] && [ "$OVERRIDE_APTLINES" = "yes" ]; then
-    log "I: Upgrading for distribution $DISTRIBUTION" 
+    log.i "Upgrading for distribution $DISTRIBUTION" 
 fi
 if [ "${PBUILDER_DEBUGMODE}" = "yes" ]; then
     TRAP="echo ignoring trap "
@@ -35,8 +35,8 @@ echobacktime
 extractbuildplace
 $TRAP umountproc_cleanbuildplace_trap exit sighup
 
-log "I: Refreshing the base.tgz "
-log "I: upgrading packages"
+log.i "Refreshing the base.tgz "
+log.i "upgrading packages"
 $CHROOTEXEC /usr/bin/apt-get -q "${APTGETOPT[@]}" update
 
 
@@ -74,7 +74,7 @@ recover_aptcache
 $TRAP saveaptcache_umountproc_cleanbuildplace_trap exit sighup
 if [ "$DEBDELTA" = "yes" ]; then
     if $CHROOTEXEC hash debdelta-upgrade 2> /dev/null ; then
-        log "I: Using debdelta-upgrade for available deltas"
+        log.i "Using debdelta-upgrade for available deltas"
         if $CHROOTEXEC debdelta-upgrade ; then
             :
         else
@@ -104,13 +104,13 @@ add_additional_aptkeyrings
 
 # optionally auto-clean apt-cache
 if [ "${AUTOCLEANAPTCACHE}" = "yes" -a -n "$APTCACHE" ]; then
-    log "I: Cleaning the cached apt archive"
+    log.i "Cleaning the cached apt archive"
     $CHROOTEXEC /usr/bin/apt-get autoclean || true
     find "$APTCACHE/" -maxdepth 1 -name \*.deb | \
 	while read A; do
 	    if [ ! -f "$BUILDPLACE/var/cache/apt/archives/$(basename "$A")" -a \
 		-f "$A" ]; then
-		log "I: obsolete cache content "$(basename "$A")" removed"
+		log.i "obsolete cache content "$(basename "$A")" removed"
 		rm -f "$A" || true
 	    fi
     done

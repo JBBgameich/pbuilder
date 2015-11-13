@@ -165,7 +165,7 @@ while [ -n "$1" ]; do
 	    shift; shift;
 	    ;;
 	--logfile)
-	    log "I: Logging to $2"
+	    log.i "Logging to $2"
 	    exec > >(tee "$2") 2>&1
 	    PBUILDER_BUILD_LOGFILE=$(readlink -f "$2")
 	    shift; shift;
@@ -255,13 +255,13 @@ while [ -n "$1" ]; do
 	    ;;
 	--no-targz)
 	    # specify this option if I am running in no-targz mode
-	    log "I: Running in no-targz mode"
+	    log.i "Running in no-targz mode"
 	    INTERNAL_BUILD_UML="yes"
 	    shift; 
 	    ;;
 	--internal-build-uml)
 	    # specify this option if I am running inside UML.
-	    log "I: Running in pbuilder-user-mode-linux mode"
+	    log.i "Running in pbuilder-user-mode-linux mode"
 	    INTERNAL_BUILD_UML="yes"
 	    IGNORE_UMOUNT="no"
 	    shift; 

@@ -37,7 +37,7 @@ function copydsc () {
     local DSCFILE=$(getdscfiles "$1")
     local TARGET="$2"
     for FILE in ${DSCFILE[@]} ; do
-    log "I: copying [$FILE]"
+    log.i "copying [$FILE]"
         cp -p "$FILE" "$TARGET" 
     done
 }
@@ -68,8 +68,8 @@ function checkbuilddep () {
 
 function showbuildbanner () {
     # show some banners for building
-    log "I: pbuilder-buildpackage/"$(dpkg --print-architecture) 
-    log "I: $1"
+    log.i "pbuilder-buildpackage/"$(dpkg --print-architecture) 
+    log.i "$1"
 }
 
 function cowprotect () {
@@ -114,7 +114,7 @@ function createbuilduser () {
 
 function setup_ccache() {
     if [ -n "$CCACHEDIR" ]; then
-        log "I: Setting up ccache"
+        log.i "Setting up ccache"
         if ! [ -d "$BUILDPLACE/$CCACHEDIR" ]; then
             mkdir -p "$BUILDPLACE/$CCACHEDIR"
         fi

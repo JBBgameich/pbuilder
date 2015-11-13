@@ -65,7 +65,7 @@ if [ "${USE_PDEBUILD_INTERNAL}" = 'yes' ]; then
 	done
 	conditional_cp_a ../${CHANGES} "${BUILDRESULT}"
 	for files in "${ADDITIONAL_BUILDRESULTS[@]}"; do
-	    log "I: Trying to save additional result ${files}"
+	    log.i "Trying to save additional result ${files}"
 	    conditional_cp_a "${files}" "${BUILDRESULT}" || true
         done
     else

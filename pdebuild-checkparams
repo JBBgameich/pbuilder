@@ -89,13 +89,13 @@ while [ -n "$1" ]; do
 	    shift;
 	    ;;
 	--logfile)
-	    log "I: Logging to $2"
+	    log.i "Logging to $2"
 	    PBUILDER_BUILD_LOGFILE=$(readlink -f $2)
 	    exec > >(tee "$2") 2>&1
 	    shift; shift;
 	    ;;
 	--pbuilder)
-	    log "I: using $2 as pbuilder"
+	    log.i "using $2 as pbuilder"
 	    PDEBUILD_PBUILDER="$2"
 	    shift; shift;
 	    ;;
