@@ -52,7 +52,7 @@ case $USENETWORK in
     yes)
         if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
             # omit the warning when running on kFreeBSD or Hurd
-            log "W: pbuilder: network will not be disabled during build!"
+            log.w "pbuilder: network will not be disabled during build!"
         fi
         ;;
     *)
@@ -63,7 +63,7 @@ case $USENETWORK in
         else
             USENETWORK=yes
             if [ "$DEB_BUILD_ARCH_OS" = "linux" ]; then
-                log "W: pbuilder: unshare CLONE_NEWNET not available"
+                log.w "pbuilder: unshare CLONE_NEWNET not available"
             fi
             log.i "pbuilder: network access is available during build!"
         fi

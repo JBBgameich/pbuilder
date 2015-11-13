@@ -74,7 +74,7 @@ if [ "${USE_PDEBUILD_INTERNAL}" = 'yes' ]; then
     fi
 else
     if ! dpkg-checkbuilddeps -B ; then
-	log "W: Unmet build-dependency in source"
+	log.w "Unmet build-dependency in source"
     fi
     echo "dpkg-buildpackage -S -d -us -uc -r${BUILDSOURCEROOTCMD} $DEBBUILDOPTS" | \
 	perl -pe 's/(^|\s)['\'']?-[AbBFgG]['\'']?(\s|$)/$1$2/g' | \

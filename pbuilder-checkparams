@@ -97,7 +97,7 @@ while [ -n "$1" ]; do
 		    BUILDRESULT=$(readlink -f "$2");
 		else
 		    BUILDRESULT="$2"
-		    log "W: Build-result Directory $2 does not exist"
+		    log.w "Build-result Directory $2 does not exist"
 		    # warn, but make it progress.
 		fi
 	    else

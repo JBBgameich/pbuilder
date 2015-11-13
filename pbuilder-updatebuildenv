@@ -78,10 +78,10 @@ if [ "$DEBDELTA" = "yes" ]; then
         if $CHROOTEXEC debdelta-upgrade ; then
             :
         else
-            log "W: debdelta failed, continue and use plain apt to update the system"
+            log.w "debdelta failed, continue and use plain apt to update the system"
         fi
     else
-        log "W: debdelta is enabled but not (yet) installed, not using it"
+        log.w "debdelta is enabled but not (yet) installed, not using it"
     fi
 fi
 
