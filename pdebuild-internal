@@ -69,7 +69,7 @@ while [ -n "$1" ]; do
 	    shift;
 	    ;;
 	--*)
-	    log "E: Unknown option [$1] was specified "
+	    log.e "Unknown option [$1] was specified "
 	    exit 1;
 	    ;;
 	*)

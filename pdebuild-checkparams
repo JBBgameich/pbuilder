@@ -47,7 +47,7 @@ while [ -n "$1" ]; do
 	    ;;
 	--configfile)
 	    if [ ! -f "$2" ]; then
-		log "E: Config file $2 does not exist"
+		log.e "Config file $2 does not exist"
 		exit 1
 	    fi
 	    . "$2";
@@ -107,7 +107,7 @@ while [ -n "$1" ]; do
 	    break;
 	    ;;
 	--*)
-	    log "E: Unknown option [$1] was specified "
+	    log.e "Unknown option [$1] was specified "
 	    exit 1;
 	    ;;
 	*)

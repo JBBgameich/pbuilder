@@ -26,7 +26,7 @@ set -e
 
 PACKAGENAME="$1"
 if [ ! -f "$PACKAGENAME" ]; then
-    log "E: Command line parameter [$PACKAGENAME] does not exist"
+    log.e "Command line parameter [$PACKAGENAME] does not exist"
     exit 1;
 fi;
 
@@ -86,7 +86,7 @@ if [ ! -d "${BUILDRESULT}" ]; then
     if [ -d "${BUILDRESULT}" ]; then
         log.i "created buildresult dir: ${BUILDRESULT}"
     else
-        log "E: failed creating buildresult dir: ${BUILDRESULT}"
+        log.e "failed creating buildresult dir: ${BUILDRESULT}"
         exit 1
     fi
 fi
@@ -128,13 +128,13 @@ log.i "Extracting source"
 if echo "chown $BUILDUSERNAME:$BUILDUSERNAME $BUILDDIR $BUILDDIR/*" | $CHROOTEXEC /bin/bash; then
     : # success
 else
-    log "E: pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
+    log.e "pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
     exit 1;
 fi
 if echo "( cd $BUILDDIR; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename "$PACKAGENAME") )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
     : # success
 else
-    log "E: pbuilder: Failed extracting the source"
+    log.e "pbuilder: Failed extracting the source"
     exit 1;
 fi
 
@@ -172,7 +172,7 @@ fi
 if ! wait "${BUILD_PID}"; then
     trap umountproc_cleanbuildplace_trap exit sighup sigpipe
     eval "${KILL_WAIT_PID}"
-    log "E: Failed autobuilding of package"
+    log.e "Failed autobuilding of package"
     executehooks "C"
     exit 1;
 else
@@ -200,7 +200,7 @@ if [ -d "${BUILDRESULT}" ]; then
     done
     executehooks "I"
 else
-    log "E: BUILDRESULT=[$BUILDRESULT] is not a directory."
+    log.e "BUILDRESULT=[$BUILDRESULT] is not a directory."
 fi
 
 :

@@ -57,7 +57,7 @@ function checkbuilddep () {
         if [ $? -eq 2 -a "${PRESERVE_BUILDPLACE}" = "yes" ]; then
             trap umountproc_trap exit sighup
         fi
-        log "E: pbuilder-satisfydepends failed."
+        log.e "pbuilder-satisfydepends failed."
         exit 2
     fi
     # install extra packages to the chroot

@@ -42,7 +42,7 @@ cleanbuildplace
 log.i "Building the build environment"
 mkdir -p "$BUILDPLACE"
 if [ ! -d "$BUILDPLACE" ]; then
-    log "E: Could not make directory [$BUILDPLACE]"
+    log.e "Could not make directory [$BUILDPLACE]"
     exit 1
 fi
 
@@ -60,7 +60,7 @@ fi
 if which "${DEBOOTSTRAP}"; then
     : # debootstrap exists
 else
-    log "E: ${DEBOOTSTRAP} does not exist, install or change DEBOOTSTRAP option"
+    log.e "${DEBOOTSTRAP} does not exist, install or change DEBOOTSTRAP option"
     exit 1
 fi
 
@@ -75,7 +75,7 @@ if ! ( "${DEBOOTSTRAP}" \
     "$BUILDPLACE" \
     "$MIRRORSITE" \
     $DEBOOTSTRAPSCRIPT ) ; then
-    log "E: $DEBOOTSTRAP failed"
+    log.e "$DEBOOTSTRAP failed"
     exit 1
 fi
 

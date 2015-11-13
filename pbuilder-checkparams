@@ -49,7 +49,7 @@ while [ -n "$1" ]; do
 		    touch "$2";;
 	    esac
 	    if [ ! -f "$2" ]; then
-		log "E: File $2 does not exist"
+		log.e "File $2 does not exist"
 		exit 1
 	    fi
 	    BASETGZ=$(readlink -f "$2");
@@ -57,7 +57,7 @@ while [ -n "$1" ]; do
 	    ;;
 	--buildplace)
 	    if [ ! -d "$2" ] ; then
-		log "E: Directory $2 does not exist"
+		log.e "Directory $2 does not exist"
 		exit 1
 	    fi
 	    BUILDPLACE=$(readlink -f "$2");
@@ -116,7 +116,7 @@ while [ -n "$1" ]; do
 		if [ -d "$2" ]; then
 		    APTCACHE=$(readlink -f "$2");
 		else
-		    log "E: Directory $2 does not exist"
+		    log.e "Directory $2 does not exist"
 		    exit 1
 		fi
 	    else
@@ -134,7 +134,7 @@ while [ -n "$1" ]; do
 	    ;;
 	--configfile)
 	    if [ ! -f "$2" ]; then
-		log "E: Config file $2 does not exist"
+		log.e "Config file $2 does not exist"
 		exit 1
 	    fi
 	    . "$2";
@@ -231,7 +231,7 @@ while [ -n "$1" ]; do
 	    ;;
 	--inputfile)
 	    if [ ! -f "$2" ]; then
-		log "E: Input file $2 does not exist"
+		log.e "Input file $2 does not exist"
 		exit 1
 	    fi
 	    INPUTFILE[${#INPUTFILE[@]}]="$2";
@@ -275,7 +275,7 @@ while [ -n "$1" ]; do
 	    break;
 	    ;;
 	--*)
-	    log "E: Unknown option [$1] was specified "
+	    log.e "Unknown option [$1] was specified "
 	    exit 1;
 	    ;;
 	*)

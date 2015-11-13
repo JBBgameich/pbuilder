@@ -367,7 +367,7 @@ done
 ## function to clean subdirs, use instead of rm -r
 function clean_subdirectories () {
   if [ -z "$1" ]; then
-      log "E: Fatal internal error in clean_subdirectories"
+      log.e "Fatal internal error in clean_subdirectories"
       exit 1;
   fi
   if [ ! -d "$1" ]; then
@@ -398,7 +398,7 @@ function cleanbuildplace () {
             # $BUILDPLACE (no dirty double slashes for *us*), so it matches
             # what will be in the output of mount.
             if mount |grep -q -F " $(readlink -f "$BUILDPLACE")/"; then
-                log "E: Something is still mounted under ${BUILDPLACE}; unmount and remove ${BUILDPLACE} manually"
+                log.e "Something is still mounted under ${BUILDPLACE}; unmount and remove ${BUILDPLACE} manually"
             else
                 log.i "cleaning the build env "
                 clean_subdirectories "$BUILDPLACE"
@@ -426,7 +426,7 @@ function installaptlines (){
     log.i "Installing apt-lines"
     rm -f "$BUILDPLACE"/etc/apt/sources.list
     if [ -z "$DISTRIBUTION" ]; then
-        log "E: Distribution not specified, please specify"
+        log.e "Distribution not specified, please specify"
         exit 1
     fi
     if [ -n "$OTHERMIRROR" ]; then
@@ -491,16 +491,16 @@ function extractbuildplace () {
         cleanbuildplace
         log.i "Building the build Environment"
         if ! mkdir -p "$BUILDPLACE"; then
-            log "E: failed to build the directory to chroot"
+            log.e "failed to build the directory to chroot"
             exit 1
         fi
         log.i "extracting base tarball [${BASETGZ}]"
         if [ ! -f "$BASETGZ" ]; then
-            log "E: failed to find $BASETGZ, have you done <pbuilder create> to create your base tarball yet?"
+            log.e "failed to find $BASETGZ, have you done <pbuilder create> to create your base tarball yet?"
             exit 1
         fi
         if ! (cd "$BUILDPLACE" && tar -x --use-compress-program "$COMPRESSPROG" -p -f "$BASETGZ"); then
-            log "E: failed to extract $BASETGZ to $BUILDPLACE"
+            log.e "failed to extract $BASETGZ to $BUILDPLACE"
             exit 1
         fi
     fi
@@ -596,7 +596,7 @@ function create_basetgz() {
     # create base.tgz
     (
         if ! cd "$BUILDPLACE"; then
-            log "E: unexpected error in chdir to $BUILDPLACE"
+            log.e "unexpected error in chdir to $BUILDPLACE"
             exit 1;
         fi
         while test -f "${BASETGZ}.tmp"; do
@@ -608,7 +608,7 @@ function create_basetgz() {
         rm "$BUILDPLACE/tmp/buildd"
     fi
         if ! tar -c --use-compress-program "$COMPRESSPROG" -f "${BASETGZ}.tmp" ./* ; then
-            log "E: failed building base tarball"
+            log.e "failed building base tarball"
             rm -f "${BASETGZ}.tmp"
             exit 1;
         fi
@@ -620,7 +620,7 @@ function copyinputfile() {
     # copy files to inside chroot, copy all files specified by INPUTFILE[] parameter.
     TARGETDIR="$1"
     if [ -z "$TARGETDIR" ]; then
-        log "E: Unexpected error in copyinputfile"
+        log.e "Unexpected error in copyinputfile"
         exit 1x
     fi
     if [ -n "$INPUTFILE" ]; then

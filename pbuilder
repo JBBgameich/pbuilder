@@ -77,7 +77,7 @@ File extracted to: $BUILDPLACE
 	# saving the place afterwards
 	if [ "${SAVE_AFTER_LOGIN}" = "yes" ]; then
 	    if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
-		log "E: Invalid combination of internal-build-uml and save-after-login flags"
+		log.e "Invalid combination of internal-build-uml and save-after-login flags"
 		exit 1
 	    else
 		log.i "Saving the results, modifications to this session will persist"
@@ -101,7 +101,7 @@ File extracted to: $BUILDPLACE
 	EXECPROGRAM="$1"
 	shift
 	if [ ! -f "${EXECPROGRAM}" ]; then
-	    log "E: Command line parameter [$EXECPROGRAM] does not exist"
+	    log.e "Command line parameter [$EXECPROGRAM] does not exist"
 	    exit 1;
 	fi;
 	extractbuildplace
@@ -125,7 +125,7 @@ File extracted to: $BUILDPLACE
 	# saving the place afterwards
 	if [ "${SAVE_AFTER_LOGIN}" = "yes" ]; then
 	    if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
-		log "E: Invalid combination of internal-build-uml and save-after-login flags"
+		log.e "Invalid combination of internal-build-uml and save-after-login flags"
 	    else
 		log.i "Saving the results, modifications to this session will persist"
 		umountproc
