@@ -156,3 +156,16 @@ expect_output() {
     fi
 }
 
+expect_stderr() {
+    # we need to use 2 subshells, one which discards the stdout, and the other
+    # that redirects stderr to stdout so that it can be saved to the variable
+    local val result
+    val="$1"
+    shift
+    result="$( { "$@" >/dev/null; }  2>&1)" || true
+    if [ "$result" = "$val" ]; then
+        testlib_echo "OK" "$1"
+    else
+        testlib_echo "FAIL" "$1" "expected [$val] but got [$result]"
+    fi
+}
