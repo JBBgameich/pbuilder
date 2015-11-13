@@ -116,6 +116,18 @@ function log() {
     esac
 }
 
+log.e() {
+    log "E: $*"
+}
+
+log.w() {
+    log "W: $*"
+}
+
+log.i() {
+    log "I: $*"
+}
+
 # test whether a directory is empty
 # fails if "$*" exists but isn't a directory
 # fails and outputs garbage if "$*" doesn't actually exist

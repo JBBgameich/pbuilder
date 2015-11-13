@@ -18,6 +18,15 @@ expect_output "I: test
 W: warning
 E: error" test_information
 
+function test_log() {
+    log.i "info"
+    log.w "warn"
+    log.e "error"
+}
+expect_output "I: info
+W: warn
+E: error" test_log
+
 # test the non-copy case
 function test_conditional_cp_a() {
     (
