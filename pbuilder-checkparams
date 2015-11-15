@@ -319,20 +319,19 @@ fi
 
 case "$PBCURRENTCOMMANDLINEOPERATION" in 
     --login|login|--execute|execute|--pdebuild|pdebuild)
-	# don't do anything if it is "login", or pdebuild
-	;;
+        # don't do anything if it is "login", or pdebuild
+        ;;
     *)
-# line from kobras@debian.org
-	if [ "$DEBIAN_FRONTEND" = "noninteractive" -o "$DEBIAN_FRONTEND" = "Noninteractive" ]; then
-	    exec < /dev/null
-
-	    # set variables used in the upgrade option.
-	    FORCE_CONFNEW[0]='-o'
-	    FORCE_CONFNEW[1]='DPkg::Options::=--force-confnew'
-	else
-	    unset FORCE_CONFNEW || true
-	fi
-	;;
+        # line from kobras@debian.org
+        if [ "$DEBIAN_FRONTEND" = "noninteractive" -o "$DEBIAN_FRONTEND" = "Noninteractive" ]; then
+            exec < /dev/null
+            # set variables used in the upgrade option.
+            FORCE_CONFNEW[0]='-o'
+            FORCE_CONFNEW[1]='DPkg::Options::=--force-confnew'
+        else
+            unset FORCE_CONFNEW || true
+        fi
+        ;;
 esac
 
 if [ -n "$CCACHEDIR" ]; then
