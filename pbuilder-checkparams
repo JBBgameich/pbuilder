@@ -310,12 +310,18 @@ case "$LOGLEVEL" in
 esac
 
 # handle 'experimental' specially. -- required for raw pbuilder (create/update) only.
-if [ "$DISTRIBUTION" = "experimental" ]; then
-    DISTRIBUTION="sid"
-    EXPERIMENTAL="true"
-else 
-    EXPERIMENTAL=
-fi
+case "$PBCURRENTCOMMANDLINEOPERATION" in
+    --update|update|--create|create)
+        if [ "$DISTRIBUTION" = "experimental" ]; then
+            DISTRIBUTION="sid"
+            EXPERIMENTAL="true"
+        else
+            EXPERIMENTAL=""
+        fi
+        ;;
+    *) EXPERIMENTAL="" ;;
+esac
+
 
 case "$PBCURRENTCOMMANDLINEOPERATION" in 
     --login|login|--execute|execute|--pdebuild|pdebuild)
