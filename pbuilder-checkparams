@@ -132,6 +132,10 @@ while [ -n "$1" ]; do
 	    REMOVEPACKAGES="$2";
 	    shift; shift;
 	    ;;
+	--loglevel)
+		LOGLEVEL="$2"
+		shift; shift;
+		;;
 	--configfile)
 	    if [ ! -f "$2" ]; then
 		log.e "Config file $2 does not exist"
@@ -294,6 +298,16 @@ fi
 if [ -z "${CHROOTEXEC}" ]; then
     CHROOTEXEC="chroot $BUILDPLACE "
 fi
+
+# sanity check of LOGLEVEL
+case "$LOGLEVEL" in
+    D|I|W|E) ;;
+    *)  # use log() instead of log.e() to override the buggy LOGLEVEL
+        log "E: A non-valid LOGLEVEL has been specified: '${LOGLEVEL}'."
+        log "E: Valid values are D, I, W, E"
+        exit 1
+        ;;
+esac
 
 # handle 'experimental' specially. -- required for raw pbuilder (create/update) only.
 if [ "$DISTRIBUTION" = "experimental" ]; then

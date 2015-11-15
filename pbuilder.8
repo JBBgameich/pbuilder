@@ -356,6 +356,18 @@ The messages generated during execution will be written to the specified file,
 and the standard output.
 
 .TP
+.BI "\-\-loglevel " "I"
+Specify how much output you want from pbuilder, valid values are
+.BR E
+(errors only),
+.BR W
+(errors and warnings),
+.BR I
+(errors, warnings and informational) and
+.BR D
+(everything including some debug messages).
+
+.TP
 .BI "\-\-binary\-arch"
 
 Specify to build architecture specific targets instead of all targets.

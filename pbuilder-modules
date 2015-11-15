@@ -117,15 +117,24 @@ function log() {
 }
 
 log.e() {
-    log "E: $*"
+    case "$LOGLEVEL" in
+        D|I|W|E) log "E: $*" ;;
+    esac
 }
-
 log.w() {
-    log "W: $*"
+    case "$LOGLEVEL" in
+        D|I|W) log "W: $*" ;;
+    esac
 }
-
 log.i() {
-    log "I: $*"
+    case "$LOGLEVEL" in
+        D|I) log "I: $*" ;;
+    esac
+}
+log.d() {
+    case "$LOGLEVEL" in
+        D) log "D: $*" ;;
+    esac
 }
 
 # test whether a directory is empty

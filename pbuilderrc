@@ -1,6 +1,13 @@
 # pbuilder defaults; edit /etc/pbuilderrc to override these and see
 # pbuilderrc.5 for documentation
 
+# Set how much output you want from pbuilder, valid values are
+# E => errors only
+# W => errors and warnings
+# I => errors, warnings and informational
+# D => all of the above and debug messages
+LOGLEVEL=I
+
 BASETGZ=/var/cache/pbuilder/base.tgz
 #EXTRAPACKAGES=""
 #export DEBIAN_BUILDARCH=athlon
