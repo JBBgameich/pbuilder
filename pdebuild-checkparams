@@ -101,6 +101,7 @@ while [ -n "$1" ]; do
 	    ;;
 	--help)
 	    showhelp
+	    exit 0
 	    ;;
 	--) # end of processing for this
 	    shift;
