@@ -9,10 +9,11 @@
 
 # the main XML file which is source to all documents
 MASTERXML=pbuilder-doc.xml
+MASTERPOT=pbuilder-doc.po
 HTMLDOCS= pbuilder-doc.html pbuilder-doc.ja.html pbuilder-doc.fr.html pbuilder-doc.de.html
 ALIOTH_FILEHOSTING:=alioth.debian.org
 
-all: $(HTMLDOCS)
+all: $(MASTERPOT) $(HTMLDOCS)
 
 %.html: %.xml pbuilder-doc.xsl
 	xsltproc pbuilder-doc.xsl $< > $@.tmp
@@ -32,6 +33,9 @@ install: $(HTMLDOCS) pbuilder-doc.pdf
 	install -d -m 755 -o root -g root $(DESTDIR)/usr/share/doc/pbuilder/
 	install -m 644 -o root -g root $(HTMLDOCS) $(DESTDIR)/usr/share/doc/pbuilder/
 	install -m 644 -o root -g root pbuilder-doc.pdf $(DESTDIR)/usr/share/doc/pbuilder/
+
+$(MASTERPOT):
+	po4a-gettextize -f docbook -m $(MASTERXML) -p $(MASTERPOT)
 
 preview: pbuilder-doc.html
 	mozilla-firefox -remote "openfile($(PWD)/$<)"
