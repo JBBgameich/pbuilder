@@ -80,7 +80,6 @@ pdebuild-specific pbuilder options:
 
 For the full documentation see the manual pages pbuilder(8) and pbuilderrc(5).
 EOF
-    exit 1
 }
 
 # Log a message

@@ -158,9 +158,15 @@ File extracted to: $BUILDPLACE
 	shift
 	"$0" execute "$@" /usr/lib/pbuilder/pdebuild-internal
 	;;
+    --help|help)
+    . /usr/lib/pbuilder/pbuilder-modules
+    showhelp
+    exit 0
+    ;;
     *)
 	. /usr/lib/pbuilder/pbuilder-modules
 	showhelp
+    exit 1
 	;;
 esac
 
