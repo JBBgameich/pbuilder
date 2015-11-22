@@ -180,11 +180,7 @@ else
     # build was successful
 fi
 
-trap umountproc_cleanbuildplace_trap exit sighup sigpipe
 executehooks "B"
-save_aptcache
-trap cleanbuildplace_trap exit sighup sigpipe
-umountproc
 
 if [ -d "${BUILDRESULT}" ]; then
     chown "${BUILDRESULTUID}:${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
@@ -203,6 +199,11 @@ else
     log.e "BUILDRESULT=[$BUILDRESULT] is not a directory."
 fi
 
+# final cleanup
+trap umountproc_cleanbuildplace_trap exit sighup sigpipe
+save_aptcache
+trap cleanbuildplace_trap exit sighup sigpipe
+umountproc
 :
 cleanbuildplace
 trap - exit sighup sigpipe
