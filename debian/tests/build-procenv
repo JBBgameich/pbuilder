@@ -13,8 +13,8 @@ die()
     exit 1
 }
 
-# The package we'll ask sbuild to build (we know its buildable since
-# it's already in the archive :-)
+# The package we'll ask pbuilder to build (we know its buildable since
+# it's already in the archive :-))
 #
 # The advantage of choosing this particular package being that it runs
 # *itself* at the end of its build.
@@ -27,7 +27,8 @@ unset TMPDIR
 
 distro=$(lsb_release --id --short|tr '[A-Z]' '[a-z]' || :)
 [ -z "$distro" ] && die "cannot establish distribution"
-
+arch=$(dpkg --print-architecture 2>/dev/null)
+[ -z "$arch" ] && die "cannot establish architecture"
 host_release=$(lsb_release --codename --short || :)
 [ -z "$host_release" ] && die "cannot establish release running on host"
 
@@ -37,12 +38,15 @@ if [ "$distro" = debian ] ; then
     mirror="http://httpredir.debian.org/debian"
     keyring="/usr/share/keyrings/debian-archive-keyring.gpg"
 elif [ "$distro" = ubuntu ] ; then
+    case "$arch" in
+        amd64|i386) mirror="http://archive.ubuntu.com/ubuntu" ;;
+        *) mirror="http://ports.ubuntu.com" ;;
+    esac
     release=$(distro-info --devel)
     components="main universe"
-    mirror="http://archive.ubuntu.com/ubuntu"
     keyring="/usr/share/keyrings/ubuntu-archive-keyring.gpg"
 else
-    die "need to know where archive is for distro '$distro'"
+    die "need to know where archive is for distro '$distro' on arch '$arch'"
 fi
 
 # Have to redirect stderr to avoid ADT thinking the test has failed
@@ -68,9 +72,6 @@ dsc=$(ls ${pkg}*.dsc)
 
 echo "INFO: Building package '$pkg' for release '$release' from '$dsc'"
 pbuilder --build --debug "$dsc" 2>&1
-
-arch=$(dpkg --print-architecture 2>/dev/null)
-[ -z "$arch" ] && die "cannot establish architecture"
 
 pkg_and_version=$(echo "$dsc"|sed 's/\.dsc$//g')
 deb=${resultdir}/${pkg_and_version}_${arch}.deb
