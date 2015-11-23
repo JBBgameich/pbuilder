@@ -18,9 +18,14 @@ pbuilder (0.220+unreleased) UNRELEASED; urgency=medium
   * {create,update}: consider APTGETOPT also when running apt-get update.
     Closes: #608636
   * make the output level configurable through LOGLEVEL (--loglevel)
-    valid values are D/I/W/E (Closes: #490184)
+    valid values are D/I/W/E.  Closes: #490184
   * pbuilder:
     + add an (undocumented) --help operation.  Exit 0 if the help was requested.
+    + clean: use `rm -f` when removing APTCACHE/*, so we don't fail when there
+      is nothing in it.  Closes: #607607
+    + update: correctly detect if debdelta is available.  Closes: #805392
+    + build: umount as the very last option, due keeping the bindmounts while
+      executing the hooks.  Closes: #805552
   * pdebuild:
     + make debsign work if only a source build was perfomed and only
       _source.changes is available.  Closes: #804905
@@ -28,7 +33,7 @@ pbuilder (0.220+unreleased) UNRELEASED; urgency=medium
   * modules:
     + add 3 log.{i,w,e}() functions to be used instead of log().
       - also use them instead of plain log() everywhere in the code.
-    + style improvments to binNMU().
+    + mainly style improvments to binNMU().
     + short the --help output and point to the manual pages instead.
     + copy /etc/resolv.conf from the host only when USENETWORK=yes.
       Closes: #753944
@@ -38,8 +43,10 @@ pbuilder (0.220+unreleased) UNRELEASED; urgency=medium
     + add an empty POT file in the documentation directory, to ease the work of
       translators.  Closes: #629947
   * t:
-    + testlib: add a expect_stderr(), to explicitely test stderr.
+    + testlib: add a expect_stderr(), to explicitly test stderr.
     + pbuilder-modules: also test the expected stderr from log().
+  * debian/tests/build-procenv: use archive.ubuntu.com for amd64/i386 and
+    ports.ubuntu.com for everything else to fix autopkgtests on ubuntu.
 
  -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 10 Nov 2015 23:04:08 +0000
 
