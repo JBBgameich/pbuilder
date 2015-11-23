@@ -138,6 +138,8 @@ else
     exit 1;
 fi
 
+binNMU
+
 log.i "Building the package"
 
 executehooks "A"
