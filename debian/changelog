@@ -1,4 +1,4 @@
-pbuilder (0.220+unreleased) UNRELEASED; urgency=medium
+pbuilder (0.221) unstable; urgency=medium
 
   [ Reiner Herrmann ]
   * doc/Makefile: make the build reproducible by using a fixed temp dir to
@@ -48,7 +48,7 @@ pbuilder (0.220+unreleased) UNRELEASED; urgency=medium
   * debian/tests/build-procenv: use archive.ubuntu.com for amd64/i386 and
     ports.ubuntu.com for everything else to fix autopkgtests on ubuntu.
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 10 Nov 2015 23:04:08 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 24 Nov 2015 14:04:30 +0000
 
 pbuilder (0.220) unstable; urgency=medium
 
