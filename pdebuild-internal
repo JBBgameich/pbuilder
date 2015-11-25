@@ -39,6 +39,9 @@ cd "$1"
 shift;
 
 # dummy function that does enough, real one is defined elsewhere.
+# We don't deal with LOGLEVEL here, though.
+# We can't just source the modules and use log.{i,w,e} since we don't know if
+# the pbuilder version inside the chroot is new enough.
 function log() {
     echo "$*"
 }
@@ -48,7 +51,7 @@ while [ -n "$1" ]; do
 	--debbuildopts)
 	    # append to DEBBUILDOPTS or reset to empty if $2 isn't set
 	    DEBBUILDOPTS="${2:+${DEBBUILDOPTS:+$DEBBUILDOPTS }$2}";
-	    log.i "Setting DEBBUILDOPTS=$DEBBUILDOPTS"
+	    log "I: Setting DEBBUILDOPTS=$DEBBUILDOPTS"
 	    shift; shift;
 	    ;;
 	--uid)
@@ -69,7 +72,7 @@ while [ -n "$1" ]; do
 	    shift;
 	    ;;
 	--*)
-	    log.e "Unknown option [$1] was specified "
+	    log "E: Unknown option [$1] was specified "
 	    exit 1;
 	    ;;
 	*)
