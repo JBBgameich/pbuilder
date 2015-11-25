@@ -123,3 +123,48 @@ function setup_ccache() {
         unset CCACHE_DIR
     fi
 }
+
+function binNMU() {
+    if [ "$BIN_NMU" == "no" ]; then
+        return
+    fi
+    if [ -z "$BINNMU_MESSAGE" ]; then
+        log.e "No changelog message provided for binNMU entry."
+        exit 1
+    fi
+    if [ -z "$BINNMU_VERSION" ]; then
+        log.w "No version provided for binNMU entry, fall back to 1."
+        BINNMU_VERSION=1
+    fi
+    log.i "Doing a binNMU, version $BINNMU_VERSION to '$BINNMU_MESSAGE'"
+    local cl=$(ls "$BUILDPLACE"/"$BUILDDIR"/*/debian/changelog)
+    local tmpcl=$(mktemp pbuilder.tmpchangelog.XXXXXXXXXXX)
+    if [ ! -f "$cl" ]; then
+        log.e "Cannot open debian/changelog for binNMU version handling."
+        exit 1
+    fi
+    mv "$cl" "$tmpcl"
+    local package=$(dpkg-parsechangelog -l "$tmpcl" -c 1 --show-field Source)
+    local version=$(dpkg-parsechangelog -l "$tmpcl" -c 1 --show-field Version)
+    local arch=$($CHROOTEXEC dpkg-architecture -qDEB_HOST_ARCH)
+    local date=$(date -R)
+    if [ -z "$BINNMU_MAINTAINER" ]; then
+        log.w "No maintainer provided for binNMU entry, fall back to last uploader."
+        BINNMU_MAINTAINER=$(dpkg-parsechangelog -l $tmpcl -c 1 --show-field Maintainer)
+    fi
+    if [ -z "$DISTRIBUTION" ]; then
+        log.w "No distribution provided, using the field from the last upload"
+        DISTRIBUTION=$(dpkg-parsechangelog -l "$tmpcl" -c 1 --show-field Distribution)
+    fi
+    DEBBUILDOPTS="${DEBBUILDOPTS} -e\"$BINNMU_MAINTAINER\""
+    cat > "$cl" << EOF
+$package ($version+b$BINNMU_VERSION) $DISTRIBUTION; urgency=low, binary-only=yes
+  * Binary-only non-maintainer upload for $arch; no source changes.
+  * $BINNMU_MESSAGE
+
+ -- $BINNMU_MAINTAINER  $date
+
+EOF
+    cat "$tmpcl" >> "$cl"
+    rm "$tmpcl"
+}
