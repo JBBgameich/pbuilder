@@ -1,8 +1,18 @@
-pbuilder (0.221+unreleased) UNRELEASED; urgency=medium
+pbuilder (0.221.1) unstable; urgency=medium
 
-  * do stuff.
+  * pbuilder-apt-config: update the hardcoded list of releases/architectures of
+    ubuntu and debian.  This fixes autopkgtest when run on ppc64el.
+  * create:  load hooks before trying to execute them.  Closes: #806187
+  * pdebuild-internal: revert back to plain log() instead of log.{i,e}().
+  * buildpackage: move the binNMU() function from modules to buildpackage-funcs,
+    where it fits better.
+  * runhooks: move (un)loadhooks() and executehooks() to pbuilder-modules.
+    Merging the file means the hooks can use functions from the modules and
+    viceversa safely; otherwise we would need both the scripts to source the
+    other and this is not supported in bash.
+    Thanks to Holger to notice this broke with the last release.
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Tue, 24 Nov 2015 14:18:28 +0000
+ -- Mattia Rizzolo <mattia@mapreri.org>  Wed, 25 Nov 2015 23:56:26 +0000
 
 pbuilder (0.221) unstable; urgency=medium
 
