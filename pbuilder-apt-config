@@ -59,15 +59,15 @@ guess_dist_arch_archive() {
       etch|lenny|squeeze|sid|oldstable|stable|testing|unstable|experimental)
         echo "debian"
       ;;
-      buzz|rex|bo|hamm|slink|potato|woody|sarge|etch|lenny|squeeze)
+      buzz|rex|bo|hamm|slink|potato|woody|sarge|etch|lenny|squeeze|wheezy|jessie|stretch|buster)
         echo "debian-archive"
       ;;
-      dapper|hardy|intrepid|jaunty|karmic|lucid)
+      lucid|precise|trusty|vivid|wily|xenial)
         case "$arch" in
           amd64|i386)
             echo "ubuntu"
           ;;
-          armel|armhf|hppa|ia64|lpia|powerpc|sparc)
+          arm64|armel|armhf|hppa|ia64|lpia|powerpc|ppc64el|sparc)
             echo "ubuntu-ports"
           ;;
           *)
@@ -75,7 +75,7 @@ guess_dist_arch_archive() {
           ;;
         esac
       ;;
-      warty|hoary|breezy|edgy|feisty|gutsy)
+      warty|hoary|breezy|edgy|feisty|gutsy|dapper|hardy|intrepid|jaunty|karmic|maverick|natty|oneiric|quantal|raring|saucy|utopic)
         echo "ubuntu-old"
       ;;
       *)
