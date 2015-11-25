@@ -87,6 +87,7 @@ mkdir -p "${BUILDPLACE}$BUILDDIR"
 copy_local_configuration
 installaptlines
 add_additional_aptkeyrings
+loadhooks
 executehooks "G"
 
 log.i "Refreshing the base.tgz "
