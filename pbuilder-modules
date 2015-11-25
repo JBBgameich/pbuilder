@@ -17,7 +17,7 @@
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
-. "${BASH_SOURCE%/*}/pbuilder-runhooks"
+hooks=tmp/hooks
 
 function showhelp () {
     cat <<EOF
@@ -688,6 +688,77 @@ function add_additional_aptkeyrings() {
         $CHROOTEXEC /usr/bin/apt-key add - < "${KEY}" > /dev/null
     done
 }
+
+
+#==========================================================================
+# hooks stuff
+
+function loadhooks () {
+    if [ -z "$HOOKDIR" ]; then
+        return ;
+    fi
+    if [ -d "$BUILDPLACE/$hooks" ]; then
+        rm -rf "$BUILDPLACE/$hooks"
+    fi
+    if [ -d "$HOOKDIR" ]; then
+        mkdir -p "$BUILDPLACE/$hooks"
+        if ! cp -aL "$HOOKDIR/"* "$BUILDPLACE/$hooks"; then
+            log.w "no hooks found in the hookdir '$HOOKDIR'"
+        fi
+    else
+        log.w "hookdir $HOOKDIR does not exist, skipping"
+    fi
+}
+
+function unloadhooks () {
+    if [ -z "$HOOKDIR" ]; then
+        return ;
+    fi
+    rm -rf "$BUILDPLACE/$hooks"
+}
+
+function executehooks () {
+    # Execute every script found in the chroot'd target directory.
+    # We only test whether a file is executable since we have no idea what
+    # the user had put in their chroots.  If they want PL/1 and ADA on the
+    # chroot or they have decided to use emacslisp for everything, it's their
+    # problem.
+    local prefix="$1"
+    if [ -z "$HOOKDIR" ]; then
+        return
+    fi
+    for fn in "$BUILDPLACE/$hooks/$prefix"[0-9][0-9]* ; do
+       case "$fn" in
+           "$BUILDPLACE/$hooks/$prefix"'[0-9][0-9]*')
+               log.w "no hooks of type ${prefix} found -- ignoring"
+               ;;
+           *~)
+               log.w "skipping an editor backup file $fn"
+               ;;
+           *.bak)
+               log.w "skipping a backup file $fn"
+               ;;
+           *)
+               if [ -x "$fn" ]; then
+                   log.i "user script $fn starting"
+                   BUILDDIR="$BUILDDIR" \
+                       $CHROOTEXEC "/$hooks/$(basename "$fn")"
+                   log.i "user script $fn finished"
+               else
+                   if [ -f "$fn" ]; then
+                       filetype=$(basename "$fn" )
+                       log.w "execute priv not set on file $filetype, not executing."
+                   else
+                       # Should it reach here ? This case should be caught in the above case.
+                       log.w "no hooks of type ${prefix} found -- internal error in logic"
+                   fi
+               fi
+               ;;
+       esac
+    done
+}
+
+#==========================================================================
 
 
 #Setting environmental variables that are really required:
