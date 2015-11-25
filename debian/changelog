@@ -392,7 +392,7 @@ pbuilder (0.209) unstable; urgency=low
 
   * pbuilder: Auto completion is missing --allow-untrusted flag
     (closes: #664323)
-  * Show current time in create / update operations too. 
+  * Show current time in create / update operations too.
     (closes: #613854)
 
  -- Junichi Uekawa <dancer@debian.org>  Fri, 30 Mar 2012 03:44:30 +0900
@@ -571,7 +571,7 @@ pbuilder (0.199+nmu2) unstable; urgency=low
 pbuilder (0.199+nmu1) unstable; urgency=low
 
   * Non-Maintainer Upload.
-  
+
   * pbuilder-modules: don't clean $BUILDPLACE if another directory has
     been bind-mounted under it; patch by Matthew Palmer.  (closes:
     #542915)
@@ -630,7 +630,7 @@ pbuilder (0.197) unstable; urgency=low
   * Rework Makefile entirely.
   * Use paragraphs in debian/NEWS file instead of bullet points.
   * pbuilder-selftest: new command to run the tests which are now installed.
-  
+
   [ Junichi Uekawa ]
   * [INTL:da] Danish translation of the debconf templates
     pbuilder (closes: 583676)
@@ -773,7 +773,7 @@ pbuilder (0.188) unstable; urgency=low
   [ Junichi Uekawa ]
   * add a note that debian/changelog should not be edited.
   * Declare bashisms explicit in buildall script. (closes: #530157)
-  
+
   [ Loïc Minier ]
   * Call apt-get autoremove on upgrades: (closes: #322649)
   * Drop useless -o APT::Get::AutomaticRemove=true
@@ -981,8 +981,8 @@ pbuilder (0.177) unstable; urgency=low
 pbuilder (0.176) unstable; urgency=low
 
   [ Loic Minier ]
-  * Do not install recommends in pbuilder-satisfydepends-aptitude. 
-  explicitly add -o APT::Install-Recommends=false 
+  * Do not install recommends in pbuilder-satisfydepends-aptitude.
+  explicitly add -o APT::Install-Recommends=false
 
   [ Junichi Uekawa ]
   * Create /etc/apt/apt.conf.d just in case it doesn't exist. (Closes:
@@ -1079,11 +1079,11 @@ pbuilder (0.169) unstable; urgency=low
   * List amd64 in pbuilder-uml's Architectures; thanks Mattia Dongili.
 
   [ Junichi Uekawa ]
-  * pdebuild-internal now runs hooks A, B, C, and D. (closes: #342613)  
+  * pdebuild-internal now runs hooks A, B, C, and D. (closes: #342613)
   * run dpkg-architecture inside chroot for
     pbuilder-satisfydepends-{aptitude,experimental} also.
   * build pbuilder-uml for amd64.
-  * C10shell, C11screen: install vim and less, and cd to the source 
+  * C10shell, C11screen: install vim and less, and cd to the source
     directory per default. Much useful.
   * pbuilder-doc.xml: review documentation.
   * install PDF documentation.
@@ -1102,7 +1102,7 @@ pbuilder (0.168) unstable; urgency=low
   * fix man pages to have reference to pbuilder-doc.html, and fix home
     page address to point to alioth.
   * update debian/copyright
-  * fix C10shell script to work with the new 'tee' log mode. 
+  * fix C10shell script to work with the new 'tee' log mode.
     (add '2> /dev/tty') (Closes: #426380)
 
  -- Junichi Uekawa <dancer@debian.org>  Mon, 28 May 2007 22:47:21 +0900
@@ -1115,7 +1115,7 @@ pbuilder (0.167) unstable; urgency=low
   * Documentation/pbuilder.xml: Improve documentation wordings.
     add more pbuilder-test documentation.
   * Use 'tee' to show output even in logged mode.
-  * trap SIGHUP as well as exit, and reorganize code around the change. 
+  * trap SIGHUP as well as exit, and reorganize code around the change.
     (Closes: #425454)
   * Improve log file support thanks to request from Russ Allbery
     (Closes: #424717).
@@ -1129,7 +1129,7 @@ pbuilder (0.167) unstable; urgency=low
   * shut up lintian: specify debian/compat (4) instead of DH_COMPAT in debian/rules
   * shut up lintian about binnmuability. Use {source:Version} instead of
     Source-Version, according to http://wiki.debian.org/binNMU
-  
+
   [ Loic Minier ]
   * Tune aptitude opts in pbuilder-satisfydepends-aptitude to handle complex
     dependencies in experimental, to support unsigned APT repositories, and to
@@ -1149,7 +1149,7 @@ pbuilder (0.166) unstable; urgency=low
   * remove CVS Id banners since they have no meaning on git trees.
   * pbuilder-uml: do not build for amd64, dependencies are not satisfied (yet).
   * pdebuild.1, pbuilder.8: --debbuildopts, --debootstrapopts documentation update.
-  
+
   [ Loic Minier ]
   * New pbuilder-satisfydepends-aptitude resolver based on aptitude; based on
     an idea by Mike Hommey; closes: #337015.
@@ -1324,7 +1324,7 @@ pbuilder (0.153) unstable; urgency=low
   * fix pdebuild --help output (closes: #367133)
   * Support for new style architecture specifications (closes: #363193)
     Thanks to Peter Eisentraut for patch.
-    The support is currently disabled, until dpkg maintainers clarify the 
+    The support is currently disabled, until dpkg maintainers clarify the
     situation.
   * pbuilder-doc.xml: update documentation to add an example snippet for
     using locally built packages from pbuilder.
@@ -1355,7 +1355,7 @@ pbuilder (0.151) unstable; urgency=low
 
 pbuilder (0.150) unstable; urgency=low
 
-  * chown logfiles so that logfiles are not owned by root all the time 
+  * chown logfiles so that logfiles are not owned by root all the time
     (Closes: #341553).
   * Bug fix: "[changes default behavior] Fix logfile name to have .log
     appended if using --pkg-logfile", thanks to Christian Hammers
@@ -1458,7 +1458,7 @@ pbuilder (0.140) unstable; urgency=low
   * pbuilder-doc.xml: Document ccache support in FAQ (Closes: #178350).
   * Bug fix: "/usr/share/doc/pbuilder/examples/B90linda missing
     --force-yes option", thanks to qfunk (Closes: #340715).
-    Note: --allow-unauthenticated is probably a better option here, but 
+    Note: --allow-unauthenticated is probably a better option here, but
     apt-get in sarge does not support it, we will revisit it after etch.
   * debconf compatibility level 4
   * Bug fix: "pbuilder-buildpackage-funcs check for createbuilduser for
@@ -1492,15 +1492,15 @@ pbuilder (0.137) unstable; urgency=low
   - Document amd64-i386 usage in FAQ. (closes: #332737)
   - typo fix
   - document /etc/mtab inside chroot is a symbollic link.
-  
+
   * update TODO file.
-  
+
   * allow debootstrap or cdebootstrap as dependency.
   - check for debootstrap installation, and output meaningful error.
     This is a follow-up to (#323843, #324648)
     rationale: debootstrap has some more features and cdebootstrap, sometimes;
     and cdebootstrap is not ported to all architectures.
-  
+
   [Matt Kraai]
   * If /proc is mounted, create a symbolic link from /etc/mtab to
     /proc/mounts.
@@ -1521,7 +1521,7 @@ pbuilder (0.135) unstable; urgency=low
   [Matt Kraai]
   * Don't add redundant group, passwd, and shadow entries for the build
     user.
-  
+
   [Junichi Uekawa]
   * Document that --debug option preserves build place.
     If the following fails, the build directory will remain intact:
@@ -1544,16 +1544,16 @@ pbuilder (0.133) unstable; urgency=low
   * Change "exec" to "execute" in the description of the --save-after-exec
     option.
   [Junichi Uekawa]
-  * Change maintainers field to point to pbuilder-maint mailing list, and 
+  * Change maintainers field to point to pbuilder-maint mailing list, and
     switch to using uploaders field.
 
  -- Junichi Uekawa <dancer@debian.org>  Sat,  1 Oct 2005 13:27:44 +0900
 
 pbuilder (0.132) unstable; urgency=low
 
-  * suppress warnings from find; it wants -maxdepth before any other 
+  * suppress warnings from find; it wants -maxdepth before any other
     argument. (closes: #330848)
-  * Documentation update patch from Osamu Aoki to clarify about 
+  * Documentation update patch from Osamu Aoki to clarify about
     configuration file priorities and issues associated with it.
     (closes: #325318)
 
@@ -1562,8 +1562,8 @@ pbuilder (0.132) unstable; urgency=low
 pbuilder (0.131) unstable; urgency=low
 
   * Document that pbuilder applies options from left-to-right. (closes: #324620)
-  * Document updates on pbuilder move to alioth; it's now 
-    available in 
+  * Document updates on pbuilder move to alioth; it's now
+    available in
     http://pbuilder.alioth.debian.org/
     http://alioth.debian.org/projects/pbuilder
 
@@ -1571,12 +1571,12 @@ pbuilder (0.131) unstable; urgency=low
 
 pbuilder (0.130) unstable; urgency=low
 
-  * depend on cdebootstrap, and suggest debootstrap. You may alternatively use 
+  * depend on cdebootstrap, and suggest debootstrap. You may alternatively use
     debootstrap, but the default is cdebootstrap.
     (closes: #323843, #324648)
   * cowdancer support improvement -- now passes testsuite.
   * Standards-version: 3.6.2
-  * SHELL=/bin/bash is now exported in default configuration; 
+  * SHELL=/bin/bash is now exported in default configuration;
     since setting that to 'zsh' and others will not always work
     inside the chroot
     (closes: #325184)
@@ -1595,9 +1595,9 @@ pbuilder (0.129) unstable; urgency=low
   - default pbuilderrc uses cdebootstrap
   - testsuite now tests both cdebootstrap and debootstrap
   - Depends on debootstrap or cdebootstrap.
-  * Initial support for --internal-chrootexec: 
+  * Initial support for --internal-chrootexec:
     It is now possible to specify for example '--internal-chrootexec "chroot $BUILDPLACE cow-shell "'.
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Wed, 17 Aug 2005 09:40:27 +0900
 
 pbuilder (0.128) unstable; urgency=low
@@ -1605,10 +1605,10 @@ pbuilder (0.128) unstable; urgency=low
   * Add example framework to test package inside chroot
   - B92test-pkg
   - add debian/pbuilder-test/ directory to test pbuilder itself.
-  * Documentation/pbuilder-doc.xml: 
+  * Documentation/pbuilder-doc.xml:
   - add reference on directory structure on pbuilder.
   - Add note on pbuilder-test
-  * Support '--distribution experimental'. 
+  * Support '--distribution experimental'.
     "pbuilder: Please add support for experimental", thanks to
     Emanuele Rocca (Closes: #308813).
     and also support working with new apt-get by using --force-yes.
@@ -1616,7 +1616,7 @@ pbuilder (0.128) unstable; urgency=low
   * Feature enhancement: "pbuilder: Clean apt cache ", thanks to Daniel Schepler
     implement --autocleanaptcache option.
     (Closes: #185227).
-  * pdebuild now checks for unsupported command-line options. 
+  * pdebuild now checks for unsupported command-line options.
     Bug fix: "pbuilder: pdebuild does not warn about --basetgz or
     --distribution", thanks to Matt Kraai (Closes: #305944).
   * man pages fixup: add \% for non-hyphenation (closes: #310656)
@@ -1634,17 +1634,17 @@ pbuilder (0.128) unstable; urgency=low
 pbuilder (0.127) unstable; urgency=low
 
   * pdebuild.1, pdebuild-user-mode-linux.1: --debsign-k requires key-id.
-  * save apt cache after running B hook in build target; so that 
+  * save apt cache after running B hook in build target; so that
     we don't keep redownloading lintian/linda . (closes: #296999)
 
  -- Junichi Uekawa <dancer@debian.org>  Fri, 22 Apr 2005 07:38:16 +0900
 
 pbuilder (0.126) unstable; urgency=low
 
-  * Documentation/pbuilder-doc.xml: 
+  * Documentation/pbuilder-doc.xml:
     Add documentation on why source.changes file is generated.
     Add documentation on what options are available for sponsoring.
-  * Add --debsign-k option to pdebuild to allow specifying the keyid 
+  * Add --debsign-k option to pdebuild to allow specifying the keyid
     for signing the package; for sponsoring. (closes: #304849)
 
  -- Junichi Uekawa <dancer@debian.org>  Sat, 16 Apr 2005 13:39:04 +0900
@@ -1668,7 +1668,7 @@ pbuilder (0.123) unstable; urgency=low
   * save aptcache on pbuilder login/exec. (closes: #271600)
   * support --aptcache option. (closes: #295766)
   * clean build directory for pbuilder-uml. (closes: #297100)
-  * document save-after-login/exec flags in pbuilder --help output. 
+  * document save-after-login/exec flags in pbuilder --help output.
     (closes: #296672)
 
  -- Junichi Uekawa <dancer@debian.org>  Fri,  4 Mar 2005 13:34:51 +0900
@@ -1715,12 +1715,12 @@ pbuilder (0.119) unstable; urgency=low
 pbuilder (0.118) unstable; urgency=low
 
   * --debbuildopts behavior change for pdebuild:
-    It is now: pdebuild --debbuildopts "xxx" 
+    It is now: pdebuild --debbuildopts "xxx"
     It was: pdebuild --debbuildopts "xxx" -- --debbuildopts "xxx" (for internal pdebuild mode)
     pdebuild --debbuildopts "xxx" (for non-internal pdebuild mode)
   (closes: #278999)
   * pbuilder: --save-after-login, --save-after-exec options added.
-    NOTE: pbuilder-UML already has --uml-login-nocow option, which is 
+    NOTE: pbuilder-UML already has --uml-login-nocow option, which is
     equivalent to this new feature.
     (closes: #275970, #275016)
   * buildresult dir creation is done after pkgname-logfile creation.
@@ -1733,14 +1733,14 @@ pbuilder (0.118) unstable; urgency=low
 
 pbuilder (0.117) unstable; urgency=HIGH
 
-  * Remove pbuilder-user-mode-linux package for the time being, until 
+  * Remove pbuilder-user-mode-linux package for the time being, until
     such time that user-mode-linux package is properly restored into Debian.
     (closes: #276992)
-  - this is a task specially done for sarge release; to create a package 
+  - this is a task specially done for sarge release; to create a package
     which does create pbuilder-uml, copy the files and rebuild:
     debian/rules-uml -> debian/rules
     debian/control-uml -> debian/control
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Wed, 20 Oct 2004 08:15:40 +0900
 
 pbuilder (0.116) unstable; urgency=low
@@ -1749,7 +1749,7 @@ pbuilder (0.116) unstable; urgency=low
   * Fix bugs reported by madduck
   * UML: versioned depends on user-mode-linux is removed, now depends on user-mode-linux so that packages with 'Provides:' can be used (closes: #275544)
   * 'pbuilder debuild' is implemented  (closes: #275110)
-  * update docs on PS1 and 'debian_chroot' environmental variable introduced in newer bash package (closes: #275466) 
+  * update docs on PS1 and 'debian_chroot' environmental variable introduced in newer bash package (closes: #275466)
   * Add notes on what cannot be bind-mounted (closes: #275113)
   * hook to pbuilder update (closes: #275016, #272353)
 
@@ -1814,13 +1814,13 @@ pbuilder (0.108) unstable; urgency=low
 
 pbuilder (0.107) unstable; urgency=low
 
-  * Document that pdebuild accepts pbuilder options as pdebuild 
+  * Document that pdebuild accepts pbuilder options as pdebuild
     options but ignores them, in the manual page. (Closes: #255005).
   * Feature request, '--uml-login-nocow' : "pbuilder-uml: How about a &quot;muckwith&quot; option, login
     without cowdevice", from Paul Hampson (Closes: #251482).
   * Feature: Do not hardcodes rootstrap image size argument",
     thanks to Mike Markley (Closes: #252800).
-  * UML: Fix error message when --buildresult specified wrong directory 
+  * UML: Fix error message when --buildresult specified wrong directory
 
  -- Junichi Uekawa <dancer@debian.org>  Sat, 19 Jun 2004 11:27:10 +0900
 
@@ -1855,11 +1855,11 @@ pbuilder (0.102) unstable; urgency=low
 
   * Implement --variant=buildd support, thanks for Daniel Schepler
     for the work on debootstrap side.
-    Note that this change does not affect user-mode-linux, since 
+    Note that this change does not affect user-mode-linux, since
     user-mode-linux version uses rootstrap
     (closes: #154528)
   - require debootstrap version 0.2.29 or later
-    current unstable/sarge doesn't install, see #244227 for a debootstrap 
+    current unstable/sarge doesn't install, see #244227 for a debootstrap
     workaround.
   * remove references to non-free and contrib from default apt.conf entry.
     If anyone has problems with this set-up, shout. But it's already configurable.
@@ -1870,11 +1870,11 @@ pbuilder (0.102) unstable; urgency=low
 pbuilder (0.101) unstable; urgency=low
 
   * Update documentation, minor fix in documentation.
-  * Add libc6 upgrade workaround script. 
-    add 
+  * Add libc6 upgrade workaround script.
+    add
     "--hookdir /usr/share/doc/pbuilder/examples/libc6workaround"
     for update command-line, until libc6 bug230008 is fixed.
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Sat, 13 Mar 2004 12:00:59 +0900
 
 pbuilder (0.100) unstable; urgency=low
@@ -1888,7 +1888,7 @@ pbuilder (0.100) unstable; urgency=low
 
 pbuilder (0.99) unstable; urgency=low
 
-  * Documentation update: 
+  * Documentation update:
    - note apt-proxy is useful for caching the apt archives.
    - pbuilder create failure due to debootstrap needs to be fixed in debootstrap script side.
   * Fix B91dpkg-i to fix typo in script to get names of packages properly.
@@ -1900,7 +1900,7 @@ pbuilder (0.99) unstable; urgency=low
 
 pbuilder (0.98) unstable; urgency=low
 
-  * use dpkg-buildpackage in pdebuild-internal rather than debuild, and do not try to 
+  * use dpkg-buildpackage in pdebuild-internal rather than debuild, and do not try to
     gpg-sign inside the chroot, which will always fail.
   * Document --use-pdebuild-internal in the documentation.
 
@@ -1911,9 +1911,9 @@ pbuilder (0.97) unstable; urgency=low
   * update installtest script
   * allow multiple  --bindmounts option to be specified for multiple
     bind-mount operation.
-  * Support pdebuild which does not run debian/rules clean outside of 
-    chroot. Set 'USE_PDEBUILD_INTERNAL=yes' to use it, or 
-    --use-pdebuild-internal. It will not be the default yet, because 
+  * Support pdebuild which does not run debian/rules clean outside of
+    chroot. Set 'USE_PDEBUILD_INTERNAL=yes' to use it, or
+    --use-pdebuild-internal. It will not be the default yet, because
     it changes the manner of operation drastically.
   - "pdebuild builds source package outside chroot" by
     Matt Kraai (Closes: #211230).
@@ -1924,15 +1924,15 @@ pbuilder (0.97) unstable; urgency=low
 
 pbuilder (0.96) unstable; urgency=low
 
-  * Update documentation 
+  * Update documentation
     - Using debconf inside pbuilder.
     - Note in FAQ that /dev/null error comes from 'nodev' mount option.
       (closes: #223868)
-    - Note that execute_installtest.sh can be used for light-weight 
+    - Note that execute_installtest.sh can be used for light-weight
       mass-install testing.
   * pbuilder execute: now passes on command-line arguments to the script.
   * pbuilder-user-mode-linux execute: ditto.
-  * examples/execute_installtest.sh: Tries to 'apt-get install' a package 
+  * examples/execute_installtest.sh: Tries to 'apt-get install' a package
     and sees if it does install.
   * examples/execute_paramtest.sh: Just dumps the parameter.
   * pbuilder --debug option added, to do some kind of debugging when
@@ -1955,7 +1955,7 @@ pbuilder (0.94) unstable; urgency=low
   * pdebuild-user-mode-linux: support --configfile as pdebuild does.
   * Bug fix: "pbuilder: Trying to unmount dev/pts when not mounted",
     thanks to Chris Halls (Closes: #219941).
-    Reordered mount order so that /dev/pts and /dev mounts can be 
+    Reordered mount order so that /dev/pts and /dev mounts can be
     specified at the same time. It might not be the real problem, but
     this seems like one big problem, at least.
   * Bug fix: "pbuilder: Error message: W: execute priv not set on file
@@ -1966,9 +1966,9 @@ pbuilder (0.94) unstable; urgency=low
 
 pbuilder (0.93) unstable; urgency=low
 
-  * Change pdebuild behavior: pass on --configfile option from 
+  * Change pdebuild behavior: pass on --configfile option from
     pdebuild to pbuilder.
-    This is in response to: 
+    This is in response to:
     "pbuilder: BUILDRESULT doesn't work in --configfile file",
     thanks to Brian May (Closes: #217748).
 
@@ -1986,7 +1986,7 @@ pbuilder (0.92) unstable; urgency=low
 pbuilder (0.91) unstable; urgency=low
 
   * Document --bindmounts option better.
-  * add suggestion to bindmounts option in the manual page, where it 
+  * add suggestion to bindmounts option in the manual page, where it
     documented the dangers of bind-mounting.
     (Closes: #214290).
 
@@ -2023,10 +2023,10 @@ pbuilder (0.87) unstable; urgency=low
     M. Ucko (Closes: #203584).
   * create policy-rc.d inside chroot if it does not exist, to fix
     "start-stop-daemon should not start any daemon inside chroot"
-    (Closes: #165430)  
-  * Testsuite is added to the source tree, to get some kind of automatic 
+    (Closes: #165430)
+  * Testsuite is added to the source tree, to get some kind of automatic
     regression testing.
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Wed, 24 Sep 2003 08:07:34 +0900
 
 pbuilder (0.86) unstable; urgency=low
@@ -2048,7 +2048,7 @@ pbuilder (0.85) unstable; urgency=low
 pbuilder (0.84) unstable; urgency=low
 
   * README.Debian: update very outdated parts.
-  * change use of chown, supply group info when available. 
+  * change use of chown, supply group info when available.
   Subject: BUILDRESULTUID and BUILDRESULTGID no longer work as numeric values
   From: Kenneth Pronovici <pronovic@debian.org>
     (closes: #207392)
@@ -2081,7 +2081,7 @@ pbuilder (0.81) unstable; urgency=low
     /etc/mtab will be written to, if root runs pbuilder-user-mode-linux.
   * "pbuilder-user-mode-linux create" will run properly when --distribution
     is unset.
-  * Update documentation that user-mode-linux requires user to be in uml-net 
+  * Update documentation that user-mode-linux requires user to be in uml-net
     group.
 
  -- Junichi Uekawa <dancer@debian.org>  Fri, 15 Aug 2003 18:50:17 +0900
@@ -2095,7 +2095,7 @@ pbuilder (0.80) unstable; urgency=low
 
 pbuilder (0.79) unstable; urgency=low
 
-  * Remove reference to lv from source code, it was only for debugging 
+  * Remove reference to lv from source code, it was only for debugging
   purposes. (closes: #203732)
   * Mount / rw for user-mode-linux.
     From: Daniel Schepler <schepler@math.berkeley.edu>
@@ -2124,14 +2124,14 @@ pbuilder (0.77) unstable; urgency=low
 
 pbuilder (0.76) unstable; urgency=low
 
-  * Read config file in pbuilder-user-mode-linux specified by 
+  * Read config file in pbuilder-user-mode-linux specified by
     --configfile.
     Should indirectly address bugs on parameter parsing and config files
     (closes: #188273)
   * Update documentation FAQ section.
   - note that the warning message about LOGNAME being unset is currently safe.
     (closes: #187924)
-  - Document that it is not a good idea to conflict against an essential 
+  - Document that it is not a good idea to conflict against an essential
     package and pbuilder doesn't particularly support it. (closes: #169223)
   - Document "Invalid cross-device link" and how to fix it (closes: #200103)
   * Update some manual pages to reflect the changes.
@@ -2140,7 +2140,7 @@ pbuilder (0.76) unstable; urgency=low
 
 pbuilder (0.75) unstable; urgency=low
 
-  * Update documentation to note that --configfile is useful for 
+  * Update documentation to note that --configfile is useful for
     specifying distribution.
   * Update manual page to make it clear that --othermirror etc options
     are only really useful for pbuilder update and create.
@@ -2151,16 +2151,16 @@ pbuilder (0.75) unstable; urgency=low
 pbuilder (0.74) unstable; urgency=low
 
   * Support very old .dsc files which do not have Format: lines
-  (closes: #189691) 
+  (closes: #189691)
   thanks Daniel Schepler
 
  -- Junichi Uekawa <dancer@debian.org>  Sun, 20 Apr 2003 22:05:00 +0900
 
 pbuilder (0.73) unstable; urgency=low
 
-  * versioned dependency on rootstrap 0.3.9-1 which handles newer 
+  * versioned dependency on rootstrap 0.3.9-1 which handles newer
     user-mode-linux.
-  * Fix ordering of running D hooks; D hooks should be ran before 
+  * Fix ordering of running D hooks; D hooks should be ran before
     checking build-dependency. Apparently broken since 0.67
 
  -- Junichi Uekawa <dancer@debian.org>  Sun, 20 Apr 2003 01:56:17 +0900
@@ -2175,7 +2175,7 @@ pbuilder (0.72) unstable; urgency=low
 pbuilder (0.71) unstable; urgency=low
 
   * UML: Do not try to umount, it's going to kernel-panic anyway.
-  - this fixes the problem of 'cannot umount because daemons are using 
+  - this fixes the problem of 'cannot umount because daemons are using
   /proc'
 
  -- Junichi Uekawa <dancer@debian.org>  Tue,  8 Apr 2003 22:50:43 +0900
@@ -2211,15 +2211,15 @@ pbuilder (0.67) unstable; urgency=low
     from suggestion of Barak Pearlmutter <bap@cs.unm.edu>
   * fix typo in pbuilder.8 manual page (closes: #184049)
     from Tommaso Moroni <tommaso.m@tiscalinet.it>
-  * make the code work with GNU readlink, which errors out when 
+  * make the code work with GNU readlink, which errors out when
     "readlink -f " is called with non-existing filename.
     (closes: #183492, #184116)
   * Fix X hooks and rename them to E, and document them.
     They are ran after update/create.
   * unset LOGNAME for root-build cases, it was only fixed on
-    fakeroot builds. 
+    fakeroot builds.
     thanks Barak Pearlmutter <bap@cs.unm.edu> (closes: #183862)
-  * Apply patch from Daniel Schepler <schepler@math.berkeley.edu>, 
+  * Apply patch from Daniel Schepler <schepler@math.berkeley.edu>,
     to support --preserve-buildplace (closes: #183605)
 
  -- Junichi Uekawa <dancer@debian.org>  Mon, 10 Mar 2003 23:03:58 +0900
@@ -2245,7 +2245,7 @@ pbuilder (0.64) unstable; urgency=low
   * Apply patch from Daniel Schepler <schepler@math.berkeley.edu>,
     to improve speed of build-dep satisfying routine.
    (closes: #178552)
-  * UML: match hostname of UML to the host hostname, so that 
+  * UML: match hostname of UML to the host hostname, so that
     "hostname -f " will reliably work.
   * use cp -p in copydsc (closes: #177839)
 
@@ -2260,7 +2260,7 @@ pbuilder (0.63) unstable; urgency=low
 
 pbuilder (0.62) unstable; urgency=low
 
-  * Do not rely on shell globbing for apt archive cache. 
+  * Do not rely on shell globbing for apt archive cache.
     (closes: #176872), reported by "Michel Dänzer" <daenzer@debian.org>.
 
  -- Junichi Uekawa <dancer@debian.org>  Thu, 16 Jan 2003 16:14:31 +0900
@@ -2268,8 +2268,8 @@ pbuilder (0.62) unstable; urgency=low
 pbuilder (0.61) unstable; urgency=low
 
   * UML: set hostname inside UML.
-  * UML: Add (almost) enough features to pbuilder-user-mode-linux 
-  so that it can be ran from within pbuildd, and can be used as 
+  * UML: Add (almost) enough features to pbuilder-user-mode-linux
+  so that it can be ran from within pbuildd, and can be used as
   an alternative to pbuilder
    - set exitcode according to pbuilder exit code.
   thanks to mdz for his hint. (closes: #175983)
@@ -2318,19 +2318,19 @@ pbuilder (0.58) unstable; urgency=low
 pbuilder (0.57) unstable; urgency=low
 
   * A new year release.
-  * Add an example pbuildd script for people who want to waste their CPU 
+  * Add an example pbuildd script for people who want to waste their CPU
   cycles.
   * README.Debian: document pbuilder-doc.html.
   * pbuilder-doc.xml: New documentation in DocBook format.
   * Build-Depends-Indep on documentation.
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Thu,  2 Jan 2003 14:51:19 +0900
 
 pbuilder (0.56) unstable; urgency=low
 
   * Try using copy-on-write image in pbuilder-user-mode-linux.
-  * Add verbose output for compare-versions portions to make it explicit that 
-    what version does not satisfy what version, so that it is more 
+  * Add verbose output for compare-versions portions to make it explicit that
+    what version does not satisfy what version, so that it is more
     obvious.
 
  -- Junichi Uekawa <dancer@debian.org>  Mon, 23 Dec 2002 22:11:01 +0900
@@ -2346,7 +2346,7 @@ pbuilder (0.55) unstable; urgency=low
 
 pbuilder (0.54) unstable; urgency=low
 
-  * Fixed ordering of messages so that concurrent-building experience is 
+  * Fixed ordering of messages so that concurrent-building experience is
   better.
   * Do not lock while extracting, it is not needed.
   (closes: #173038)
@@ -2358,15 +2358,15 @@ pbuilder (0.53) unstable; urgency=low
   * update README, to fix mistakes in text. (closes: #172905)
   * Standards-version: 3.5.8.
   * add an example of running dpkg -i after successful build,
-  and running bash when unsuccessful. 
+  and running bash when unsuccessful.
   * fix D10tmp script.
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Fri, 13 Dec 2002 21:53:14 +0900
 
 pbuilder (0.52) unstable; urgency=low
 
   * Clarify pbuilder.8 documentation on the timing of hook "A".
-  * --auto-debsign option, to debsign the resulting package. 
+  * --auto-debsign option, to debsign the resulting package.
   (closes: #165511), requested from Andrew Lau <netsnipe@debianplanet.org>
   * --pkgname-logfile option, to allow creation of log files based on
   package name and version. (closes: #157791), requested from Michael Banck <mbanck@gmx.net>
@@ -2406,7 +2406,7 @@ pbuilder (0.48) unstable; urgency=low
   * Version-deps parser changed slightly.
   * unset LOGNAME.
   * Fix problems with DEBEMAIL and other things, that was discussed on -devel.
-    People are starting to upload packages using pbuilder, without testing. 
+    People are starting to upload packages using pbuilder, without testing.
     I don't like that trend very much, but I really cannot stop them.
 
  -- Junichi Uekawa <dancer@debian.org>  Wed, 30 Oct 2002 21:04:28 +0900
@@ -2436,7 +2436,7 @@ pbuilder (0.45) unstable; urgency=low
 
   * hack HOME to the fakerooted user when fakerooting, to hopefully fool
    GNUStep builds, etc.
-  * Standards-Version: 3.5.7. 
+  * Standards-Version: 3.5.7.
   * Build-dep on debhelper 4.1.0 or greater, which removed usr/doc symlink.
   * fix failure cases when initial *dsc file is invalid.
   * change pbuilder-uml to be i386 only.
@@ -2473,11 +2473,11 @@ pbuilder (0.41) unstable; urgency=low
   * Prevent kill from going wild :P (closes: #163358)
   Thanks for Daniel Kobras for noticing shell quoting problem
   * Update AUTHORS, and THANKS, and TODO files.
-  
+
  -- Junichi Uekawa <dancer@debian.org>  Sat,  5 Oct 2002 13:41:40 +0900
 
 pbuilder (0.40) unstable; urgency=low
- 
+
   * Add support for BUILDRESULTUID and BUILDRESULTGID
   so that UID and GID for build results can be specified.
   * Fix minor glitch with copying /etc files into the chroot
@@ -2531,14 +2531,14 @@ pbuilder (0.35) unstable; urgency=low
 
 pbuilder (0.34) unstable; urgency=low
 
-  * examples weren't installed. Thanks for noting that, 
+  * examples weren't installed. Thanks for noting that,
   Chris Halls. (closes: #153868)
 
  -- Junichi Uekawa <dancer@debian.org>  Tue, 23 Jul 2002 21:40:20 +0900
 
 pbuilder (0.33) unstable; urgency=low
 
-  * Update documentation for pbuilder.8, and pbuilderrc.5 
+  * Update documentation for pbuilder.8, and pbuilderrc.5
   * Remove spurious message pointed out by Jochen Voss. (closes: #152175)
 
  -- Junichi Uekawa <dancer@debian.org>  Wed, 17 Jul 2002 15:45:50 +0900
@@ -2560,7 +2560,7 @@ pbuilder (0.31) unstable; urgency=low
 
 pbuilder (0.30) unstable; urgency=low
 
-  * Check the .dsc parsing routine, which seems to get broken by some packages 
+  * Check the .dsc parsing routine, which seems to get broken by some packages
     which contain the url: field.
 
  -- Junichi Uekawa <dancer@debian.org>  Tue, 14 May 2002 12:18:31 +0900
@@ -2621,23 +2621,23 @@ pbuilder (0.25) unstable; urgency=low
 pbuilder (0.24) unstable; urgency=low
 
   * hooks support is in place for build target now. Read pbuilder.1
-    for details. Adding C00bash, which contains a line calling 
+    for details. Adding C00bash, which contains a line calling
       #!/bin/bash
       bash < /dev/tty
-    will allow running bash inside the chroot. (closes: #134757)    
+    will allow running bash inside the chroot. (closes: #134757)
 
  -- Junichi Uekawa <dancer@debian.org>  Sun, 24 Feb 2002 20:37:35 +0900
 
 pbuilder (0.23) unstable; urgency=low
 
-  * Cache is updated even when Build-Dep processing routine fails. 
+  * Cache is updated even when Build-Dep processing routine fails.
     reported by Mark Brown (closes: #129053)
   * Fix update target to remove packages specified in REMOVEPACKAGES.
-  * Support building as non-root user, and using fakeroot inside 
-    the chroot. 
+  * Support building as non-root user, and using fakeroot inside
+    the chroot.
   * EXTRAPACKAGES takes effect within the build target.
-  * handle ( <<version) version dependency format. Space should be 
-    allowed there. 
+  * handle ( <<version) version dependency format. Space should be
+    allowed there.
   * /etc/mailname inside chroot is generated. (closes: #133773)
   * apply fixed description, which looks better, by joeyh, thanks.
     (closes: #134457)
@@ -2646,9 +2646,9 @@ pbuilder (0.23) unstable; urgency=low
 
 pbuilder (0.22) unstable; urgency=low
 
-  * "The version that seems to be able to successfully build most of 
+  * "The version that seems to be able to successfully build most of
     Debian archive"
-  * pbuilder-buildpackage accepts case insensitive field name 
+  * pbuilder-buildpackage accepts case insensitive field name
     for "Build-depends" to cope with some packages like bzip2. (closes: #133054)
   * pbuilder create/update will use cached packages in addition to
     "build". However, the packages fed to debootstrap are not cached.
@@ -2658,7 +2658,7 @@ pbuilder (0.22) unstable; urgency=low
     That package is installed at last.
   * Documentation updates
   * Messages improvement, for automatic operation
-  * Adding check for empty-cache state.	
+  * Adding check for empty-cache state.
 
  -- Junichi Uekawa <dancer@debian.org>  Tue, 12 Feb 2002 01:03:53 +0900
 
@@ -2667,7 +2667,7 @@ pbuilder (0.21) unstable; urgency=low
   * Accept "Noninteractive" like "noninteractive" as value of DEBIAN_FRONTEND,
     for compatibility with other (broken?) software.
   * Changed the dpkg-buildpackage -S invocation inside pdebuild.
-    It should be more friendly for dpkg-buildpackage and its intentions, and 
+    It should be more friendly for dpkg-buildpackage and its intentions, and
     mostly backward compatible behavior.
   * added build-time logging data to pbuilder-buildpackage.
 
@@ -2676,10 +2676,10 @@ pbuilder (0.21) unstable; urgency=low
 pbuilder (0.20) unstable; urgency=low
 
   * "Really addressing some bugs"
-  * --othermirror option fixed. Thanks go to kov@debian.org for 
+  * --othermirror option fixed. Thanks go to kov@debian.org for
     pointing that out (closes: #131726).
-  * --aptconfdir option. It is now possible to specify 
-    --aptconfdir /etc/apt to use the system configs. 
+  * --aptconfdir option. It is now possible to specify
+    --aptconfdir /etc/apt to use the system configs.
     (closes: #116115)
   * some minor fixes.
   * banner for version info is given in build target.
@@ -2688,7 +2688,7 @@ pbuilder (0.20) unstable; urgency=low
 
 pbuilder (0.19) unstable; urgency=low
 
-  * "I know that the debootstrap version in sid doesn't work. 
+  * "I know that the debootstrap version in sid doesn't work.
     You need to fix the mistakes in debootstrap." release
   * Improved "pbuilder update/create/build" temp file cleaning process,
     so that in most cases it will be cleaned. In some conditions, temp
@@ -2702,10 +2702,10 @@ pbuilder (0.19) unstable; urgency=low
 
 pbuilder (0.18) unstable; urgency=low
 
-  * New version, "Trying to address some wishlists" 
+  * New version, "Trying to address some wishlists"
   * Added usr/share/pbuilder/pbuilderrc for default configuration.
   * Apply $@ -> "$@" fix from Daniel Kobras.
-  * Apply the patch from Daniel Kobras for specifying options to 
+  * Apply the patch from Daniel Kobras for specifying options to
     dpkg-buildpacakge invocation in pbuilder-buildpacakge.
     It should be possible to build binary-only uploads etc.
     (closes: #129221)
@@ -2714,7 +2714,7 @@ pbuilder (0.18) unstable; urgency=low
 
 pbuilder (0.17) unstable; urgency=low
 
-  * new version, "Documentation updates and cosmetic fixes". 
+  * new version, "Documentation updates and cosmetic fixes".
   * pbuilder.1, pbuilderrc.5: update to document problem with file:/ URLs
     if specified as mirrorsite (pbuilder is about chroots)
   * debian/TODO: updated - notes on apt-move archives, and other things.
@@ -2731,7 +2731,7 @@ pbuilder (0.17) unstable; urgency=low
 pbuilder (0.16) unstable; urgency=low
 
   * pbuilder-modules: Fixed a typo, which made it to create a broken
-    sources.list if MIRRORSITE was not specified. 
+    sources.list if MIRRORSITE was not specified.
   * pbuilder-modules: Shuffled the orderings so that OTHERMIRROR takes the
     priority.
 
@@ -2791,16 +2791,16 @@ pbuilder (0.12) unstable; urgency=low
 pbuilder (0.11) unstable; urgency=low
 
   * Fixing some minor glitch. pdebuild should be calling dpkg-buildpackage with -us -uc.
-  * changed pdebuild logic in obtaining version number, from using 
+  * changed pdebuild logic in obtaining version number, from using
     grep/cut to sed.
-  * fixed build-conflicts logic. It failed when build-conflicted target did not 
+  * fixed build-conflicts logic. It failed when build-conflicted target did not
     already exist inside chroot.
   * README.Debian is updated.
-  * Added a nonexistent package to Build-Conflicts of debian/control, so that 
+  * Added a nonexistent package to Build-Conflicts of debian/control, so that
     it will be possible to catch such possible error.
-  * patch from fbiere@abacom.com, fixes build-dependency with 
+  * patch from fbiere@abacom.com, fixes build-dependency with
     OR conditions. It used to try out all. (closes: #119541)
-  * Redundant "case" removed from pbuilder-createbasetgz. 
+  * Redundant "case" removed from pbuilder-createbasetgz.
     (it was introduced in 0.10).
     Thanks go to Steve for pointing this out.
     (closes: #12057)
@@ -2838,7 +2838,7 @@ pbuilder (0.10) unstable; urgency=low
   * A new command "pdebuild" is introduced. It can be invoked
     from a Debian source tree, and builds the package within a chroot
     after gaining root privilages appropriately.
-  * added recommends: for fakeroot and sudo, since pdebuild requires 
+  * added recommends: for fakeroot and sudo, since pdebuild requires
     them.
 
  -- Junichi Uekawa <dancer@debian.org>  Sat,  3 Nov 2001 23:56:12 +0900
@@ -2916,7 +2916,7 @@ pbuilder (0.6) unstable; urgency=low
     Please be warned, if you are upgrading, that "lilo" might be left
     on your chroot, which could potentially cause nasty damage.
   * added /var/cache/pbuilder/aptcache directory
-  * A bug with .dsc file parser which caused some annoying error messages 
+  * A bug with .dsc file parser which caused some annoying error messages
     has been fixed.
 
  -- Junichi Uekawa <dancer@debian.org>  Mon, 24 Sep 2001 00:12:47 +0900
@@ -2933,7 +2933,7 @@ pbuilder (0.4) unstable; urgency=low
   * Updating notes on upstream page
   * moving routines around in arch-dep checker... hoping not to have
     broken anything.
-  * Handles provides: in build dependency, parsing apt-cache showpkg 
+  * Handles provides: in build dependency, parsing apt-cache showpkg
     output for reverse-dependency, and randomly installing one of the
     available packages.
   * Now it seems to be able to build (or satisfy the build dependency of)
@@ -2955,7 +2955,7 @@ pbuilder (0.3) unstable; urgency=low
   * added login target to pbuilder, to allow for easy debugging.
   * fixed typo in apt-line generation
   * added an or-sign for build-dependency internal checker, and moving
-    over fully to the internal checker. Build dep checker does not support 
+    over fully to the internal checker. Build dep checker does not support
     a Build depends with an or sign and a machine specification.
     Also it ignores the version preference.
   * change priority to extra, because it depends on an extra package.
