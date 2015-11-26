@@ -1,3 +1,9 @@
+pbuilder (0.221.1+unreleased) UNRELEASED; urgency=medium
+
+  * do stuff
+
+ -- Mattia Rizzolo <mattia@mapreri.org>  Thu, 26 Nov 2015 00:16:59 +0000
+
 pbuilder (0.221.1) unstable; urgency=medium
 
   * pbuilder-apt-config: update the hardcoded list of releases/architectures of
