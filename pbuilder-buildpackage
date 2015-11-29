@@ -190,6 +190,11 @@ if ! wait "${BUILD_PID}"; then
         copy_local_configuration resolv.conf
     fi
     log.e "Failed autobuilding of package"
+    if [ -d "${BUILDRESULT}" ]; then
+        export_additional_buildresults
+    else
+        log.e "BUILDRESULT=[$BUILDRESULT] is not a directory."
+    fi
     executehooks "C"
     exit 1;
 else
