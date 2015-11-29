@@ -211,10 +211,7 @@ if [ -d "${BUILDRESULT}" ]; then
             cp -p "${FILE}" "${BUILDRESULT}" || true
         fi
     done
-    for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do
-        log.i "Trying to save additional result ${FILE}"
-        cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
-    done
+    export_additional_buildresults
     executehooks "I"
 else
     log.e "BUILDRESULT=[$BUILDRESULT] is not a directory."
