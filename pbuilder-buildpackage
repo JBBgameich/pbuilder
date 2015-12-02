@@ -149,6 +149,12 @@ DPKG_COMMANDLINE="env PATH=\"$PATH\" HOME=\"$BUILD_HOME\" dpkg-buildpackage -us 
 # https://launchpad.net/bugs/816556
 unset DISPLAY
 
+if [ "$USENETWORK" = "no" ]; then
+    # empty /etc/resolv.conf, so software trying to resolv addresses even when
+    # no network is possible doesn't choke.
+    echo > "$BUILDPLACE/etc/resolv.conf"
+fi
+
 (
     : Build process
     if [ -n "$TWICE" ]; then
@@ -174,12 +180,19 @@ fi
 if ! wait "${BUILD_PID}"; then
     trap umountproc_cleanbuildplace_trap exit sighup sigpipe
     eval "${KILL_WAIT_PID}"
+    if [ "$USENETWORK" = "no" ]; then
+        copy_local_configuration resolv.conf
+    fi
     log.e "Failed autobuilding of package"
     executehooks "C"
     exit 1;
 else
     eval ${KILL_WAIT_PID}
     # build was successful
+fi
+
+if [ "$USENETWORK" = "no" ]; then
+    copy_local_configuration resolv.conf
 fi
 
 executehooks "B"

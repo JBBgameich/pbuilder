@@ -468,7 +468,9 @@ function copy_local_configuration () {
     if [ -n "$CONFDIR" ] && [ -d "$CONFDIR" ]; then
         log.i "copying files from $CONFDIR (if possible) instead of using the system ones"
     fi
-    local tocopy=(hosts hostname mailname)
+    if [ "$#" -eq 0 ]; then
+        local tocopy=(hosts hostname mailname resolv.conf)
+    else tocopy=("$@") ; fi
     if [ "$USENETWORK" = "yes" ]; then
         local tocopy[${#tocopy[@]}]=resolv.conf
     fi
