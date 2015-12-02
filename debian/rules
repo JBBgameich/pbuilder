@@ -5,7 +5,14 @@ export DH_VERBOSE=1
 	dh $@
 
 override_dh_clean:
+ifneq ($(shell dpkg-vendor --derives-from ubuntu && echo true),true)
 	debconf-updatepo
+else
+	sed "s#http://httpredir.debian.org/debian#http://archive.ubuntu.com/ubuntu#g" -i debian/po/* -r
+	sed "s#http://httpredir.debian.org/debian#http://archive.ubuntu.com/ubuntu#g" -i debian/pbuilder.templates
+	sed "s#http://httpredir.debian.org/debian#http://archive.ubuntu.com/ubuntu#g" -i debian/pbuilder.config
+	sed "s#http://httpredir.debian.org/debian#http://archive.ubuntu.com/ubuntu#g" -i pbuilderrc
+endif
 	dh_clean
 
 override_dh_compress:
