@@ -5,7 +5,7 @@ Maintainer: Debian pbuilder maintenance team <pbuilder-maint@lists.alioth.debian
 Uploaders: Junichi Uekawa <dancer@debian.org>,
            Loïc Minier <lool@dooz.org>,
            Matt Kraai <kraai@debian.org>,
-           Mattia Rizzolo <mattia@mapreri.org>
+           Mattia Rizzolo <mattia@debian.org>
 Build-Depends: dblatex,
                debconf | debconf-2.0,
                debhelper (>= 9),
