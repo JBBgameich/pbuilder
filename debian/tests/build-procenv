@@ -66,7 +66,7 @@ fi
 # Use '--download-only' to avoid unpack which generates a
 # signature warning to stderr, causing this test to fail.
 echo "INFO: Downloading source for package '$pkg' release '$release'"
-apt-get source --download-only "$pkg/$release"
+apt-get -o APT::Sandbox::User=root source --download-only "$pkg/$release"
 
 dsc=$(ls ${pkg}*.dsc)
 
