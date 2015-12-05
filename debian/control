@@ -32,8 +32,7 @@ Recommends: devscripts,
             net-tools | iproute2,
             sudo
 Suggests: cowdancer,
-          gdebi-core,
-          pbuilder-uml
+          gdebi-core
 Homepage: http://pbuilder.alioth.debian.org
 Description: personal package builder for Debian packages
  pbuilder constructs a chroot system, and builds a package inside the
