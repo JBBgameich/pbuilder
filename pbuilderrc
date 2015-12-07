@@ -108,7 +108,6 @@ BINDMOUNTS=""
 # Set the debootstrap variant to 'buildd' type.
 DEBOOTSTRAPOPTS=(
     '--variant=buildd'
-    '--keyring' '/usr/share/keyrings/debian-archive-keyring.gpg'
     )
 # or unset it to make it not a buildd type.
 # unset DEBOOTSTRAPOPTS
