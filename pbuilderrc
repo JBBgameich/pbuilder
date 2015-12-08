@@ -108,6 +108,7 @@ BINDMOUNTS=""
 # Set the debootstrap variant to 'buildd' type.
 DEBOOTSTRAPOPTS=(
     '--variant=buildd'
+    '--force-check-gpg'
     )
 # or unset it to make it not a buildd type.
 # unset DEBOOTSTRAPOPTS
