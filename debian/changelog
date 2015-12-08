@@ -1,8 +1,23 @@
-pbuilder (0.221.1+unreleased) UNRELEASED; urgency=medium
+pbuilder (0.221.2) unstable; urgency=medium
 
-  * do stuff
+  * pbuilder: correctly empty and then recopy the chroot's /etc/resolv.conf
+    only during the build process.  Closes: #806386
+  * pbuilderrc:
+    + remove the --keyring option from DEBOOTSTRAPOPTS.  This is not really
+      needed and made harder for derivatives to derivate.  Closes: #751282
+    + add --force-check-gpg to DEBOOTSTRAPOPTS: this makes debootstrap fail if
+      the keyring is not available.
+  * debian/tests/build-procenv: workaround apt 1.1 and ci.debian.net bad
+    interaction by passing `-o APT::Sandbox::User=root` to apt invocation.
+  * debian/control:
+    + use my @debian.org email address.
+    + stop suggesting pbuilder-uml.
+  * debian/rules: add a ubuntu (and derivatives) only stanza to tweak some
+    files at build time:
+    + change the URL of the default archive in pbuilderrc and documentation.
+    + set the default DISTRIBUTION to xenial.
 
- -- Mattia Rizzolo <mattia@mapreri.org>  Thu, 26 Nov 2015 00:16:59 +0000
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 08 Dec 2015 10:24:26 +0000
 
 pbuilder (0.221.1) unstable; urgency=medium
 
