@@ -1,3 +1,13 @@
+pbuilder (0.221.3) unstable; urgency=medium
+
+  * debian/tests/build-procenv: be sure there is a deb-src line in
+    /etc/apt/sources.list
+  * pbuilder-satisfydepends-aptitude: set XDG_CACHE_HOME=/root while calling
+    aptitude, to avoid it putting stuff in BUILDDIR.  This is due to a changed
+    behaviour in aptitude.  Closes: #807487
+
+ -- Mattia Rizzolo <mattia@debian.org>  Wed, 09 Dec 2015 18:39:33 +0000
+
 pbuilder (0.221.2) unstable; urgency=medium
 
   * pbuilder: correctly empty and then recopy the chroot's /etc/resolv.conf
