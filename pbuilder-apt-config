@@ -67,7 +67,7 @@ guess_dist_arch_archive() {
           amd64|i386)
             echo "ubuntu"
           ;;
-          arm64|armel|armhf|hppa|ia64|lpia|powerpc|ppc64el|sparc)
+          arm64|armel|armhf|hppa|ia64|lpia|powerpc|ppc64el|s390x|sparc)
             echo "ubuntu-ports"
           ;;
           *)
