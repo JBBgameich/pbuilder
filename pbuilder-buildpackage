@@ -31,6 +31,10 @@ if [ ! -f "$PACKAGENAME" ]; then
     log.e "Source package [$PACKAGENAME] does not exist"
     exit 1;
 fi;
+shift
+if [ -n "$@" ]; then
+    log.w "The following options specified after the .dsc will be ignored: [$@]"
+fi
 
 if [ -n "$BUILDUSERNAME" -a -n "$BUILDUSERID" ]; then
     # Command to SU to user.
