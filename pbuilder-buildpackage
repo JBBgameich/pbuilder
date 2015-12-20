@@ -28,7 +28,7 @@ set -e
 
 PACKAGENAME="$1"
 if [ ! -f "$PACKAGENAME" ]; then
-    log.e "Command line parameter [$PACKAGENAME] does not exist"
+    log.e "Source package [$PACKAGENAME] does not exist"
     exit 1;
 fi;
 
