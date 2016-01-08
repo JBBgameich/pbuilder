@@ -1,6 +1,29 @@
 pbuilder (0.221.3+unreleased) UNRELEASED; urgency=medium
 
-  * Do stuff, fix bugs.
+  [ Christopher Baines ]
+  * buildpackage:
+    + factor out a export_additional_buildresults() function.
+    + export additional buildresults if the package build fails.  Closes: 806650
+
+  [ Mattia Rizzolo ]
+  * buildpackage:
+    + say something more human whene the specified .dsc file is not found.
+    + output a warning when there are options after the .dsc file (which will
+      be ignored).  Closes: #669873
+  * modules:
+    + make log.d actually work (was not used before).
+    + add two apt options that make sure that packages that are only recommended
+      or suggested by still installed packages are also autoremoved.  This means
+      APT::AutoRemove::SuggestsImportant=false and
+      APT::AutoRemove::RecommendsImportant=false.
+      Thanks to Johannes Schauer for the suggestion.
+  * pdebuild:
+    + further improvments to the regex to clean up DEBUILDOPTS.
+      Thanks to Ondřej Surý <ondrej@debian.org> for the patch.  Closes: 782150
+  * satisfydepends:
+    + add support for Build-Depends-Arch and Build-Conflicts-Arch.
+      Closes: 802557
+  * conf: formally deprecate DEBEMAIL, it has been a noop since some releases.
 
  -- Mattia Rizzolo <mattia@debian.org>  Mon, 21 Dec 2015 02:05:43 +0000
 
