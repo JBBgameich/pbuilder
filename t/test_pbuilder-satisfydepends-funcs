@@ -27,7 +27,7 @@ test_get_build_deps() {
     cat <<EOF >"$DEBIAN_CONTROL"
 Source: amule
 XXXX:
-Build-Depends: 
+Build-Depends:        
  autotools-dev ( >= 1.2 ) ,
 	 debhelper 	,
  quilt(<<12:0),
@@ -37,6 +37,8 @@ Build-Depends-Indep: test [ amd64 i386 ], test1,
  test2[!i386 ! amd64], test3 | 
  test4, test5
 Misc: test
+Build-Depends-Arch: foo1, foo2	,	foo3 (<< 12.23.34-5),
+	bar4 [!amd64] <notest>, foobar [i386], gnagna [ !s390x     ]
 
 Build-Depends: wrong build depends, line
 Description: test
@@ -123,10 +125,13 @@ trap cleanup sigpipe sighup exit
 # TODO move to build dir
 DEBIAN_CONTROL="$(tempfile)"
 
-expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev, test [amd64 i386], test1, test2 [!i386 !amd64], test3 | test4, test5" \
+expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev, test [amd64 i386], test1, test2 [!i386 !amd64], test3 | test4, test5, foo1, foo2, foo3 (<< 12.23.34-5), bar4 [!amd64]<notest>, foobar [i386], gnagna [!s390x]" \
     test_get_build_deps "any"
-expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev" \
+expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev, foo1, foo2, foo3 (<< 12.23.34-5), bar4 [!amd64]<notest>, foobar [i386], gnagna [!s390x]" \
     test_get_build_deps "binary"
+expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev, test [amd64 i386], test1, test2 [!i386 !amd64], test3 | test4, test5" \
+    test_get_build_deps "all"
+
 
 expect_fail checkbuilddep_archdeps "foo [amd64]" "amd64"
 expect_success checkbuilddep_archdeps "foo [i386]" "amd64"

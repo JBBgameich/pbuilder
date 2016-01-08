@@ -113,10 +113,22 @@ get_build_deps() {
 
     output="$(get_source_control_field "Build-Depends")"
     output="${output%, }"
-    if [ "$BINARY_ARCH" = any ]; then
-        output="${output:+$output, }$(get_source_control_field "Build-Depends-Indep")"
-        output="${output%, }"
-    fi
+    case "$BINARY_ARCH" in
+        any)
+            output="${output:+$output, }$(get_source_control_field "Build-Depends-Indep")"
+            output="${output%, }"
+            output="${output:+$output, }$(get_source_control_field "Build-Depends-Arch")"
+            output="${output%, }"
+            ;;
+        binary)
+            output="${output:+$output, }$(get_source_control_field "Build-Depends-Arch")"
+            output="${output%, }"
+            ;;
+        all)
+            output="${output:+$output, }$(get_source_control_field "Build-Depends-Indep")"
+            output="${output%, }"
+            ;;
+    esac
     echo "$output"
 }
 
@@ -124,9 +136,23 @@ get_build_conflicts() {
     local output
 
     output="$(get_source_control_field "Build-Conflicts")"
-    if [ "$BINARY_ARCH" = any ]; then
-        output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Indep")"
-    fi
+    output="${output%, }"
+     case "$BINARY_ARCH" in
+        any)
+            output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Indep")"
+            output="${output%, }"
+            output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Arch")"
+            output="${output%, }"
+            ;;
+        binary)
+            output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Arch")"
+            output="${output%, }"
+            ;;
+        all)
+            output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Indep")"
+            output="${output%, }"
+            ;;
+    esac
     echo "$output"
 }
 
