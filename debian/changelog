@@ -24,6 +24,12 @@ pbuilder (0.222) unstable; urgency=medium
     + add support for Build-Depends-Arch and Build-Conflicts-Arch.
       Closes: 802557
   * conf: formally deprecate DEBEMAIL, it has been a noop since some releases.
+  * pbuilder-apt-config: ubuntu ports now has s390x, add it here too.
+  * debian/control: remove Junichi, Loïc and Matt from uploaders.
+    Thanks for all your work till now, and come back whenever you want!
+  * debian/copyright:
+    + add myself.
+    + update years of Junichi and Loïc entries.
 
  -- Mattia Rizzolo <mattia@debian.org>  Fri, 08 Jan 2016 17:57:37 +0000
 
