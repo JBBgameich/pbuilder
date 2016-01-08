@@ -113,7 +113,7 @@ get_build_deps() {
 
     output="$(get_source_control_field "Build-Depends")"
     output="${output%, }"
-    if [ "$BINARY_ARCH" = no ]; then
+    if [ "$BINARY_ARCH" = any ]; then
         output="${output:+$output, }$(get_source_control_field "Build-Depends-Indep")"
         output="${output%, }"
     fi
@@ -124,7 +124,7 @@ get_build_conflicts() {
     local output
 
     output="$(get_source_control_field "Build-Conflicts")"
-    if [ "$BINARY_ARCH" = no ]; then
+    if [ "$BINARY_ARCH" = any ]; then
         output="${output:+$output, }$(get_source_control_field "Build-Conflicts-Indep")"
     fi
     echo "$output"

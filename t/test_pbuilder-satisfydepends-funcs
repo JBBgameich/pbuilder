@@ -72,7 +72,7 @@ EOF
 
 test_get_parsed_build_deps_dsc() {
     local ARCH="amd64"
-    local BINARY_ARCH="no"
+    local BINARY_ARCH="any"
 
     cat > "$DEBIAN_CONTROL" << EOF
 Format: 3.0 (quilt)
@@ -124,9 +124,9 @@ trap cleanup sigpipe sighup exit
 DEBIAN_CONTROL="$(tempfile)"
 
 expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev, test [amd64 i386], test1, test2 [!i386 !amd64], test3 | test4, test5" \
-    test_get_build_deps "no"
+    test_get_build_deps "any"
 expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev" \
-    test_get_build_deps "yes"
+    test_get_build_deps "binary"
 
 expect_fail checkbuilddep_archdeps "foo [amd64]" "amd64"
 expect_success checkbuilddep_archdeps "foo [i386]" "amd64"
