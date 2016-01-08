@@ -36,5 +36,10 @@ for RCFILE in \
         echo "W: PKGNAME_LOGFILE_EXTENTION will be removed at some point, please update your config!"
         PKGNAME_LOGFILE_EXTENSION="$PKGNAME_LOGFILE_EXTENTION"
     fi
+    # deprecated in v0.222
+    if [ -n "$DEBEMAIL" ]; then
+        echo "W: The configuration option DEBEMAIL is deprecated.  Please pass the required options to DEBBUILDOPTS (--debbuildopts command line flag) instead."
+        echo "W: DEBEMAIL='$DEBEMAIL' is ignored!"
+    fi
 done
 

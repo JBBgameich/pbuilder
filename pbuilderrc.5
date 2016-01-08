@@ -216,19 +216,6 @@ Known implementations of debootstrap are
 and
 .B "debootstrap"
 .TP
-.BI "DEBEMAIL=" "Maintainer Name <Mail@Address>"
-If this was specified,
-.B dpkg\-buildpackage
-command will be passed with the necessary sponsorship option
-.B "\-mMaintainer Name <Mail@Address>"
-on building.
-Overridden with
-.B "\-\-debemail"
-command-line option.
-The default configuration for
-.B pbuilder
-is empty for this value.
-.TP
 .BI "export DEBIAN_FRONTEND=" "noninteractive"
 Sets interactiveness of pbuilder run.
 Setting this value to blank will cause the

@@ -51,8 +51,6 @@ CCACHEDIR=""
 # make debconf not interact with user
 export DEBIAN_FRONTEND="noninteractive"
 
-DEBEMAIL=""
-
 #for pbuilder debuild
 BUILDSOURCEROOTCMD="fakeroot"
 PBUILDERROOTCMD="sudo -E"
