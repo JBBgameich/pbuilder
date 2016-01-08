@@ -1,4 +1,4 @@
-pbuilder (0.221.3+unreleased) UNRELEASED; urgency=medium
+pbuilder (0.222) unstable; urgency=medium
 
   [ Christopher Baines ]
   * buildpackage:
@@ -25,7 +25,7 @@ pbuilder (0.221.3+unreleased) UNRELEASED; urgency=medium
       Closes: 802557
   * conf: formally deprecate DEBEMAIL, it has been a noop since some releases.
 
- -- Mattia Rizzolo <mattia@debian.org>  Mon, 21 Dec 2015 02:05:43 +0000
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 08 Jan 2016 17:57:37 +0000
 
 pbuilder (0.221.3) unstable; urgency=medium
 
