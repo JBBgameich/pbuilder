@@ -7,7 +7,7 @@ Build-Depends: dblatex,
                debconf | debconf-2.0,
                debhelper (>= 9),
                docbook-xsl,
-               ldp-docbook-xsl (>= 0.0.20040321-0.1),
+               ldp-docbook-xsl,
                po-debconf,
                po4a,
                xsltproc
