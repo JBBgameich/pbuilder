@@ -52,7 +52,7 @@ Description: personal package builder for Debian packages
 Package: pbuilder-uml
 Architecture: amd64 i386
 Depends: pbuilder (= ${source:Version}),
-         rootstrap (>= 0.3.9-1),
+         rootstrap,
          user-mode-linux,
          ${misc:Depends}
 Replaces: pbuilder (= 0.217)
