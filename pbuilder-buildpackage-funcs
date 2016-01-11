@@ -161,6 +161,7 @@ function binNMU() {
     DEBBUILDOPTS="${DEBBUILDOPTS} -e\"$BINNMU_MAINTAINER\""
     cat > "$cl" << EOF
 $package ($version+b$BINNMU_VERSION) $DISTRIBUTION; urgency=low, binary-only=yes
+
   * Binary-only non-maintainer upload for $arch; no source changes.
   * $BINNMU_MESSAGE
 
