@@ -447,6 +447,14 @@ directory to prevent builds from writing to HOME, which is reserved to users.
 If you need a working HOME you can set it to
 .B $BUILDDIR
 instead.
+.TP
+.BI "BINNMU_MAINTAINER=" ""
+Set the value of the maintainer name and email in the changelog during binNMU.
+Such value is then copied to the Changed-By field of the .changes file.  Can be
+set at run time with the
+.B --bin-nmu-maintainer
+command line option.
+
 
 .SH "AUTHOR"
 Initial coding, and main maintenance is done by
