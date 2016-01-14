@@ -27,7 +27,7 @@ Recommends: devscripts,
             fakeroot,
             net-tools | iproute2,
             sudo
-Suggests: cowdancer [linux-any],
+Suggests: cowdancer,
           gdebi-core
 Homepage: http://pbuilder.alioth.debian.org
 Description: personal package builder for Debian packages
