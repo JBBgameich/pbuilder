@@ -32,7 +32,7 @@ if [ ! -f "$PACKAGENAME" ]; then
     exit 1;
 fi;
 shift
-if [ -n "$@" ]; then
+if [ -n "$*" ]; then
     log.w "The following options specified after the .dsc will be ignored: [$@]"
 fi
 
