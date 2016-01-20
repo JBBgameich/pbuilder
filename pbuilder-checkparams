@@ -22,6 +22,7 @@
 # pbuilder-uml calls uml-checkparams.
 
 export PBUILDER_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder}"
+CMDLINE="$@"
 
 . "$PBUILDER_PKGLIBDIR"/pbuilder-loadconfig
 . "$PBUILDER_PKGLIBDIR"/pbuilder-modules
@@ -310,6 +311,8 @@ while [ -n "$1" ]; do
 	    ;;
   esac
 done
+
+log.d "cmdline: ${PBCURRENTCOMMANDLINEOPERATION} ${CMDLINE}"
 
 BUILDPLACE=${BUILDPLACE?"Build root directory is not defined"}
 
