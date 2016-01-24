@@ -28,16 +28,12 @@ CHECK_SCRIPTS += bash_completion.d/pbuilder
 ALLDIRS += PBUILDERCONF
 PBUILDERCONFDIR := $(SYSCONFDIR)/pbuilder
 PBUILDERCONF_DATA += \
-	pbuilder-uml.conf \
 	$(NULL)
-CHECK_SCRIPTS += pbuilder-uml.conf
 
 ALLDIRS += BIN
 BIN_SCRIPTS += \
 	debuild-pbuilder \
-	pbuilder-user-mode-linux \
 	pdebuild \
-	pdebuild-user-mode-linux \
 	$(NULL)
 
 ALLDIRS += PKGLIB
@@ -56,13 +52,10 @@ PKGLIB_SCRIPTS += \
 	pbuilder-satisfydepends-experimental \
 	pbuilder-satisfydepends-funcs \
 	pbuilder-satisfydepends-gdebi \
-	pbuilder-selftest \
-	pbuilder-uml-checkparams \
 	pbuilder-unshare-wrapper \
 	pbuilder-updatebuildenv \
 	pdebuild-checkparams \
 	pdebuild-internal \
-	pdebuild-uml-checkparams \
 	$(NULL)
 
 ALLDIRS += SBIN
@@ -141,11 +134,9 @@ EXAMPLE_REBUILD_SCRIPTS += \
 ALLDIRS += PKGDATA
 PKGDATA_DATA += \
 	pbuilderrc \
-	pbuilder-uml.conf \
 	$(NULL)
 CHECK_SCRIPTS += \
 	pbuilderrc \
-	pbuilder-uml.conf \
 	$(NULL)
 
 NOINST_MANPAGES += \
@@ -197,7 +188,6 @@ endef
 install:
 	$(foreach d,$(ALLDIRS),$(call install_dir_impl,$(d)))
 	$(INSTALL_DIRECTORY) $(DESTDIR)/var/cache/pbuilder/pbuilder-mnt
-	$(INSTALL_DIRECTORY) $(DESTDIR)/var/cache/pbuilder/pbuilder-umlresult
 	# install -aptitude flavour as the default satisfydepends
 	ln -sf pbuilder-satisfydepends-aptitude $(PKGLIBDIR)/pbuilder-satisfydepends
 	$(MAKE) -C pbuildd $@
