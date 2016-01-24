@@ -207,9 +207,6 @@ function umount_one () {
   so that I can unmount $1.  Last umount error was:
 $UMOUNT_OUTPUT
 
-  This error only affects chroots; you may want to use
-  user-mode-linux to avoid this message.
-
 EOF
                 chroot "$BUILDPLACE" bin/sh
             done
