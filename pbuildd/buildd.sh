@@ -65,7 +65,7 @@ function buildone() {
 $ROOTCOMMAND dselect update
 $ROOTCOMMAND pbuilder update 
 
-tmpfile=$(tempfile)
+tmpfile=$(mktemp)
 wget "${MIRROR}"/debian/dists/unstable/main/source/Sources.gz -O${tmpfile}
 
 for A in $( zcat ${tmpfile} | awk "BEGIN { RS = \"\" }

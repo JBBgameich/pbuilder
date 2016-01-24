@@ -30,7 +30,7 @@ $ROOTCOMMAND dselect update
 #$ROOTCOMMAND pbuilder update 
 pbuilder-user-mode-linux update 
 
-tmpfile=$(tempfile)
+tmpfile=$(mktemp)
 wget "${MIRROR}"/debian/dists/unstable/main/binary-i386/Packages.gz -O${tmpfile}
 
 for A in $( zcat ${tmpfile} | sed -n 's/^Package: //p' | bogosort -n ); do 
