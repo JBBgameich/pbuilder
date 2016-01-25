@@ -158,7 +158,7 @@ checkbuilddep_internal() {
 	      continue
 	  fi
       fi
-      if echo "$INSTALLPKG" | greq -q '<'; then
+      if echo "$INSTALLPKG" | grep -q '<'; then
           # this package has build-profiles-conflicts.
           if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
               echo "I: Ignoring other-buildprofiles"
