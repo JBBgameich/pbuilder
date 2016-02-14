@@ -138,7 +138,9 @@ function binNMU() {
         log.w "No version provided for binNMU entry, fall back to 1."
         BINNMU_VERSION=1
     fi
-    log.i "Doing a binNMU, version $BINNMU_VERSION to '$BINNMU_MESSAGE'"
+    local arch=$($CHROOTEXEC dpkg-architecture -qDEB_HOST_ARCH)
+    local date=$(date -R)
+    log.i "Doing a binNMU, version $BINNMU_VERSION for $DISTRIBUTION/$arch to '$BINNMU_MESSAGE'"
     local cl=$(ls "$BUILDPLACE"/"$BUILDDIR"/*/debian/changelog)
     local tmpcl=$(mktemp pbuilder.tmpchangelog.XXXXXXXXXXX)
     if [ ! -f "$cl" ]; then
@@ -148,8 +150,6 @@ function binNMU() {
     mv "$cl" "$tmpcl"
     local package=$(dpkg-parsechangelog -l "$tmpcl" -c 1 --show-field Source)
     local version=$(dpkg-parsechangelog -l "$tmpcl" -c 1 --show-field Version)
-    local arch=$($CHROOTEXEC dpkg-architecture -qDEB_HOST_ARCH)
-    local date=$(date -R)
     if [ -z "$BINNMU_MAINTAINER" ]; then
         log.w "No maintainer provided for binNMU entry, fall back to last uploader."
         BINNMU_MAINTAINER=$(dpkg-parsechangelog -l $tmpcl -c 1 --show-field Maintainer)
