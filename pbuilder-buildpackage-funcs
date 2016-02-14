@@ -92,7 +92,7 @@ function addgrsecgroup () {
     [ "$(sysctl -ne kernel.grsecurity.tpe)" = "1" ] || return 0
     [ "$(sysctl -ne kernel.grsecurity.tpe_invert)" = "1" ] || return 0
 
-    TPEGID=$(sysctl -n kernel.grsecurity.tpe_gid)
+    local TPEGID=$(sysctl -n kernel.grsecurity.tpe_gid)
     log.i "Adding build user to grsec-tpe group"
     echo "grsec-tpe:x:$TPEGID:$BUILDUSERNAME" >> "$BUILDPLACE/etc/group"
 }
