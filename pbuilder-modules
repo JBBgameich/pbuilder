@@ -282,7 +282,7 @@ function mountproc () {
                 PROCFS="proc"
                 ;;
         esac
-        mount -t "$PROCFS" /proc "$BUILDPLACE/proc" || [ "$DEB_BUILD_ARCH_OS" = hurd ]
+        mount -t "$PROCFS" /proc "$BUILDPLACE/proc"
         ln -s ../proc/mounts "$BUILDPLACE/etc/mtab" 2> /dev/null || true
         mounted[${#mounted[@]}]="$BUILDPLACE/proc"
     fi
