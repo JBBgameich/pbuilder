@@ -255,7 +255,7 @@ function umountproc () {
         # Workaround to remove chroot on Hurd: once /dev firmlink is
         # removed, chroot removal either gets stuck or fails by removing
         # some devices.
-        for dev in "$BUILDPLACE"/dev/{netdde,tty*,pty*,fd,vcs}; do
+        for dev in "$BUILDPLACE"/dev/* "$BUILDPLACE"/servers/socket/*; do
             settrans -fg "$dev"
         done
     fi
