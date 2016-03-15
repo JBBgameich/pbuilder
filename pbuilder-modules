@@ -233,7 +233,7 @@ function umountproc () {
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
         umount_one "dev/pts"
     fi
-    if [ "$USEDEVFS" = "yes" ]; then
+    if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] || [ "$USEDEVFS" = "yes" ]; then
         umount_one "dev"
     fi
     if [ "$USERUNSHM" = "yes" ] && [ "$DEB_BUILD_ARCH_OS" != "hurd" ]; then
@@ -292,7 +292,7 @@ function mountproc () {
         ln -s ../proc/mounts "$BUILDPLACE/etc/mtab" 2> /dev/null || true
         mounted[${#mounted[@]}]="$BUILDPLACE/proc"
     fi
-    if [ "$USEDEVFS" = "yes" ]; then
+    if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] || [ "$USEDEVFS" = "yes" ]; then
         log.i "mounting /dev filesystem"
         mkdir -p "$BUILDPLACE/dev" || true
         mount -t devfs /dev "$BUILDPLACE/dev"
