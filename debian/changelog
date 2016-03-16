@@ -1,6 +1,27 @@
 pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
 
-  * stuff.
+  [ Mattia Rizzolo ]
+  * Import patch from Fedora to use mktemp(1) instead of tempfile(1).
+  * pbuilder-satisfydepends-classic: fix typo.  Closes: #812693
+  * debian/copyright: extend my copyright over 2016.
+  * debian/control: Bump Standards-Version to 3.9.7, no changes needed.
+  * buildpackage:
+    + override the Maintainer field when doing binNMUs.  Closes: #813589
+  * buildpackage-funcs: make binNMU log message more useful
+
+  [ Reiner Herrmann ]
+  * Add build user to grsec-tpe group if TPE is enabled.  Closes: #814738
+
+  [ Samuel Thibault ]
+  * modules:
+    + modules: stop ignoring mount /proc issues in hurd.
+    + in hurd, remove all translators from /dev/* and /servers/socket/*.
+      Closes: #814854
+
+  [ James Clarke ]
+  * modules:
+    + On Hurd with --no-targz, leave a valid /servers/socket/1.  Closes: #818368
+    + Always use devfs on kfreebsd.  Closes: #630813
 
  -- Mattia Rizzolo <mattia@debian.org>  Sun, 24 Jan 2016 21:38:42 +0000
 
