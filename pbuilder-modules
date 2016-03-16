@@ -258,6 +258,12 @@ function umountproc () {
         for dev in "$BUILDPLACE"/dev/* "$BUILDPLACE"/servers/socket/*; do
             settrans -fg "$dev"
         done
+
+        # When running with --no-targz, leave a valid translator for
+        # /servers/socket/1 so pipes can be used within the chroot.
+        if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
+            settrans -ck "$BUILDPLACE"/servers/socket/1 /hurd/pflocal
+        fi
     fi
 }
 
