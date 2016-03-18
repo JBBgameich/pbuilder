@@ -21,6 +21,7 @@
 # common modules for pbuilder.
 
 hooks=tmp/hooks
+DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
 
 function showhelp () {
     cat <<EOF
@@ -170,7 +171,6 @@ function seems_truly_unmounted() {
 }
 
 function umount_one () {
-    DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "${IGNORE_UMOUNT}" = "yes" ]; then
         # support ignore umount option.
         log.i "ignoring umount of $1 filesystem"
@@ -219,7 +219,6 @@ EOF
 function umountproc () {
     # push arguments on a stack to reverse direction.
     local reversed
-    DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     reversed=
     for mnt in $BINDMOUNTS; do
         reversed="$mnt $reversed"
@@ -272,7 +271,6 @@ function umountproc () {
 # Also create a policy-rc.d script if it doesn't already exist.
 function mountproc () {
     local -a mounted
-    DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
     if [ "$USEPROC" = "yes" ]; then
         log.i "mounting /proc filesystem"
         mkdir -p "$BUILDPLACE/proc"
