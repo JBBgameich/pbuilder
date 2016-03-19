@@ -64,13 +64,8 @@ else
     REMOVEPACKAGES="$REMOVEPACKAGES debdelta-"
 fi
 
-if [ -n "$REMOVEPACKAGES" ]; then
-    # FIXME this wont work if the packages have some reverse dependencies;
-    # apt-get can also remove package, either with apt-get remove or purge, or
-    # with apt-get install name-of-pkg- (i.e. a minus sign after the package
-    # name)
-    $CHROOTEXEC /usr/bin/dpkg --purge $REMOVEPACKAGES
-fi
+if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES fi
+
 recover_aptcache
 
 $TRAP saveaptcache_umountproc_cleanbuildplace_trap exit sighup
