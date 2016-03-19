@@ -472,6 +472,22 @@ EOF
     fi
 }
 
+function remove_packages () {
+    # remove the packages in $@ from the chroot, with apt, so r-deps are
+    # removed too, and do it if and only if they are already installed.
+    local pkg
+    local toremove=()
+    for pkg in "$@"; do
+        if (dpkg-query -W "$pkg" 2>&1)>/dev/null ; then
+            toremove+=("$pkg")
+        else
+            log.d "not removing $pkg as not installed"
+        fi
+    done
+    log.i "Removing [${toremove[@]}] from the chroot..."
+    $CHROOTEXEC apt-get --purge remove "${toremove[@]}"
+}
+
 function copy_local_configuration () {
     log.i "copying local configuration"
     if [ -n "$CONFDIR" ] && [ -d "$CONFDIR" ]; then
