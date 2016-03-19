@@ -466,9 +466,6 @@ EOF
             echo "deb $MIRRORSITE experimental main" >> "$BUILDPLACE"/etc/apt/sources.list
             echo "#deb-src $MIRRORSITE experimental main" >> "$BUILDPLACE"/etc/apt/sources.list
         fi
-        cat >> "$BUILDPLACE"/etc/apt/apt.conf.d/15pbuilder <<EOF
-APT::Default-Release "experimental";
-EOF
     fi
 }
 
