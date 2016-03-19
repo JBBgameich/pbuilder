@@ -124,10 +124,10 @@ function checkbuilddep_internal () {
     
     # now actually install the packages
     echo " -> Installing $INSTALLPKGLIST"
-    if ! $CHROOTEXEC apt-get -y "${APTGETOPT[@]}" $APTFLAG install $INSTALLPKGLIST; then
+    if ! $CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" $APTFLAG install $INSTALLPKGLIST; then
 	echo " -> Trying to fix apt error"
 	# Work around an apt bug which causes configure to fail.
-	if $CHROOTEXEC dpkg --configure --pending && $CHROOTEXEC apt-get -y "${APTGETOPT[@]}" $APTFLAG install $INSTALLPKGLIST; then
+	if $CHROOTEXEC dpkg --configure --pending && $CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" $APTFLAG install $INSTALLPKGLIST; then
 	    echo " -> Apt bug workaround succeeded"
 	elif [ "$CONTINUE_FAIL" != "yes" ]; then
 	    echo "E: Unrecoverable error installing build-dependencies." >&2
@@ -161,7 +161,7 @@ function checkbuilddep_internal () {
 
       # if package exists, remove it.
       if $CHROOTEXEC /usr/bin/dpkg -s $(echo "$INSTALLPKG" | tr "/" " " | awk '{print $1}') 2>&1 | grep -q ^Package:; then
-	  if ! $CHROOTEXEC /usr/bin/apt-get -y remove $CURRENTREALPKGNAME ; then
+	  if ! $CHROOTEXEC /usr/bin/apt-get -q -y remove $CURRENTREALPKGNAME ; then
 	      echo "E: Could not satisfy build-conflicts" >&2
 	      exit 1
 	  fi
