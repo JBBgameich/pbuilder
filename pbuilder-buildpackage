@@ -31,6 +31,11 @@ if [ ! -f "$PACKAGENAME" ]; then
     log.e "Source package [$PACKAGENAME] does not exist"
     exit 1;
 fi;
+if [ "${PACKAGENAME:(-4)}" != ".dsc" ]; then
+    log.e "The given filename does not seems to be the name of a Debian source package."
+    log.e "You need to pass a file ending with .dsc (given '$PACKAGENAME')."
+    exit 1
+fi
 shift
 if [ -n "$*" ]; then
     log.w "The following options specified after the .dsc will be ignored: [$@]"
