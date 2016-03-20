@@ -64,7 +64,7 @@ else
     REMOVEPACKAGES="$REMOVEPACKAGES debdelta-"
 fi
 
-if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES fi
+if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi
 
 recover_aptcache
 

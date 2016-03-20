@@ -111,7 +111,7 @@ else
     REMOVEPACKAGES="$REMOVEPACKAGES ccache-"
 fi
 
-if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES fi
+if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi
 recover_aptcache
 $CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" "${FORCE_CONFNEW[@]}" dist-upgrade
 $CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" install \
