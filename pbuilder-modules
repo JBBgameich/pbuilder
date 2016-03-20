@@ -484,8 +484,10 @@ function remove_packages () {
             log.d "not removing $pkg as not installed"
         fi
     done
-    log.i "Removing [${toremove[@]}] from the chroot..."
-    $CHROOTEXEC apt-get --purge remove "${toremove[@]}"
+    if [ "${#toremove[@]}" -gt 0 ]; then
+        log.i "Removing [${toremove[@]}] from the chroot..."
+        $CHROOTEXEC apt-get --purge remove "${toremove[@]}"
+    fi
 }
 
 function copy_local_configuration () {
