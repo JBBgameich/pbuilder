@@ -48,20 +48,20 @@ case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
     EXTRAPACKAGES="$EXTRAPACKAGES aptitude"
   ;;
   *)
-    REMOVEPACKAGES="$REMOVEPACKAGES aptitude-"
+    REMOVEPACKAGES="$REMOVEPACKAGES aptitude"
   ;;
 esac
 
 if [ -n "$CCACHEDIR" ]; then
     EXTRAPACKAGES="$EXTRAPACKAGES ccache"
 else
-    REMOVEPACKAGES="$REMOVEPACKAGES ccache-"
+    REMOVEPACKAGES="$REMOVEPACKAGES ccache"
 fi
 
 if [ "$DEBDELTA" = "yes" ]; then
     EXTRAPACKAGES="$EXTRAPACKAGES debdelta python-apt xdelta3"
 else
-    REMOVEPACKAGES="$REMOVEPACKAGES debdelta-"
+    REMOVEPACKAGES="$REMOVEPACKAGES debdelta"
 fi
 
 if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi

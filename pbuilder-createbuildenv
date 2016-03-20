@@ -101,14 +101,14 @@ case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
     EXTRAPACKAGES="$EXTRAPACKAGES aptitude"
   ;;
   *)
-    REMOVEPACKAGES="$REMOVEPACKAGES aptitude-"
+    REMOVEPACKAGES="$REMOVEPACKAGES aptitude"
   ;;
 esac
 
 if [ -n "$CCACHEDIR" ]; then
     EXTRAPACKAGES="$EXTRAPACKAGES ccache"
 else
-    REMOVEPACKAGES="$REMOVEPACKAGES ccache-"
+    REMOVEPACKAGES="$REMOVEPACKAGES ccache"
 fi
 
 if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi
