@@ -41,7 +41,7 @@ function copydsc () {
     for FILE in ${DSCFILE[@]} ; do
     log.i "copying [$FILE]"
         cp -p "$FILE" "$TARGET"
-        chmod u+rw "$TARGET/$FILE"
+        chmod u+rw "$TARGET/$(basename "$FILE")"
     done
 }
 
