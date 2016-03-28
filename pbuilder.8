@@ -14,28 +14,28 @@ pbuilder \- personal package builder
 .PP
 .BI "pbuilder --login [" "options" "]"
 .SH "DESCRIPTION"
-Front end program to the 
+Front end program to the
 .B "pbuilder"
-suite of programs, used for creating and maintaining chroot environment 
+suite of programs, used for creating and maintaining chroot environment
 and building Debian package in the chroot environment.
 
 .SH "COMMANDS"
 
 .TP
 .B "--create"
-Creates a 
-.B "base.tgz" 
+Creates a
+.B "base.tgz"
 for the specified distribution.
 
 .TP
 .B "--update"
-Updates the 
+Updates the
 .B "base.tgz"
 for the specified distribution.
-Also, by specifying the 
+Also, by specifying the
 .B "\-\-override\-config"
-option, it is possible to install a new apt-line using 
-the given options and settings in the configuration file 
+option, it is possible to install a new apt-line using
+the given options and settings in the configuration file
 for the base.tgz.
 
 For example, to switch the distribution of an existing
@@ -47,7 +47,7 @@ options to update.
 .B "--build"
 Builds the package specified by
 .I ".dsc-file"
-in the chroot environment created using the 
+in the chroot environment created using the
 .B "base.tgz"
 
 .TP
@@ -56,7 +56,7 @@ Cleans up the directory specified by the configuration
 .B "BUILDPLACE"
 and
 .B "APTCACHE"
-specified in 
+specified in
 .I "/etc/pbuilderrc"
 
 .TP
@@ -66,16 +66,16 @@ Any changes you make will not be kept.
 Only use this for temporary and debugging purposes.
 Do not bind-mount filesystems directly inside the chroot.
 Use
-.B "\-\-bindmounts" 
+.B "\-\-bindmounts"
 option to mount.
 
 .TP
 .B "--execute"
 Execute a script or command inside the chroot,
-in a similar manner to 
+in a similar manner to
 .B "--login"
 
-The file specified in the command-line argument will be 
+The file specified in the command-line argument will be
 copied into the chroot, and invoked.
 
 The remaining arguments are passed on to the script.
@@ -99,25 +99,25 @@ Same as
 The command is followed by options of the form
 .BI "\-\-" "option name"
 which will modify the semantics as explained below.
-They are applied from left-to-right, and when there are 
+They are applied from left-to-right, and when there are
 conflicting options, the rightmost options will have effect.
 
 .TP
 .BI "\-\-basetgz [" "basetgz-location" "]"
-Specifies the location of 
+Specifies the location of
 .B "base.tgz"
 
-This option will define the default distribution and 
+This option will define the default distribution and
 apt-lines when used in
 .B "pbuilder --update"
-and 
+and
 .B "pbuilder --create"
 
 .TP
 .BI "\-\-buildplace [" "location of build" "]"
-Specifies the location where building and 
+Specifies the location where building and
 .B "base.tgz"
-updating and creation takes place. This is 
+updating and creation takes place. This is
 a temporary work directory.
 
 A subdirectory of that directory using the current PID of the
@@ -126,12 +126,12 @@ process is used.
 .TP
 .BI "\-\-buildresult [" "location to put build result" "]"
 Specifies the location the build result gets into after building.
-The deb files and other files that have resulted from build 
+The deb files and other files that have resulted from build
 is copied there.
 Note that the default value is not the current directory,
-or 
+or
 .B ".."
-but another place, 
+but another place,
 .B "/var/cache/pbuilder/result"
 This is to avoid
 overwriting already existing deb files with
@@ -139,35 +139,35 @@ the newly generated ones.
 
 .TP
 .BI "\-\-mirror [" "mirror location" "]"
-Specifies the URL of Debian mirror to be 
-specified in 
+Specifies the URL of Debian mirror to be
+specified in
 .B "sources.list"
 inside the chroot.
-This option is only valid when distribution is being specified, for 
+This option is only valid when distribution is being specified, for
 .B "--update"
 and
 .B "--build"
 targets.
 The format is something like:
-.I "http://http.us.debian.org/debian" 
+.I "http://http.us.debian.org/debian"
 which should point to your favourite mirror.
 
 This option can optionally be omitted, and left blank,
 in which case, this part is skipped.
 
 Note that these URLs specified to pbuilder will be used from within
-the chroot, and specifying 
+the chroot, and specifying
 .B "file:/somewhere/"
 will most probably fail.
 
 .TP
 .BI "\-\-othermirror [" "deb http://xxx/xxx/ ./ " "|" " other deb lines... " "]"
-The lines which is added to the sources.list, delimited with 
+The lines which is added to the sources.list, delimited with
 .B "|"
-Like 
+Like
 .B "deb http://local/mirror stable main|deb file:/usr/local/mirror ./"
 
-The deb lines here are the ones that will appear at the top of the 
+The deb lines here are the ones that will appear at the top of the
 .B "sources.list"
 inside the chroot.
 Be sure to follow the syntax rules of
@@ -175,8 +175,8 @@ Be sure to follow the syntax rules of
 These lines appear at the beginning of the
 constructed sources file, so this is the place to list your
 .B "local"
-mirror sites; apt will then use them in preference to the ones 
-listed in 
+mirror sites; apt will then use them in preference to the ones
+listed in
 .B "\-\-mirror".
 
 .TP
@@ -218,7 +218,7 @@ is being called.
 .BI "\-\-http\-proxy [" "proxy" "]"
 Specifies the http proxy URL. Something like
 .B "http://xxx.xxx.xxx.xxx:8080/"
-should do. 
+should do.
 
 .TP
 .BI "\-\-aptcache [" "location of retrieved package files" "]"
@@ -243,14 +243,14 @@ configuration files have been read.
 .TP
 .BI "\-\-hookdir [" "location of user scripts" "]"
 Specifies the location where scripts for user intervention during
-the 
+the
 .B "--create"
 and
 .B "--update"
 process are stored. Currently scripts are
 executed at only one point, on exit from the chrooted environment,
 just before either a create or a build regenerated the base.tgz
-file. The script names must be in the form 
+file. The script names must be in the form
 .B "X<digit><digit><whatever-else-you-want>"
 much like boot scripts. The scripts must be executable and may
 be either binaries or interpreted scripts. If it is a script
@@ -258,28 +258,28 @@ in other than Bourne Shell or Perl, it is up to the user to
 ensure the interpreter was previously installed in the chrooted
 environment. Files ending in ~ or .bak are ignored.
 
-Although it may not seem necessary, 
-.B "pbuilder --update" 
-does not invoke the hooks if 
+Although it may not seem necessary,
+.B "pbuilder --update"
+does not invoke the hooks if
 .B "\-\-hookdir"
 is empty, so if you want to avoid running hooks,
 run pbuilder with
 .B "\-\-hookdir """""
 
-If there is a distribution hook, for example, if 
-there was a file 
+If there is a distribution hook, for example, if
+there was a file
 .B "sid"
-inside the hook directory, and the script was creating the 
+inside the hook directory, and the script was creating the
 chroot for
 .B "sid"
-distribution, pbuilder will call debootstrap with that 
+distribution, pbuilder will call debootstrap with that
 as the 4th parameter in the chroot creation process.
 This allows for use of custom debootstrap hook script.
 
 .B "A<digit><digit><whatever-else-you-want>"
-is for 
+is for
 .B "--build"
-target. 
+target.
 It is executed before build starts; after
 unpacking the build system, and unpacking the source,
 and satisfying the build-dependency.
@@ -297,7 +297,7 @@ after setting up the chroot environment.
 Create $TMP, and $TMPDIR if necessary.
 
 This is called before build-dependency is satisfied.
-Also useful for calling 
+Also useful for calling
 .B "apt-get update"
 
 .B "E<digit><digit><whatever-else-you-want>"
@@ -305,24 +305,24 @@ is executed after
 .B "pbuilder --update"
  and
 .B "pbuilder --create"
-finishes apt-get work with the chroot, 
-before umounting kernel file systems (/proc) and 
+finishes apt-get work with the chroot,
+before umounting kernel file systems (/proc) and
 creating the tarball from the chroot.
 
 .B "F<digit><digit><whatever-else-you-want>"
-is executed just before user logs in, or 
-program starts executing, after chroot is created 
-in 
+is executed just before user logs in, or
+program starts executing, after chroot is created
+in
 .B "--login"
-or 
+or
 .B "--execute"
 target.
 
 .B "G<digit><digit><whatever-else-you-want>"
 is executed just after debootstrap finishes,
-and configuration is loaded, and pbuilder starts mounting /proc and invoking 
+and configuration is loaded, and pbuilder starts mounting /proc and invoking
 .B "apt-get install"
-in 
+in
 .B "--create"
 target.
 
@@ -351,8 +351,8 @@ like \-\-debbuildopts "\-j100 \-E"
 
 .TP
 .BI "\-\-logfile [" "file to log" "]"
-Specifies the logfile to create. 
-The messages generated during execution will be written to the specified file, 
+Specifies the logfile to create.
+The messages generated during execution will be written to the specified file,
 and the standard output.
 
 .TP
@@ -375,7 +375,7 @@ Setting
 .B "\-\-debbuildopts"
 after this option will re-set some parts of the effect.
 
-Use this option rather than using 
+Use this option rather than using
 .B "\-\-debbuildopts -B"
 
 .TP
@@ -442,17 +442,17 @@ multiple times.
 .BI "\-\-save\-after\-login "
 .TP
 .BI "\-\-save\-after\-exec "
-Save the chroot image after exiting from the chroot instead of 
+Save the chroot image after exiting from the chroot instead of
 deleting changes.
-Effective for 
+Effective for
 .B login
-and 
+and
 .B execute
 session.
 
 .TP
 .BI "\-\-autocleanaptcache"
-Clean apt cache automatically, to run apt-get autoclean to only 
+Clean apt cache automatically, to run apt-get autoclean to only
 keep the packages which are required for the version of Debian.
 This is useful when you keep a aptcache directory for each distribution
 and want to keep the size of the aptcache down.
@@ -469,29 +469,29 @@ following options are available.
 
 .TP
 .BI "\-\-removepackages [" "packages to remove" "]"
-Removes the packages on creating the 
+Removes the packages on creating the
 .BR "base.tgz" "."
 Use this option to remove potentially dangerous or undesirable
 packages, like
 .B "lilo"
 which nobody will need to have inside a chroot.
 
-Packages should be specified in a space-delimited manner, 
-surrounded in double quotations, like 
+Packages should be specified in a space-delimited manner,
+surrounded in double quotations, like
 .B """lilo gcc mawk"""
 
 .TP
 .BI "\-\-extrapackages [" "packages to add" "]"
 Adds packages specified as an addition to the default,
-which is 
+which is
 .B "build-essential"
 by default.
-This is used in 
+This is used in
 .B "--build"
-and 
+and
 .B "--create"
 (after successfully creating the initial chroot)
-and 
+and
 .BR "--update" .
 
 The packages should be specified as a space-delimited list.
@@ -508,22 +508,22 @@ variable, or pbuilderrc
 
 .TP
 .BI "\-\-pkgname\-logfile"
-Alternative option to 
+Alternative option to
 .B "\-\-logfile"
-option. 
+option.
 Automatically creates a logfile that is named by the .dsc file name,
-only really applicable for 
+only really applicable for
 .B "--build"
 target.
 
-The file extension is specified by 
+The file extension is specified by
 .B "PKGNAME_LOGFILE_EXTENSION"
-in 
+in
 .B "pbuilderrc"
 
 .TP
 .BI "\-\-aptconfdir [" "APT configuration directory to use" "]"
-Uses the apt configuration file found in the specified directory 
+Uses the apt configuration file found in the specified directory
 as the chroot configuration.
 .B "/etc/apt"
 is one example, so that  the same configuration can be used inside the
@@ -546,16 +546,16 @@ Not using base.tgz for operation.
 The
 .B "\-\-buildplace"
 will not be deleted and reconstructed from
-a 
+a
 .B .tar.gz
 file.
-Also, 
+Also,
 .B "pbuilder"
 will not add its process ID to the
 .B "\-\-buildplace"
 as it usually would.
 
-Useful when experimenting with 
+Useful when experimenting with
 chroots, or trying to create chroots outside control
 of
 .B "pbuilder."
@@ -584,7 +584,7 @@ file, and no modifications are done.
 
 For preserving the build place for
 .B "--create"
-and 
+and
 .B "--update"
 targets, see
 .B "--debug"
@@ -601,14 +601,14 @@ This is useful if you want to attempt to build a large number of
 packages successively, but you expect that many of them cannot have
 their build dependencies satisfied.
 
-It will clean up the build place on failure, 
+It will clean up the build place on failure,
 or after a successful build.
 
 .TP
 .BI "\-\-debug"
 
 Turn on Debug mode of pbuilder, to be verbose about errors,
-and try to avoid cleanup processing when error happens in 
+and try to avoid cleanup processing when error happens in
 .B "--update"
 and
 .B "--create"
@@ -617,15 +617,15 @@ targets.
 .TP
 .BI "\-\-inputfile " "filename"
 
-Add extra file to be copied to 
+Add extra file to be copied to
 .B "/tmp/buildd"
 inside the build environment.
 
-available in 
+available in
 .B "--build"
-and 
+and
 .B "--login"
-and 
+and
 .B "--execute"
 targets.
 
@@ -636,7 +636,7 @@ The system-wide configuration file for pbuilder.
 
 .TP
 .I "/usr/share/pbuilder/pbuilderrc"
-The default settings for pbuilder, used as fallback for all 
+The default settings for pbuilder, used as fallback for all
 values that is not specified in
 .B "/etc/pbuilderrc."
 
@@ -697,7 +697,7 @@ Building the build Environment
 This program is starting to have too many options already.
 
 .SH "AUTHOR"
-Initial coding, and main maintenance is done by 
+Initial coding, and main maintenance is done by
 Junichi Uekawa <dancer@debian.org>.
 User hooks code added by Dale Amon <amon@vnl.com>
 
