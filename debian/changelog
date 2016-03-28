@@ -2,12 +2,38 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
 
   [ Mattia Rizzolo ]
   * Import patch from Fedora to use mktemp(1) instead of tempfile(1).
-  * pbuilder-satisfydepends-classic: fix typo.  Closes: #812693
   * debian/copyright: extend my copyright over 2016.
   * debian/control: Bump Standards-Version to 3.9.7, no changes needed.
+  * pbuilder:
+    + allow shorter subcommands names:
+      up/u for update, b for build, l for login, e for execute, h for help.
+  * pbuilder.8:
+    + promote the use of "subcommands" (i.e. "update") instead of options
+      (i.e. "--update") and document their short versions too.
   * buildpackage:
     + override the Maintainer field when doing binNMUs.  Closes: #813589
-  * buildpackage-funcs: make binNMU log message more useful
+    + boil out with an useful error message if the given file is not a .dsc.
+      Closes: #810598
+  * buildpackage-funcs:
+    + make binNMU log message more useful.
+    + chmod the files after copying them in the chroot, to be sure they are
+      +rw.  Closes: #663950
+  * modules:
+    + define DEB_BUILD_ARCH_OS globally.
+      This fixes the USENETWORK handling, where there are tests involving
+      DEB_BUILD_ARCH_OS but it was previously undefined.
+      Now the warning "pbuilder: network will not be disabled during build!" is
+      properly printed.
+    + modules: add a function remove_packages() to remove packages with apt-get
+      purge IFF the packages are installed.
+  * satisfydepends-*:
+    + -classic: fix typo.  Closes: #812693
+    + add the -q switch to several apt-get invocations, to suppress the
+      progress indicator.  This is more logging-friendly.  Closes: #571126
+  * update/create:
+    + rework the thing that removes packages unneded for disabled feature to
+      use REMOVEPACKAGES instead of EXTRAPACKAGES.
+    + rework REMOVEPACKAGES to call the new remove_packages().  Closes: #812226
 
   [ Reiner Herrmann ]
   * Add build user to grsec-tpe group if TPE is enabled.  Closes: #814738
