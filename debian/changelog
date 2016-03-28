@@ -10,6 +10,9 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   * pbuilder.8:
     + promote the use of "subcommands" (i.e. "update") instead of options
       (i.e. "--update") and document their short versions too.
+    + use https for the documentation URL.
+  * pbuilderrc.5:
+    + use https for the documentation URL.
   * buildpackage:
     + override the Maintainer field when doing binNMUs.  Closes: #813589
     + bail out with an useful error message if the given file is not a .dsc.
@@ -31,8 +34,9 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
     + add the -q switch to several apt-get invocations, to suppress the
       progress indicator.  This is more logging-friendly.  Closes: #571126
   * update/create:
-    + rework the thing that removes packages unneded for disabled feature to
-      use REMOVEPACKAGES instead of EXTRAPACKAGES.
+    + internal refactor so that the machinary that detects unneeded packages for
+      disabled optional features takes advantages of REMOVEPACKAGES instead of
+      EXTRAPACKAGES.
     + rework REMOVEPACKAGES to call the new remove_packages().  Closes: #812226
 
   [ Reiner Herrmann ]
