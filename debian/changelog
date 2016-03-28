@@ -12,7 +12,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
       (i.e. "--update") and document their short versions too.
   * buildpackage:
     + override the Maintainer field when doing binNMUs.  Closes: #813589
-    + boil out with an useful error message if the given file is not a .dsc.
+    + bail out with an useful error message if the given file is not a .dsc.
       Closes: #810598
   * buildpackage-funcs:
     + make binNMU log message more useful.
