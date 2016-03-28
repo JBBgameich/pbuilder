@@ -2,17 +2,17 @@
 .SH NAME
 pbuilder \- personal package builder
 .SH SYNOPSIS
-.BI "pbuilder --create [" "options" "]"
+.BI "pbuilder create [" "options" "]"
 .PP
-.BI "pbuilder --update [" "options" "]"
+.BI "pbuilder update [" "options" "]"
 .PP
-.BI "pbuilder --build [" "options" "] " ".dsc-file"
+.BI "pbuilder build [" "options" "] " ".dsc-file"
 .PP
-.BI "pbuilder --execute [" "options" "] -- " "script [" "script options" "]"
+.BI "pbuilder execute [" "options" "] -- " "script [" "script options" "]"
 .PP
-.BI "pbuilder --clean"
+.BI "pbuilder clean"
 .PP
-.BI "pbuilder --login [" "options" "]"
+.BI "pbuilder login [" "options" "]"
 .SH "DESCRIPTION"
 Front end program to the
 .B "pbuilder"
@@ -21,14 +21,21 @@ and building Debian package in the chroot environment.
 
 .SH "COMMANDS"
 
-.TP
-.B "--create"
+.P
+.B "create"
+.RS
 Creates a
 .B "base.tgz"
 for the specified distribution.
+.RE
 
-.TP
-.B "--update"
+.P
+.B "update"
+.br
+.B "up"
+.br
+.B "u"
+.RS
 Updates the
 .B "base.tgz"
 for the specified distribution.
@@ -42,25 +49,35 @@ For example, to switch the distribution of an existing
 base.tgz to sid, specify the
 .B "\-\-distribution sid \-\-override\-config"
 options to update.
+.RE
 
-.TP
-.B "--build"
+.P
+.B "build"
+.br
+.B "b"
+.RS
 Builds the package specified by
 .I ".dsc-file"
 in the chroot environment created using the
 .B "base.tgz"
+.RE
 
-.TP
-.B "--clean"
+.P
+.B "clean"
+.RS
 Cleans up the directory specified by the configuration
 .B "BUILDPLACE"
 and
 .B "APTCACHE"
 specified in
 .I "/etc/pbuilderrc"
+.RE
 
-.TP
-.B "--login"
+.P
+.B "login"
+.br
+.B "l"
+.RS
 Logs into the chroot, and cleaned up afterwards.
 Any changes you make will not be kept.
 Only use this for temporary and debugging purposes.
@@ -68,24 +85,32 @@ Do not bind-mount filesystems directly inside the chroot.
 Use
 .B "\-\-bindmounts"
 option to mount.
+.RE
 
-.TP
-.B "--execute"
+.P
+.B "execute"
+.br
+.B "e"
+.RS
 Execute a script or command inside the chroot,
 in a similar manner to
-.B "--login"
+.B "login"
 
 The file specified in the command-line argument will be
 copied into the chroot, and invoked.
 
 The remaining arguments are passed on to the script.
+.RE
 
-.TP
-.B "--dumpconfig"
+.P
+.B "dumpconfig"
+.RS
 Dumps configuration information, used for debugging.
+.RE
 
-.TP
-.B "--debuild"
+.P
+.B "debuild"
+.RS
 Builds a Debian package from the Debian source directory.
 The current directory should have the usual
 .I "debian/"
@@ -93,6 +118,7 @@ directory.
 
 Same as
 .B "pdebuild --use-pdebuild-internal"
+.RE
 
 .SH "OPTIONS"
 
@@ -109,9 +135,9 @@ Specifies the location of
 
 This option will define the default distribution and
 apt-lines when used in
-.B "pbuilder --update"
+.B "pbuilder update"
 and
-.B "pbuilder --create"
+.B "pbuilder create"
 
 .TP
 .BI "\-\-buildplace [" "location of build" "]"
@@ -144,9 +170,9 @@ specified in
 .B "sources.list"
 inside the chroot.
 This option is only valid when distribution is being specified, for
-.B "--update"
+.B "update"
 and
-.B "--build"
+.B "build"
 targets.
 The format is something like:
 .I "http://http.us.debian.org/debian"
@@ -202,16 +228,16 @@ Default is "main".
 .BI "\-\-override\-config"
 Specify to use different apt set up inside the chroot than it was used for creating the base.tgz.
 Specify this when you want to do
-.B "pbuilder --update"
+.B "pbuilder update"
 with a different distribution target set up.
 
 .B "--distribution", "--components", "--mirror", "--othermirror"
 options are only valid when
 .B "\-\-override\-config"
 option is specified in
-.B "--update"
+.B "update"
 target, or when
-.B "pbuilder --create"
+.B "pbuilder create"
 is being called.
 
 .TP
@@ -230,7 +256,7 @@ if you want caching to be turned off.
 .TP
 .BI "\-\-debdelta
 This option is used in the
-.B "\-\-update"
+.B "update"
 target, and enable the use of debdelta (if it is already installed, otherwise
 will be installed the first time this option is used).
 
@@ -244,9 +270,9 @@ configuration files have been read.
 .BI "\-\-hookdir [" "location of user scripts" "]"
 Specifies the location where scripts for user intervention during
 the
-.B "--create"
+.B "create"
 and
-.B "--update"
+.B "update"
 process are stored. Currently scripts are
 executed at only one point, on exit from the chrooted environment,
 just before either a create or a build regenerated the base.tgz
@@ -278,7 +304,7 @@ This allows for use of custom debootstrap hook script.
 
 .B "A<digit><digit><whatever-else-you-want>"
 is for
-.B "--build"
+.B "build"
 target.
 It is executed before build starts; after
 unpacking the build system, and unpacking the source,
@@ -302,9 +328,9 @@ Also useful for calling
 
 .B "E<digit><digit><whatever-else-you-want>"
 is executed after
-.B "pbuilder --update"
+.B "pbuilder update"
  and
-.B "pbuilder --create"
+.B "pbuilder create"
 finishes apt-get work with the chroot,
 before umounting kernel file systems (/proc) and
 creating the tarball from the chroot.
@@ -313,9 +339,9 @@ creating the tarball from the chroot.
 is executed just before user logs in, or
 program starts executing, after chroot is created
 in
-.B "--login"
+.B "login"
 or
-.B "--execute"
+.B "execute"
 target.
 
 .B "G<digit><digit><whatever-else-you-want>"
@@ -323,7 +349,7 @@ is executed just after debootstrap finishes,
 and configuration is loaded, and pbuilder starts mounting /proc and invoking
 .B "apt-get install"
 in
-.B "--create"
+.B "create"
 target.
 
 .B "H<digit><digit><whatever-else-you-want>"
@@ -487,12 +513,12 @@ which is
 .B "build-essential"
 by default.
 This is used in
-.B "--build"
+.B "build"
 and
-.B "--create"
+.B "create"
 (after successfully creating the initial chroot)
 and
-.BR "--update" .
+.BR "update" .
 
 The packages should be specified as a space-delimited list.
 
@@ -513,7 +539,7 @@ Alternative option to
 option.
 Automatically creates a logfile that is named by the .dsc file name,
 only really applicable for
-.B "--build"
+.B "build"
 target.
 
 The file extension is specified by
@@ -583,11 +609,11 @@ if it has the same contents as the
 file, and no modifications are done.
 
 For preserving the build place for
-.B "--create"
+.B "create"
 and
-.B "--update"
+.B "update"
 targets, see
-.B "--debug"
+.B "debug"
 option.
 
 As with
@@ -609,9 +635,9 @@ or after a successful build.
 
 Turn on Debug mode of pbuilder, to be verbose about errors,
 and try to avoid cleanup processing when error happens in
-.B "--update"
+.B "update"
 and
-.B "--create"
+.B "create"
 targets.
 
 .TP
@@ -622,11 +648,11 @@ Add extra file to be copied to
 inside the build environment.
 
 available in
-.B "--build"
+.B "build"
 and
-.B "--login"
+.B "login"
 and
-.B "--execute"
+.B "execute"
 targets.
 
 .SH "FILES"
@@ -651,7 +677,7 @@ through sudo).
 .SH "EXAMPLES"
 
 .TP
-.B "pbuilder --create"
+.B "pbuilder create"
 
 .nf
 # pbuilder \-\-create
@@ -667,7 +693,7 @@ I: Validating Packages
 .hy
 
 .TP
-.B "pbuilder --update"
+.B "pbuilder update"
 
 .nf
 # pbuilder \-\-update
@@ -679,7 +705,7 @@ Building the build Environment
 .hy
 
 .TP
-.B "pbuilder --build"
+.B "pbuilder build"
 
 .nf
 # pbuilder \-\-build dsh_*.dsc
