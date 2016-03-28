@@ -478,7 +478,7 @@ function remove_packages () {
     local pkg
     local toremove=()
     for pkg in "$@"; do
-        if (dpkg-query -W "$pkg" 2>&1)>/dev/null ; then
+        if (dpkg -s "$pkg" 2>&1)>/dev/null ; then
             toremove+=("$pkg")
         else
             log.d "not removing $pkg as not installed"
