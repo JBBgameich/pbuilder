@@ -30,11 +30,11 @@ case "$1" in
 	shift;
 	/usr/lib/pbuilder/pbuilder-createbuildenv "$@"
 	;;
-    --update|update)
+    --update|update|up|u)
 	shift ;
 	/usr/lib/pbuilder/pbuilder-updatebuildenv "$@"
 	;;
-    --build|build)
+    --build|build|b)
 	shift ;
 	/usr/lib/pbuilder/pbuilder-buildpackage "$@"
 	;;
@@ -50,7 +50,7 @@ case "$1" in
 	    rm -f "$APTCACHE"/* || true
 	fi
 	;;
-    --login|login)
+    --login|login|l)
 	shift 
 	. /usr/lib/pbuilder/pbuilder-checkparams
 	extractbuildplace
@@ -94,7 +94,7 @@ File extracted to: $BUILDPLACE
 	trap - exit sighup
 	exit $RET
 	;;
-    --execute|execute)
+    --execute|execute|e)
 	# try to execute arbitrary program.
 	shift
 	. /usr/lib/pbuilder/pbuilder-checkparams
@@ -158,7 +158,7 @@ File extracted to: $BUILDPLACE
 	shift
 	"$0" execute "$@" /usr/lib/pbuilder/pdebuild-internal
 	;;
-    --help|help)
+    --help|help|h)
     . /usr/lib/pbuilder/pbuilder-modules
     showhelp
     exit 0
