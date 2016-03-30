@@ -22,6 +22,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
     + chmod the files after copying them in the chroot, to be sure they are
       +rw.  Closes: #663950
   * modules:
+    + Stop overriding APT::Default-Release for experimental.
     + define DEB_BUILD_ARCH_OS globally.
       This fixes the USENETWORK handling, where there are tests involving
       DEB_BUILD_ARCH_OS but it was previously undefined.
