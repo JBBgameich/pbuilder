@@ -35,7 +35,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
     + add the -q switch to several apt-get invocations, to suppress the
       progress indicator.  This is more logging-friendly.  Closes: #571126
   * update/create:
-    + internal refactor so that the machinary that detects unneeded packages for
+    + internal refactor so that the machinery that detects unneeded packages for
       disabled optional features takes advantages of REMOVEPACKAGES instead of
       EXTRAPACKAGES.
     + rework REMOVEPACKAGES to call the new remove_packages().  Closes: #812226
