@@ -20,6 +20,7 @@
 
 set -e
 
+export PBUILDER_OPERATION="pdebuild"
 export PBCURRENTCOMMANDLINEOPERATION="pdebuild"
 . /usr/lib/pbuilder/pdebuild-checkparams
 
