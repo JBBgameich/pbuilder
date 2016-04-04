@@ -1,7 +1,7 @@
 #! /bin/bash
 #   pbuilder -- personal Debian package builder
 #   Copyright © 2001-2007 Junichi Uekawa <dancer@debian.org>
-#               2015      Mattia Rizzolo <mattia@debian.org>
+#               2015-2016 Mattia Rizzolo <mattia@debian.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ###############################################################################
 
-set -e 
+set -e
 
 # export this so that programs know which command line
 # operation is currently done
@@ -27,146 +27,147 @@ umask 0022
 
 case "$1" in
     --create|create)
-	shift;
-	/usr/lib/pbuilder/pbuilder-createbuildenv "$@"
-	;;
+        shift
+        /usr/lib/pbuilder/pbuilder-createbuildenv "$@"
+        ;;
     --update|update|up|u)
-	shift ;
-	/usr/lib/pbuilder/pbuilder-updatebuildenv "$@"
-	;;
+        shift
+        /usr/lib/pbuilder/pbuilder-updatebuildenv "$@"
+        ;;
     --build|build|b)
-	shift ;
-	/usr/lib/pbuilder/pbuilder-buildpackage "$@"
-	;;
+        shift
+        /usr/lib/pbuilder/pbuilder-buildpackage "$@"
+        ;;
     --clean|clean)
-	shift;
-	. /usr/lib/pbuilder/pbuilder-checkparams
-	if [ -n "$BASEBUILDPLACE" ]; then 
-	    log.i "Cleaning [$BASEBUILDPLACE]"
-	    clean_subdirectories "$BASEBUILDPLACE" || true
-	fi
-	if [ -n "$APTCACHE" ]; then
-	    log.i "Cleaning [$APTCACHE]"
-	    rm -f "$APTCACHE"/* || true
-	fi
-	;;
+        shift
+        . /usr/lib/pbuilder/pbuilder-checkparams
+        if [ -n "$BASEBUILDPLACE" ]; then
+            log.i "Cleaning [$BASEBUILDPLACE]"
+            clean_subdirectories "$BASEBUILDPLACE" || true
+        fi
+        if [ -n "$APTCACHE" ]; then
+            log.i "Cleaning [$APTCACHE]"
+            rm -f "$APTCACHE"/* || true
+        fi
+        ;;
     --login|login|l)
-	shift 
-	. /usr/lib/pbuilder/pbuilder-checkparams
-	extractbuildplace
-	trap umountproc_cleanbuildplace_trap exit sighup
-	copyinputfile "${BUILDPLACE}$BUILDDIR"
-	recover_aptcache
-	trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup
+        shift
+        . /usr/lib/pbuilder/pbuilder-checkparams
+        extractbuildplace
+        trap umountproc_cleanbuildplace_trap exit sighup
+        copyinputfile "${BUILDPLACE}$BUILDDIR"
+        recover_aptcache
+        trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup
 
-	if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
-	    log.i "entering the shell"
-	else
-	    log.i "entering the shell
-File extracted to: $BUILDPLACE
-"
-	fi
-	executehooks "F"
-	(${CHROOTEXEC} bin/bash -c 'exec -a -bash bin/bash')
-	RET=$?
+        if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
+            log.i "entering the shell"
+        else
+            log.i "entering the shell"
+            log.i "File extracted to: $BUILDPLACE"
+        fi
 
-	save_aptcache
+        executehooks "F"
+        (${CHROOTEXEC} bin/bash -c 'exec -a -bash bin/bash')
+        RET=$?
 
-	trap umountproc_cleanbuildplace_trap exit sighup
+        save_aptcache
 
-	# saving the place afterwards
-	if [ "${SAVE_AFTER_LOGIN}" = "yes" ]; then
-	    if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
-		log.e "Invalid combination of internal-build-uml and save-after-login flags"
-		exit 1
-	    else
-		log.i "Saving the results, modifications to this session will persist"
-		umountproc
-		trap cleanbuildplace_trap exit sighup
-		${CHROOTEXEC} /usr/bin/apt-get clean || true
-		create_basetgz
-		cleanbuildplace
-		trap - exit sighup
-		exit $RET
-	    fi
-	fi
-	umountproc_cleanbuildplace
-	trap - exit sighup
-	exit $RET
-	;;
+        trap umountproc_cleanbuildplace_trap exit sighup
+
+        # saving the place afterwards
+        if [ "${SAVE_AFTER_LOGIN}" = "yes" ]; then
+            if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
+                log.e "Invalid combination of internal-build-uml and save-after-login flags"
+                exit 1
+            else
+                log.i "Saving the results, modifications to this session will persist"
+                umountproc
+                trap cleanbuildplace_trap exit sighup
+                ${CHROOTEXEC} /usr/bin/apt-get clean || true
+                create_basetgz
+                cleanbuildplace
+                trap - exit sighup
+                exit $RET
+            fi
+        fi
+        umountproc_cleanbuildplace
+        trap - exit sighup
+        exit $RET
+        ;;
     --execute|execute|e)
-	# try to execute arbitrary program.
-	shift
-	. /usr/lib/pbuilder/pbuilder-checkparams
-	EXECPROGRAM="$1"
-	shift
-	if [ ! -f "${EXECPROGRAM}" ]; then
-	    log.e "Command line parameter [$EXECPROGRAM] does not exist"
-	    exit 1;
-	fi;
-	extractbuildplace
+        # try to execute arbitrary program.
+        shift
+        . /usr/lib/pbuilder/pbuilder-checkparams
+        EXECPROGRAM="$1"
+        shift
+        if [ ! -f "${EXECPROGRAM}" ]; then
+            log.e "Command line parameter [$EXECPROGRAM] does not exist"
+            exit 1
+        fi
+        extractbuildplace
 
-	trap umountproc_cleanbuildplace_trap exit sighup
-	copyinputfile "${BUILDPLACE}$BUILDDIR"
-	recover_aptcache
-	trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup
+        trap umountproc_cleanbuildplace_trap exit sighup
+        copyinputfile "${BUILDPLACE}$BUILDDIR"
+        recover_aptcache
+        trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup
 
-	RUNNAME="$BUILDPLACE/runscript"
-	cat "$EXECPROGRAM" > "$RUNNAME"
-	chmod a+x "$RUNNAME"
-	executehooks "F"
-	( ${CHROOTEXEC} /runscript "$@" )
-	RET=$?
-	rm -f "$RUNNAME"
+        RUNNAME="$BUILDPLACE/runscript"
+        cat "$EXECPROGRAM" > "$RUNNAME"
+        chmod a+x "$RUNNAME"
+        executehooks "F"
+        ( ${CHROOTEXEC} /runscript "$@" )
+        RET=$?
+        rm -f "$RUNNAME"
 
-	save_aptcache
-	trap umountproc_cleanbuildplace_trap exit sighup
+        save_aptcache
+        trap umountproc_cleanbuildplace_trap exit sighup
 
-	# saving the place afterwards
-	if [ "${SAVE_AFTER_LOGIN}" = "yes" ]; then
-	    if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
-		log.e "Invalid combination of internal-build-uml and save-after-login flags"
-	    else
-		log.i "Saving the results, modifications to this session will persist"
-		umountproc
-		trap cleanbuildplace_trap exit sighup
-		${CHROOTEXEC} /usr/bin/apt-get clean || true
-		create_basetgz
-		cleanbuildplace
-		trap - exit sighup
-		exit $RET
-	    fi
-	fi
-	umountproc_cleanbuildplace
-	trap - exit sighup
-	exit $RET
-	;;
+        # saving the place afterwards
+        if [ "${SAVE_AFTER_LOGIN}" = "yes" ]; then
+            if [ "${INTERNAL_BUILD_UML}" = "yes" ]; then
+                log.e "Invalid combination of internal-build-uml and save-after-login flags"
+                exit 1
+            else
+                log.i "Saving the results, modifications to this session will persist"
+                umountproc
+                trap cleanbuildplace_trap exit sighup
+                ${CHROOTEXEC} /usr/bin/apt-get clean || true
+                create_basetgz
+                cleanbuildplace
+                trap - exit sighup
+                exit $RET
+            fi
+        fi
+        umountproc_cleanbuildplace
+        trap - exit sighup
+        exit $RET
+        ;;
     --dumpconfig|dumpconfig)
-	shift
-	. /usr/lib/pbuilder/pbuilder-checkparams
-	extractbuildplace
-	trap umountproc_cleanbuildplace_trap exit sighup
-	executehooks "F"
-	log.i "start dump config"
-	log.i "set"
-	set;
-	log.i "env"
-	env;
-	log.i "end dump config"
-	;;
+        shift
+        . /usr/lib/pbuilder/pbuilder-checkparams
+        extractbuildplace
+        trap umountproc_cleanbuildplace_trap exit sighup
+        executehooks "F"
+        log.i "start dump config"
+        log.i "set"
+        set
+        log.i "env"
+        env
+        log.i "end dump config"
+        ;;
     --debuild|debuild)
-	shift
-	"$0" execute "$@" /usr/lib/pbuilder/pdebuild-internal
-	;;
+        shift
+        "$0" execute "$@" /usr/lib/pbuilder/pdebuild-internal
+        ;;
     --help|help|h)
-    . /usr/lib/pbuilder/pbuilder-modules
-    showhelp
-    exit 0
-    ;;
+        . /usr/lib/pbuilder/pbuilder-modules
+        showhelp
+        exit 0
+        ;;
     *)
-	. /usr/lib/pbuilder/pbuilder-modules
-	showhelp
-    exit 1
-	;;
+        . /usr/lib/pbuilder/pbuilder-modules
+        showhelp
+        exit 1
+        ;;
 esac
 
