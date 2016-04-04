@@ -47,10 +47,9 @@ IGNORE_UMOUNT=""
 while [ -n "$1" ]; do
     case "$1" in
     --basetgz)
-        case "${PBCURRENTCOMMANDLINEOPERATION}" in
-            create|--create)
+        if [ "$PBUILDER_OPERATION" = create ]; then
                 touch "$2"
-        esac
+        fi
         if [ ! -f "$2" ]; then
             log.e "File $2 does not exist"
             exit 1
@@ -313,7 +312,7 @@ while [ -n "$1" ]; do
   esac
 done
 
-log.d "cmdline: ${PBCURRENTCOMMANDLINEOPERATION} ${CMDLINE}"
+log.d "cmdline: ${PBUILDER_OPERATION} ${CMDLINE}"
 
 BUILDPLACE=${BUILDPLACE?"Build root directory is not defined"}
 
@@ -337,8 +336,8 @@ case "$LOGLEVEL" in
 esac
 
 # handle 'experimental' specially. -- required for raw pbuilder (create/update) only.
-case "$PBCURRENTCOMMANDLINEOPERATION" in
-    --update|update|--create|create)
+case "$PBUILDER_OPERATION" in
+    update|create)
         if [ "$DISTRIBUTION" = "experimental" ]; then
             DISTRIBUTION="sid"
             EXPERIMENTAL="true"
@@ -350,8 +349,8 @@ case "$PBCURRENTCOMMANDLINEOPERATION" in
 esac
 
 
-case "$PBCURRENTCOMMANDLINEOPERATION" in
-    --login|login|--execute|execute|--pdebuild|pdebuild)
+case "$PBUILDER_OPERATION" in
+    login|execute|pdebuild)
         # don't do anything if it is "login", or pdebuild
         ;;
     *)
