@@ -45,270 +45,270 @@ IGNORE_UMOUNT=""
 
 while [ -n "$1" ]; do
     case "$1" in
-	--basetgz)
-	    case "${PBCURRENTCOMMANDLINEOPERATION}" in
-		create|--create)
-		    touch "$2";;
-	    esac
-	    if [ ! -f "$2" ]; then
-		log.e "File $2 does not exist"
-		exit 1
-	    fi
-	    BASETGZ=$(readlink -f "$2");
-	    shift; shift;
-	    ;;
-	--buildplace)
-	    if [ ! -d "$2" ] ; then
-		log.e "Directory $2 does not exist"
-		exit 1
-	    fi
-	    BUILDPLACE=$(readlink -f "$2");
-	    shift; shift;
-	    ;;
-	--mirror)
-	    MIRRORSITE="$2";
-	    OVERRIDE_APTLINES_WARN=yes
-	    shift; shift;
-	    ;;
-	--othermirror)
-	    OTHERMIRROR="$2";
-	    OVERRIDE_APTLINES_WARN=yes
-	    shift; shift;
-	    ;;
-	--http-proxy)
-	    export http_proxy="$2";
-	    shift; shift;
-	    ;;
-	--distribution)
-	    DISTRIBUTION="$2";
-	    OVERRIDE_APTLINES_WARN=yes
-	    shift; shift;
-	    ;;
-	--architecture)
-	    ARCHITECTURE="$2";
-	    shift; shift;
-	    ;;
-	--components)
-	    COMPONENTS="$2";
-	    OVERRIDE_APTLINES_WARN=yes
-	    shift; shift;
-	    ;;
-	--buildresult)
-	    if [ -n "$2" ]; then
-		if [ -d "$2" ]; then
-		    BUILDRESULT=$(readlink -f "$2");
-		else
-		    BUILDRESULT="$2"
-		    log.w "Build-result Directory $2 does not exist"
-		    # warn, but make it progress.
-		fi
-	    else
-		BUILDRESULT=
-	    fi
-	    shift; shift;
-	    ;;
-	--compressprog)
-	    if [ -n "$2" ]; then
-	        COMPRESSPROG="$2"
-	    fi
-	    shift; shift;
-	    ;;
-	--aptcache)
-	    if [ -n "$2" ]; then
-		if [ -d "$2" ]; then
-		    APTCACHE=$(readlink -f "$2");
-		else
-		    log.e "Directory $2 does not exist"
-		    exit 1
-		fi
-	    else
-		APTCACHE=
-	    fi
-	    shift; shift;
-	    ;;
-	--autocleanaptcache)
-	    AUTOCLEANAPTCACHE=yes
-	    shift;
-	    ;;
-	--removepackages)
-	    REMOVEPACKAGES="$2";
-	    shift; shift;
-	    ;;
-	--loglevel)
-		LOGLEVEL="$2"
-		shift; shift;
-		;;
-	--configfile)
-	    if [ ! -f "$2" ]; then
-		log.e "Config file $2 does not exist"
-		exit 1
-	    fi
-	    . "$2";
+    --basetgz)
+        case "${PBCURRENTCOMMANDLINEOPERATION}" in
+        create|--create)
+            touch "$2";;
+        esac
+        if [ ! -f "$2" ]; then
+        log.e "File $2 does not exist"
+        exit 1
+        fi
+        BASETGZ=$(readlink -f "$2");
+        shift; shift;
+        ;;
+    --buildplace)
+        if [ ! -d "$2" ] ; then
+        log.e "Directory $2 does not exist"
+        exit 1
+        fi
+        BUILDPLACE=$(readlink -f "$2");
+        shift; shift;
+        ;;
+    --mirror)
+        MIRRORSITE="$2";
+        OVERRIDE_APTLINES_WARN=yes
+        shift; shift;
+        ;;
+    --othermirror)
+        OTHERMIRROR="$2";
+        OVERRIDE_APTLINES_WARN=yes
+        shift; shift;
+        ;;
+    --http-proxy)
+        export http_proxy="$2";
+        shift; shift;
+        ;;
+    --distribution)
+        DISTRIBUTION="$2";
+        OVERRIDE_APTLINES_WARN=yes
+        shift; shift;
+        ;;
+    --architecture)
+        ARCHITECTURE="$2";
+        shift; shift;
+        ;;
+    --components)
+        COMPONENTS="$2";
+        OVERRIDE_APTLINES_WARN=yes
+        shift; shift;
+        ;;
+    --buildresult)
+        if [ -n "$2" ]; then
+        if [ -d "$2" ]; then
+            BUILDRESULT=$(readlink -f "$2");
+        else
+            BUILDRESULT="$2"
+            log.w "Build-result Directory $2 does not exist"
+            # warn, but make it progress.
+        fi
+        else
+        BUILDRESULT=
+        fi
+        shift; shift;
+        ;;
+    --compressprog)
+        if [ -n "$2" ]; then
+            COMPRESSPROG="$2"
+        fi
+        shift; shift;
+        ;;
+    --aptcache)
+        if [ -n "$2" ]; then
+        if [ -d "$2" ]; then
+            APTCACHE=$(readlink -f "$2");
+        else
+            log.e "Directory $2 does not exist"
+            exit 1
+        fi
+        else
+        APTCACHE=
+        fi
+        shift; shift;
+        ;;
+    --autocleanaptcache)
+        AUTOCLEANAPTCACHE=yes
+        shift;
+        ;;
+    --removepackages)
+        REMOVEPACKAGES="$2";
+        shift; shift;
+        ;;
+    --loglevel)
+        LOGLEVEL="$2"
+        shift; shift;
+        ;;
+    --configfile)
+        if [ ! -f "$2" ]; then
+        log.e "Config file $2 does not exist"
+        exit 1
+        fi
+        . "$2";
         # deprecated in v0.216
         if [ -n "$PKGNAME_LOGFILE_EXTENTION" ] ; then
             echo "W: The configuration option PKGNAME_LOGFILE_EXTENTION is deprecated in favour of PKGNAME_LOGFILE_EXTENSION. Though, while you have the former set it'll take precedence over the latter."
             echo "W: PKGNAME_LOGFILE_EXTENTION will be removed at some point, please update your config!"
             PKGNAME_LOGFILE_EXTENSION="$PKGNAME_LOGFILE_EXTENTION"
         fi
-	    EXTRA_CONFIGFILE[${#EXTRA_CONFIGFILE[@]}]="$2";
-	    shift; shift;
-	    ;;
-	--extrapackages)
-	    EXTRAPACKAGES="$2";
-	    shift; shift;
-	    ;;
-	--hookdir)
-	    HOOKDIR="$2";
-	    shift; shift;
-	    ;;
-	--debemail)
-	    DEBEMAIL="$2";
-	    shift; shift;
+        EXTRA_CONFIGFILE[${#EXTRA_CONFIGFILE[@]}]="$2";
+        shift; shift;
+        ;;
+    --extrapackages)
+        EXTRAPACKAGES="$2";
+        shift; shift;
+        ;;
+    --hookdir)
+        HOOKDIR="$2";
+        shift; shift;
+        ;;
+    --debemail)
+        DEBEMAIL="$2";
+        shift; shift;
         # deprecated in v0.222
         if [ -n "$DEBEMAIL" ]; then
             echo "W: The configuration option DEBEMAIL is deprecated.  Please pass the required options to DEBBUILDOPTS (--debbuildopts command line flag) instead."
             echo "W: DEBEMAIL='$DEBEMAIL' is ignored!"
         fi
-	    ;;
-	--debbuildopts)
-	    # append to DEBBUILDOPTS or reset to empty if $2 isn't set
-	    DEBBUILDOPTS="${2:+${DEBBUILDOPTS:+$DEBBUILDOPTS }$2}";
-	    shift; shift;
-	    ;;
-	--logfile)
-	    log.i "Logging to $2"
-	    exec > >(tee "$2") 2>&1
-	    PBUILDER_BUILD_LOGFILE=$(readlink -f "$2")
-	    shift; shift;
-	    ;;
-	--pkgname-logfile)
-	    PKGNAME_LOGFILE="yes"
-	    shift;
-	    ;;
-	--aptconfdir)
-	    APTCONFDIR="$2";
-	    shift; shift;
-	    ;;
-	--timeout)
-	    TIMEOUT_TIME="$2"
-	    shift; shift;
-	    ;;
-	--help)
-	    showhelp
-	    exit 0
-	    ;;
-	--override-config)
-	    OVERRIDE_APTLINES="yes"
-	    shift;
-	    ;;
-	--binary-arch)
-	    BINARY_ARCH="binary"
-	    # XXX this might be overwriten by --debbuildopts ""
-	    DEBBUILDOPTS="${DEBBUILDOPTS} -B"
-	    shift;
-	    ;;
-	--bin-nmu)
-	    BIN_NMU="yes"
-	    BINARY_ARCH="binary"
-	    # XXX this might be overwriten by --debbuildopts ""
-	    DEBBUILDOPTS="${DEBBUILDOPTS} -B"
-	    BINNMU_MESSAGE="$2"
-	    shift; shift;
-	    ;;
-	--bin-nmu-maintainer)
-	    BINNMU_MAINTAINER="$2"
-	    shift; shift;
-	    ;;
-	--bin-nmu-version)
-	    BINNMU_VERSION="$2"
-	    shift; shift;
-	    ;;
-	--preserve-buildplace)
-	    PRESERVE_BUILDPLACE="yes"
-	    shift;
-	    ;;
-	--bindmounts)
-	    BINDMOUNTS="${BINDMOUNTS} $2"
-	    shift; shift;
-	    ;;
-	--debootstrapopts)
-	    # specify this option to set --variant=buildd value to debootstrap
-	    DEBOOTSTRAPOPTS[${#DEBOOTSTRAPOPTS[@]}]="$2";
-	    shift; shift;
-	    ;;
-	--debootstrap)
-	    # Use this option to specify debootstrap/cdebootstrap
-	    DEBOOTSTRAP="$2";
-	    shift; shift;
-	    ;;
-	--allow-untrusted)
-	    ALLOWUNTRUSTED=yes;
-	    shift;
-	    ;;
-	--debdelta)
-	    DEBDELTA=yes;
-	    shift;
-	    ;;
-	--keyring)
-	    APTKEYRINGS[${#APTKEYRINGS[@]}]="$2";
-	    shift; shift;
-	    ;;
-	--save-after-login|--save-after-exec)
-	    SAVE_AFTER_LOGIN=yes;
-	    shift;
-	    ;;
-	--inputfile)
-	    if [ ! -f "$2" ]; then
-		log.e "Input file $2 does not exist"
-		exit 1
-	    fi
-	    INPUTFILE[${#INPUTFILE[@]}]="$2";
-	    shift; shift;
-	    ;;
-	--outputfile)
-	    OUTPUTFILE[${#OUTPUTFILE[@]}]="$2";
-	    shift; shift;
-	    ;;
+        ;;
+    --debbuildopts)
+        # append to DEBBUILDOPTS or reset to empty if $2 isn't set
+        DEBBUILDOPTS="${2:+${DEBBUILDOPTS:+$DEBBUILDOPTS }$2}";
+        shift; shift;
+        ;;
+    --logfile)
+        log.i "Logging to $2"
+        exec > >(tee "$2") 2>&1
+        PBUILDER_BUILD_LOGFILE=$(readlink -f "$2")
+        shift; shift;
+        ;;
+    --pkgname-logfile)
+        PKGNAME_LOGFILE="yes"
+        shift;
+        ;;
+    --aptconfdir)
+        APTCONFDIR="$2";
+        shift; shift;
+        ;;
+    --timeout)
+        TIMEOUT_TIME="$2"
+        shift; shift;
+        ;;
+    --help)
+        showhelp
+        exit 0
+        ;;
+    --override-config)
+        OVERRIDE_APTLINES="yes"
+        shift;
+        ;;
+    --binary-arch)
+        BINARY_ARCH="binary"
+        # XXX this might be overwriten by --debbuildopts ""
+        DEBBUILDOPTS="${DEBBUILDOPTS} -B"
+        shift;
+        ;;
+    --bin-nmu)
+        BIN_NMU="yes"
+        BINARY_ARCH="binary"
+        # XXX this might be overwriten by --debbuildopts ""
+        DEBBUILDOPTS="${DEBBUILDOPTS} -B"
+        BINNMU_MESSAGE="$2"
+        shift; shift;
+        ;;
+    --bin-nmu-maintainer)
+        BINNMU_MAINTAINER="$2"
+        shift; shift;
+        ;;
+    --bin-nmu-version)
+        BINNMU_VERSION="$2"
+        shift; shift;
+        ;;
+    --preserve-buildplace)
+        PRESERVE_BUILDPLACE="yes"
+        shift;
+        ;;
+    --bindmounts)
+        BINDMOUNTS="${BINDMOUNTS} $2"
+        shift; shift;
+        ;;
+    --debootstrapopts)
+        # specify this option to set --variant=buildd value to debootstrap
+        DEBOOTSTRAPOPTS[${#DEBOOTSTRAPOPTS[@]}]="$2";
+        shift; shift;
+        ;;
+    --debootstrap)
+        # Use this option to specify debootstrap/cdebootstrap
+        DEBOOTSTRAP="$2";
+        shift; shift;
+        ;;
+    --allow-untrusted)
+        ALLOWUNTRUSTED=yes;
+        shift;
+        ;;
+    --debdelta)
+        DEBDELTA=yes;
+        shift;
+        ;;
+    --keyring)
+        APTKEYRINGS[${#APTKEYRINGS[@]}]="$2";
+        shift; shift;
+        ;;
+    --save-after-login|--save-after-exec)
+        SAVE_AFTER_LOGIN=yes;
+        shift;
+        ;;
+    --inputfile)
+        if [ ! -f "$2" ]; then
+        log.e "Input file $2 does not exist"
+        exit 1
+        fi
+        INPUTFILE[${#INPUTFILE[@]}]="$2";
+        shift; shift;
+        ;;
+    --outputfile)
+        OUTPUTFILE[${#OUTPUTFILE[@]}]="$2";
+        shift; shift;
+        ;;
 
-	## internal options.
-	--internal-chrootexec)
-	    # specify custom chrootexec function -- this is internal debugging function
-	    CHROOTEXEC="$2"
-	    shift; shift;
-	    ;;
-	--debug)
-	    PBUILDER_DEBUGMODE=yes
-	    set -x
-	    shift;
-	    ;;
-	--no-targz)
-	    # specify this option if I am running in no-targz mode
-	    log.i "Running in no-targz mode"
-	    INTERNAL_BUILD_UML="yes"
-	    shift;
-	    ;;
-	--internal-build-uml)
-	    # specify this option if I am running inside UML.
-	    log.i "Running in pbuilder-user-mode-linux mode"
-	    INTERNAL_BUILD_UML="yes"
-	    IGNORE_UMOUNT="no"
-	    shift;
-	    ;;
-	--twice)
-	    TWICE="yes"
-	    shift;
-	    ;;
-	--) # end of processing for this
-	    shift;
-	    break;
-	    ;;
-	--*)
-	    log.e "Unknown option [$1] was specified "
-	    exit 1;
-	    ;;
-	*)
-	    break;
-	    ;;
+    ## internal options.
+    --internal-chrootexec)
+        # specify custom chrootexec function -- this is internal debugging function
+        CHROOTEXEC="$2"
+        shift; shift;
+        ;;
+    --debug)
+        PBUILDER_DEBUGMODE=yes
+        set -x
+        shift;
+        ;;
+    --no-targz)
+        # specify this option if I am running in no-targz mode
+        log.i "Running in no-targz mode"
+        INTERNAL_BUILD_UML="yes"
+        shift;
+        ;;
+    --internal-build-uml)
+        # specify this option if I am running inside UML.
+        log.i "Running in pbuilder-user-mode-linux mode"
+        INTERNAL_BUILD_UML="yes"
+        IGNORE_UMOUNT="no"
+        shift;
+        ;;
+    --twice)
+        TWICE="yes"
+        shift;
+        ;;
+    --) # end of processing for this
+        shift;
+        break;
+        ;;
+    --*)
+        log.e "Unknown option [$1] was specified "
+        exit 1;
+        ;;
+    *)
+        break;
+        ;;
   esac
 done
 
