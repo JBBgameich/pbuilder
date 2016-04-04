@@ -20,26 +20,31 @@
 
 set -e
 
-# export this so that programs know which command line
-# operation is currently done
-export PBCURRENTCOMMANDLINEOPERATION="$1"
 umask 0022
 
 case "$1" in
     --create|create)
         shift
+        export PBUILDER_OPERATION="create"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         /usr/lib/pbuilder/pbuilder-createbuildenv "$@"
         ;;
     --update|update|up|u)
         shift
+        export PBUILDER_OPERATION="update"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         /usr/lib/pbuilder/pbuilder-updatebuildenv "$@"
         ;;
     --build|build|b)
         shift
+        export PBUILDER_OPERATION="build"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         /usr/lib/pbuilder/pbuilder-buildpackage "$@"
         ;;
     --clean|clean)
         shift
+        export PBUILDER_OPERATION="clean"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         . /usr/lib/pbuilder/pbuilder-checkparams
         if [ -n "$BASEBUILDPLACE" ]; then
             log.i "Cleaning [$BASEBUILDPLACE]"
@@ -52,6 +57,8 @@ case "$1" in
         ;;
     --login|login|l)
         shift
+        export PBUILDER_OPERATION="login"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         . /usr/lib/pbuilder/pbuilder-checkparams
         extractbuildplace
         trap umountproc_cleanbuildplace_trap exit sighup
@@ -97,6 +104,8 @@ case "$1" in
     --execute|execute|e)
         # try to execute arbitrary program.
         shift
+        export PBUILDER_OPERATION="execute"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         . /usr/lib/pbuilder/pbuilder-checkparams
         EXECPROGRAM="$1"
         shift
@@ -144,6 +153,8 @@ case "$1" in
         ;;
     --dumpconfig|dumpconfig)
         shift
+        export PBUILDER_OPERATION="dumpconfig"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         . /usr/lib/pbuilder/pbuilder-checkparams
         extractbuildplace
         trap umountproc_cleanbuildplace_trap exit sighup
@@ -157,6 +168,8 @@ case "$1" in
         ;;
     --debuild|debuild)
         shift
+        export PBUILDER_OPERATION="debuild"
+        export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         "$0" execute "$@" /usr/lib/pbuilder/pdebuild-internal
         ;;
     --help|help|h)
