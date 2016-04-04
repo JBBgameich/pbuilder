@@ -1,6 +1,6 @@
 #! /bin/bash
-#   pbuilder-internal -- personal Debian package builder, internal routine
-#   Copyright (C) 2003-2009 Junichi Uekawa
+#   pbuilder -- personal Debian package builder
+#   Copyright © 2003-2009 Junichi Uekawa <dancer@debian.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -15,7 +15,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-#
+###############################################################################
+
 # invoke this as 
 #  pbuilder execute pdebuild-internal --bindmount "${pwd}/.." "$1"
 # does not support --buildresult, but should that be required ?
