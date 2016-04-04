@@ -1,4 +1,4 @@
-#! /bin/bash 
+#! /bin/bash
 # this is sourced from pbuilder packages to process the optional parameters.
 #   pbuilder -- personal Debian package builder
 #   Copyright (C) 2001-2007 Junichi Uekawa
@@ -18,7 +18,7 @@
 #   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
 
-# This code is called for pbuilder and pbuilder inside pbuilder-uml; 
+# This code is called for pbuilder and pbuilder inside pbuilder-uml;
 # pbuilder-uml calls uml-checkparams.
 
 export PBUILDER_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder}"
@@ -43,9 +43,9 @@ SAVE_AFTER_LOGIN=
 #option for user-mode-linux only.
 IGNORE_UMOUNT=""
 
-while [ -n "$1" ]; do 
-    case "$1" in 
-	--basetgz) 
+while [ -n "$1" ]; do
+    case "$1" in
+	--basetgz)
 	    case "${PBCURRENTCOMMANDLINEOPERATION}" in
 		create|--create)
 		    touch "$2";;
@@ -151,7 +151,7 @@ while [ -n "$1" ]; do
             PKGNAME_LOGFILE_EXTENSION="$PKGNAME_LOGFILE_EXTENTION"
         fi
 	    EXTRA_CONFIGFILE[${#EXTRA_CONFIGFILE[@]}]="$2";
-	    shift; shift; 
+	    shift; shift;
 	    ;;
 	--extrapackages)
 	    EXTRAPACKAGES="$2";
@@ -183,7 +183,7 @@ while [ -n "$1" ]; do
 	    ;;
 	--pkgname-logfile)
 	    PKGNAME_LOGFILE="yes"
-	    shift; 
+	    shift;
 	    ;;
 	--aptconfdir)
 	    APTCONFDIR="$2";
@@ -263,11 +263,11 @@ while [ -n "$1" ]; do
 		exit 1
 	    fi
 	    INPUTFILE[${#INPUTFILE[@]}]="$2";
-	    shift; shift; 
+	    shift; shift;
 	    ;;
 	--outputfile)
 	    OUTPUTFILE[${#OUTPUTFILE[@]}]="$2";
-	    shift; shift; 
+	    shift; shift;
 	    ;;
 
 	## internal options.
@@ -285,14 +285,14 @@ while [ -n "$1" ]; do
 	    # specify this option if I am running in no-targz mode
 	    log.i "Running in no-targz mode"
 	    INTERNAL_BUILD_UML="yes"
-	    shift; 
+	    shift;
 	    ;;
 	--internal-build-uml)
 	    # specify this option if I am running inside UML.
 	    log.i "Running in pbuilder-user-mode-linux mode"
 	    INTERNAL_BUILD_UML="yes"
 	    IGNORE_UMOUNT="no"
-	    shift; 
+	    shift;
 	    ;;
 	--twice)
 	    TWICE="yes"
@@ -349,7 +349,7 @@ case "$PBCURRENTCOMMANDLINEOPERATION" in
 esac
 
 
-case "$PBCURRENTCOMMANDLINEOPERATION" in 
+case "$PBCURRENTCOMMANDLINEOPERATION" in
     --login|login|--execute|execute|--pdebuild|pdebuild)
         # don't do anything if it is "login", or pdebuild
         ;;
