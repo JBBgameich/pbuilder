@@ -4,13 +4,21 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   * Import patch from Fedora to use mktemp(1) instead of tempfile(1).
   * debian/copyright: extend my copyright over 2016.
   * debian/control: Bump Standards-Version to 3.9.7, no changes needed.
+  * Kill pdebuild-user-mode-linux too, uml is already gone, these are just
+    stale files.
+  * Make the copyright notices uniform across the codebase.
   * pbuilder:
     + allow shorter subcommands names:
       up/u for update, b for build, l for login, e for execute, h for help.
+    + define and export PBUILDER_OPERATION with a fixed string for every action.
+      The current set of values are: build, clean, create, debuild, dumpconfig,
+      execute, login, update.  See #805014 for more details.
   * pbuilder.8:
     + promote the use of "subcommands" (i.e. "update") instead of options
       (i.e. "--update") and document their short versions too.
     + use https for the documentation URL.
+  * pdebuild:
+    + define PBUILDER_OPERATION=pdebuild here too.
   * pbuilderrc.5:
     + use https for the documentation URL.
   * buildpackage:
@@ -21,6 +29,8 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
     + make binNMU log message more useful.
     + chmod the files after copying them in the chroot, to be sure they are
       +rw.  Closes: #663950
+  * checkparams:
+    + use the newer PBUILDER_OPERATION instead of PBCURRENTCOMMANDLINEOPERATION.
   * modules:
     + Stop overriding APT::Default-Release for experimental.
     + define DEB_BUILD_ARCH_OS globally.
