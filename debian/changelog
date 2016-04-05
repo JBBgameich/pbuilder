@@ -4,6 +4,8 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   * Import patch from Fedora to use mktemp(1) instead of tempfile(1).
   * debian/copyright: extend my copyright over 2016.
   * debian/control: Bump Standards-Version to 3.9.7, no changes needed.
+  * debian/tests/build-procenv: change debian mirror to cloudfront.debian.net,
+    it's allegedly better for ci.debian.net.
   * Kill pdebuild-user-mode-linux too, uml is already gone, these are just
     stale files.
   * Make the copyright notices uniform across the codebase.
@@ -55,7 +57,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
 
   [ Samuel Thibault ]
   * modules:
-    + modules: stop ignoring mount /proc issues in hurd.
+    + stop ignoring mount /proc issues in hurd.
     + in hurd, remove all translators from /dev/* and /servers/socket/*.
       Closes: #814854
 
