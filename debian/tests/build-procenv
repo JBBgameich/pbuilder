@@ -35,7 +35,7 @@ host_release=$(lsb_release --codename --short || :)
 if [ "$distro" = debian ] ; then
     release=$(distro-info --testing)
     components="main"
-    mirror="http://httpredir.debian.org/debian"
+    mirror="http://cloudfront.debian.net/debian"
     keyring="/usr/share/keyrings/debian-archive-keyring.gpg"
 elif [ "$distro" = ubuntu ] ; then
     case "$arch" in
