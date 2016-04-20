@@ -408,13 +408,28 @@ Specify how much output you want from pbuilder, valid values are
 .TP
 .BI "\-\-binary\-arch"
 
-Specify to build architecture specific targets instead of all targets.
-Setting
-.B "\-\-debbuildopts"
-after this option will re-set some parts of the effect.
+Specify to build only architecture specific targets instead of all targets.
+This instructs pbuilder to respect only Build-Depends, Build-Depends-Arch,
+Build-Conflicts, Build-Conflicts-Arch source relationships, and calls
+\fIdpkg-buildpackage\fR with \fB\-B\fR.
 
-Use this option rather than using
-.B "\-\-debbuildopts -B"
+Setting \fB\-\-debbuildopts\fR after this option will re-set some parts of the
+effects.
+
+Use this option rather than using \fB\-\-debbuildopts \-B\fR.
+
+.TP
+.BI "\-\-binary\-indep"
+
+Specify to build only architecture independent targets instead of all targets.
+This instructs pbuilder to respect only Build-Depends, Build-Depends-Indep,
+Build-Conflicts, Build-Conflicts-Indep source relationships, and calls
+\fIpkg-buildpackage\fR with \fB\-A\fR.
+
+Setting \fB\-\-debbuildopts\fR after this option will re-set some parts of the
+effect.
+
+Use this option rather than using \fB\-\-debbuildopts \-A\fR.
 
 .TP
 .BI "\-\-bin\-nmu [" "changelog message" "]"
