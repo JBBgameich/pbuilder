@@ -66,6 +66,10 @@ while [ -n "$1" ]; do
 	    BINARY_ARCH="binary"
 	    shift
 	    ;;
+    --binary-indep)
+        BINARY_ARCH="all"
+        shift
+        ;;
 	--continue-fail)
 	    CONTINUE_FAIL="yes"
 	    shift

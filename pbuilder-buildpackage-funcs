@@ -50,6 +50,7 @@ function checkbuilddep () {
     local BUILDOPT="--binary-all"
     case "${BINARY_ARCH}" in
         binary) BUILDOPT="--binary-arch";;
+        all) BUILDOPT="--binary-indep";;
         *) ;;
     esac
     if "$PBUILDERSATISFYDEPENDSCMD" --control "$1" --chroot "${BUILDPLACE}" --internal-chrootexec "${CHROOTEXEC}" "${BUILDOPT}" "${PBUILDERSATISFYDEPENDSOPT[@]}"; then

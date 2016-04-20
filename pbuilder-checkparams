@@ -207,6 +207,12 @@ while [ -n "$1" ]; do
         DEBBUILDOPTS="${DEBBUILDOPTS} -B"
         shift;
         ;;
+    --binary-indep)
+        BINARY_ARCH="all"
+        # XXX this might be overwritten by --debbuildopts ""
+        DEBBUILDOPTS="${DEBBUILDOPTS} -A"
+        shift
+        ;;
     --bin-nmu)
         BIN_NMU="yes"
         BINARY_ARCH="binary"
