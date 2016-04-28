@@ -9,6 +9,14 @@ program invocation.
 .PP
 The file itself is sourced by a shell script, so
 it is required that the file conforms to shell script conventions.
+.PP
+The environment variable
+.I PBUILDER_OPERATION
+contains the current operation mode of pbuilder, and can be used to do a
+conditional configuration.
+Possible values are \fBbuild\fR, \fBclean\fR, \fBcreate\fR, \fBdebuild\fR,
+\fBdumpconfig\fR, \fBexecute\fR, \fBlogin\fR, \fBupdate\fR.
+
 .SH "FORMAT"
 .TP
 .BI "APTCACHE=" "/var/cache/pbuilder/aptcache"

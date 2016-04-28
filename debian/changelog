@@ -26,6 +26,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   * pdebuild:
     + define PBUILDER_OPERATION=pdebuild here too.
   * pbuilderrc.5:
+    + document the availability of PBUILDER_OPERATION.  Closes: #805014
     + use https for the documentation URL.
   * buildpackage:
     + override the Maintainer field when doing binNMUs.  Closes: #813589
