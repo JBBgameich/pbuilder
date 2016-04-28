@@ -38,7 +38,8 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   * checkparams:
     + use the newer PBUILDER_OPERATION instead of PBCURRENTCOMMANDLINEOPERATION.
   * modules:
-    + Stop overriding APT::Default-Release for experimental.
+    + stop overriding APT::Default-Release for experimental.
+    + export DISTRIBUTION when calling the hooks.
     + define DEB_BUILD_ARCH_OS globally.
       This fixes the USENETWORK handling, where there are tests involving
       DEB_BUILD_ARCH_OS but it was previously undefined.

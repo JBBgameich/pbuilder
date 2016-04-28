@@ -364,15 +364,20 @@ back the build results.
 
 In your hook the following environment variables are available:
 .RS 8
+.I PBUILDER_OPERATION
+a string indicating which of the pbuilder command has been called.  Possible
+values are \fBbuild\fR, \fBclean\fR, \fBcreate\fR, \fBdebuild\fR,
+\fBdumpconfig\fR, \fBexecute\fR, \fBlogin\fR, \fBupdate\fR.
+.RE
+.RS 8
 .I BUILDDIR
 the place where the build happens, the sources are inside a directory named
 .B <package>-<version>.
 .RE
 .RS 8
-.I PBUILDER_OPERATION
-a string indicating which of the pbuilder command has been called.  Possible
-values are \fBbuild\fR, \fBclean\fR, \fBcreate\fR, \fBdebuild\fR,
-\fBdumpconfig\fR, \fBexecute\fR, \fBlogin\fR, \fBupdate\fR.
+.I DISTRIBUTION
+the name of the used distribution, as provided by the DISTRIBUTION config value,
+or the --distribution command line flag.
 .RE
 \" End of hookdir description
 

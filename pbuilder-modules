@@ -768,6 +768,7 @@ function executehooks () {
                if [ -x "$fn" ]; then
                    log.i "user script $fn starting"
                    BUILDDIR="$BUILDDIR" \
+                   DISTRIBUTION="$DISTRIBUTION" \
                        $CHROOTEXEC "/$hooks/$(basename "$fn")"
                    log.i "user script $fn finished"
                else
