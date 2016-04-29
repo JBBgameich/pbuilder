@@ -1,4 +1,4 @@
-pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
+pbuilder (0.224) unstable; urgency=medium
 
   Pbuilder won't set 'APT::Default-Release = "experimental"' for experimental
   chroots anymore.
@@ -13,7 +13,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   (but this is most likely a non-issue, given that this is already needed for
   packages meant to be uploaded to the Debian archive).
 
- -- Mattia Rizzolo <mattia@debian.org>  Wed, 30 Mar 2016 13:30:12 +0000
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 29 Apr 2016 15:41:17 +0000
 
 pbuilder (0.216) experimental; urgency=medium
 

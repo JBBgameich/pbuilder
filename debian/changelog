@@ -1,4 +1,4 @@
-pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
+pbuilder (0.224) unstable; urgency=medium
 
   [ Mattia Rizzolo ]
   * Import patch from Fedora to use mktemp(1) instead of tempfile(1).
@@ -73,7 +73,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
     + On Hurd with --no-targz, leave a valid /servers/socket/1.  Closes: #818368
     + Always use devfs on kfreebsd.  Closes: #630813
 
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 24 Jan 2016 21:38:42 +0000
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 29 Apr 2016 15:41:17 +0000
 
 pbuilder (0.223) unstable; urgency=medium
 
