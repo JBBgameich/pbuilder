@@ -6,6 +6,7 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   * debian/control: Bump Standards-Version to 3.9.8, no changes needed.
   * debian/tests/build-procenv: change debian mirror to cloudfront.debian.net,
     it's allegedly better for ci.debian.net.
+  * debian/gbp.conf: change the format of the tags, use only '%(version)s'.
   * Kill pdebuild-user-mode-linux too, uml is already gone, these are just
     stale files.
   * Make the copyright notices uniform across the codebase.
