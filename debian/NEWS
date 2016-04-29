@@ -6,13 +6,12 @@ pbuilder (0.223+unreleased) UNRELEASED; urgency=medium
   This caused it to download all packages from experimental, not only those
   needed to satisfy Build-Depends, often causing more troubles than anything
   else.
-  This makes pbuilder behaves more similar to Debian buildd's, and makes its
-  behaviour more inline with all the other partial overlay suites (e.g. like
-  *-backports).
+  This makes pbuilder behaves more similar to Debian's buildds, and aligns its
+  behaviour with all the other partial overlay suites (like *-backports).
   This also means that starting from now packages needing binaries from
   experimental will need to mark the Build-Depedency with a version constriction
-  (but this is most likely a non-issue, given that this is already need for
-  packages uploading to the Debian archive).
+  (but this is most likely a non-issue, given that this is already needed for
+  packages meant to be uploaded to the Debian archive).
 
  -- Mattia Rizzolo <mattia@debian.org>  Wed, 30 Mar 2016 13:30:12 +0000
 
