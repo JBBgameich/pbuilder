@@ -53,7 +53,14 @@ function checkbuilddep () {
         all) BUILDOPT="--binary-indep";;
         *) ;;
     esac
-    if "$PBUILDERSATISFYDEPENDSCMD" --control "$1" --chroot "${BUILDPLACE}" --internal-chrootexec "${CHROOTEXEC}" "${BUILDOPT}" "${PBUILDERSATISFYDEPENDSOPT[@]}"; then
+    if \
+        ("$PBUILDERSATISFYDEPENDSCMD" \
+            --control "$1" \
+            --chroot "${BUILDPLACE}" \
+            --internal-chrootexec "${CHROOTEXEC}" \
+            "${BUILDOPT}" \
+            "${PBUILDERSATISFYDEPENDSOPT[@]}"); \
+    then
         :
     else
         # If asked to preserve the build place, and pbuilder-satisfydepends
