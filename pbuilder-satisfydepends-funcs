@@ -358,6 +358,7 @@ Copyright 2002-2007  Junichi Uekawa <dancer@debian.org>
 --chroot:      operate inside chroot
 --binary-all:  include binary-all
 --binary-arch: include binary-arch only
+--binary-indep:  include binary-indep only
 --echo:        echo mode, do nothing. (--force-version required for most operation)
 --force-version: skip version check.
 --continue-fail: continue even when failed.
