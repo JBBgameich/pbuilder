@@ -60,7 +60,7 @@ function checkbuilddep_internal () {
 
 	while [ "$SATISFIED" = "no" ]; do
 	    echo "   -> Trying to add $CURRENT_APT_COMMAND"
-	    if APT_OUTPUT="$( exec 2>&1; LC_ALL=C $CHROOTEXEC /usr/bin/apt-get -s install $APTFLAG $INSTALLPKGLIST $CURRENT_APT_COMMAND )"; then
+	    if APT_OUTPUT="$( exec 2>&1; LC_ALL=C $CHROOTEXEC apt-get -s install $APTFLAG $INSTALLPKGLIST $CURRENT_APT_COMMAND )"; then
 		# success, we're done
 		SATISFIED="yes"
 		INSTALLPKGLIST="$INSTALLPKGLIST $CURRENT_APT_COMMAND"
@@ -91,7 +91,7 @@ function checkbuilddep_internal () {
 	fi
 
 	echo "       -> Cannot install $CURRENT_APT_COMMAND; apt errors follow:"
-	if $CHROOTEXEC /usr/bin/apt-get -s install $APTFLAG $INSTALLPKGLIST "$CURRENT_APT_COMMAND"; then
+	if $CHROOTEXEC apt-get -s install $APTFLAG $INSTALLPKGLIST "$CURRENT_APT_COMMAND"; then
 	    :
 	fi
 	# package could not be found. -- looking for alternative.
@@ -100,13 +100,13 @@ function checkbuilddep_internal () {
 	if [ -n "$PROVIDED" ]; then
 	    # something provides this package
 	    echo "     -> Considering $PROVIDED to satisfy the dependency "
-	    if $CHROOTEXEC /usr/bin/apt-get -s install $APTFLAG $INSTALLPKGLIST $PROVIDED >& /dev/null; then
+	    if $CHROOTEXEC apt-get -s install $APTFLAG $INSTALLPKGLIST $PROVIDED >& /dev/null; then
 		SATISFIED="yes";
 		INSTALLPKGLIST="$INSTALLPKGLIST $PROVIDED"
 	    else
 		# show the error for diagnostic purposes
 		echo "       -> Cannot install $PROVIDED; apt errors follow:"
-		if $CHROOTEXEC /usr/bin/apt-get -s install $APTFLAG $INSTALLPKGLIST $PROVIDED; then
+		if $CHROOTEXEC apt-get -s install $APTFLAG $INSTALLPKGLIST $PROVIDED; then
 		    :
 		fi
 	    fi
@@ -161,8 +161,8 @@ function checkbuilddep_internal () {
       fi
 
       # if package exists, remove it.
-      if $CHROOTEXEC /usr/bin/dpkg -s $(echo "$INSTALLPKG" | tr "/" " " | awk '{print $1}') 2>&1 | grep -q ^Package:; then
-	  if ! $CHROOTEXEC /usr/bin/apt-get -q -y remove $CURRENTREALPKGNAME ; then
+      if $CHROOTEXEC dpkg -s $(echo "$INSTALLPKG" | tr "/" " " | awk '{print $1}') 2>&1 | grep -q ^Package:; then
+	  if ! $CHROOTEXEC apt-get -q -y remove $CURRENTREALPKGNAME ; then
 	      echo "E: Could not satisfy build-conflicts" >&2
 	      exit 1
 	  fi

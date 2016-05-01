@@ -711,7 +711,7 @@ function add_additional_aptkeyrings() {
 # additional keys.
     for KEY in "${APTKEYRINGS[@]}"; do
         log.i "adding apt key file ${KEY}."
-        $CHROOTEXEC /usr/bin/apt-key add - < "${KEY}" > /dev/null
+        $CHROOTEXEC apt-key add - < "${KEY}" > /dev/null
     done
 }
 

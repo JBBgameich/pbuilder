@@ -12,4 +12,4 @@ fi;
 
 . /usr/lib/pbuilder/pbuilder-loadconfig
 $PBUILDERROOTCMD "$PBUILDERSATISFYDEPENDSCMD"
-/usr/bin/debuild "$@"
+debuild "$@"

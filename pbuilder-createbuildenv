@@ -94,7 +94,7 @@ log.i "Refreshing the base.tgz "
 log.i "upgrading packages"
 mountproc
 $TRAP umountproc_cleanbuildplace_trap exit sighup
-$CHROOTEXEC /usr/bin/apt-get -q "${APTGETOPT[@]}" update
+$CHROOTEXEC apt-get -q "${APTGETOPT[@]}" update
 
 case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
   *-aptitude)
@@ -113,8 +113,8 @@ fi
 
 if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi
 recover_aptcache
-$CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" "${FORCE_CONFNEW[@]}" dist-upgrade
-$CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" install \
+$CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" "${FORCE_CONFNEW[@]}" dist-upgrade
+$CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" install \
     build-essential \
     dpkg-dev \
     $EXTRAPACKAGES
@@ -122,7 +122,7 @@ save_aptcache
 
 executehooks "E"
 umountproc
-$CHROOTEXEC /usr/bin/apt-get clean || true
+$CHROOTEXEC apt-get clean || true
 $TRAP cleanbuildplace_trap exit sighup
 
 # Internal_build_uml is set when --no-targz is set, this code is actually never called from pbuilder-user-mode-linux

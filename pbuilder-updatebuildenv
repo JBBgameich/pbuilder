@@ -39,7 +39,7 @@ $TRAP umountproc_cleanbuildplace_trap exit sighup
 
 log.i "Refreshing the base.tgz "
 log.i "upgrading packages"
-$CHROOTEXEC /usr/bin/apt-get -q "${APTGETOPT[@]}" update
+$CHROOTEXEC apt-get -q "${APTGETOPT[@]}" update
 
 
 # automatically add packages needed for optional features to the chroot
@@ -82,12 +82,12 @@ if [ "$DEBDELTA" = "yes" ]; then
     fi
 fi
 
-$CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" "${FORCE_CONFNEW[@]}" dist-upgrade
+$CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" "${FORCE_CONFNEW[@]}" dist-upgrade
 # autoremove: Ignore error in case of etch because apt in etch doesn't
 # support autoremove. TODO: Do not ignore error when etch is no longer
 # supported.
-$CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" autoremove || true
-$CHROOTEXEC /usr/bin/apt-get -q -y "${APTGETOPT[@]}" install \
+$CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" autoremove || true
+$CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" install \
     build-essential \
     dpkg-dev \
     $EXTRAPACKAGES
@@ -102,7 +102,7 @@ add_additional_aptkeyrings
 # optionally auto-clean apt-cache
 if [ "${AUTOCLEANAPTCACHE}" = "yes" -a -n "$APTCACHE" ]; then
     log.i "Cleaning the cached apt archive"
-    $CHROOTEXEC /usr/bin/apt-get autoclean || true
+    $CHROOTEXEC apt-get autoclean || true
     find "$APTCACHE/" -maxdepth 1 -name \*.deb | \
 	while read A; do
 	    if [ ! -f "$BUILDPLACE/var/cache/apt/archives/$(basename "$A")" -a \
@@ -117,7 +117,7 @@ $TRAP umountproc_cleanbuildplace_trap exit sighup
 executehooks "E"
 
 umountproc
-$CHROOTEXEC /usr/bin/apt-get clean || true
+$CHROOTEXEC apt-get clean || true
 
 $TRAP cleanbuildplace_trap exit sighup
 if [ ! "${INTERNAL_BUILD_UML}" = "yes" ]; then

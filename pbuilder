@@ -74,7 +74,7 @@ case "$1" in
         fi
 
         executehooks "F"
-        (${CHROOTEXEC} bin/bash -c 'exec -a -bash bin/bash')
+        (${CHROOTEXEC} bash -c 'exec -a -bash bash')
         RET=$?
 
         save_aptcache
@@ -90,7 +90,7 @@ case "$1" in
                 log.i "Saving the results, modifications to this session will persist"
                 umountproc
                 trap cleanbuildplace_trap exit sighup
-                ${CHROOTEXEC} /usr/bin/apt-get clean || true
+                ${CHROOTEXEC} apt-get clean || true
                 create_basetgz
                 cleanbuildplace
                 trap - exit sighup
@@ -140,7 +140,7 @@ case "$1" in
                 log.i "Saving the results, modifications to this session will persist"
                 umountproc
                 trap cleanbuildplace_trap exit sighup
-                ${CHROOTEXEC} /usr/bin/apt-get clean || true
+                ${CHROOTEXEC} apt-get clean || true
                 create_basetgz
                 cleanbuildplace
                 trap - exit sighup

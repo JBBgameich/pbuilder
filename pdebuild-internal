@@ -126,7 +126,7 @@ executehooks "A"
 # do build with that user.
 # $DEBBUILDOPTS is evaluated inside the su and chroot.
 export DEBBUILDOPTS
-CMD="env PATH=$PATH /usr/bin/dpkg-buildpackage -rfakeroot -us -uc "'${DEBBUILDOPTS}'
+CMD="env PATH=$PATH dpkg-buildpackage -rfakeroot -us -uc "'${DEBBUILDOPTS}'
 echo "I: Running $CMD"
 # This command should be ran with current directory as bind-mounted
 # package source directory

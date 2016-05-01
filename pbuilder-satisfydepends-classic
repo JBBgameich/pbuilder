@@ -55,7 +55,7 @@ get_dep_op_and_ver() {
 
 # call apt-get in chroot in simulate mode
 apt_sim() {
-    $CHROOTEXEC /usr/bin/apt-get -s install "$@"
+    $CHROOTEXEC apt-get -s install "$@"
 }
 
 # Use this function to fulfill the dependency (almost)
@@ -173,8 +173,8 @@ checkbuilddep_internal() {
       fi
 
       # if package exists, remove it.
-      if $CHROOTEXEC /usr/bin/dpkg -s "$CURRENTREALPKGNAME" 2>&1 | grep -q ^Package:; then
-	  if ! $CHROOTEXEC /usr/bin/apt-get -q -y remove "$CURRENTREALPKGNAME" ; then
+      if $CHROOTEXEC dpkg -s "$CURRENTREALPKGNAME" 2>&1 | grep -q ^Package:; then
+	  if ! $CHROOTEXEC apt-get -q -y remove "$CURRENTREALPKGNAME" ; then
 	      echo "E: Could not satisfy build-conflicts" >&2
 	      exit 1
 	  fi

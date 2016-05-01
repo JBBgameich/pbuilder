@@ -67,9 +67,9 @@ case $USENETWORK in
         fi
         ;;
     *)
-        if /usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper true; then
+        if unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper true; then
             USENETWORK=no
-            UNSHARE="/usr/bin/unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper"
+            UNSHARE="unshare -n -- /usr/lib/pbuilder/pbuilder-unshare-wrapper"
             log.i "pbuilder: network access will be disabled during build"
         else
             USENETWORK=yes
@@ -142,7 +142,7 @@ else
     log.e "pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
     exit 1;
 fi
-if echo "( cd $BUILDDIR; env PATH=\"$PATH\" /usr/bin/dpkg-source -x $(basename "$PACKAGENAME") )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
+if echo "( cd $BUILDDIR; env PATH=\"$PATH\" dpkg-source -x $(basename "$PACKAGENAME") )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
     : # success
 else
     log.e "pbuilder: Failed extracting the source"
