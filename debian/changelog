@@ -1,3 +1,9 @@
+pbuilder (0.224+) UNRELEASED; urgency=medium
+
+  * debian/rules: change default ubuntu distribution to yakkety
+
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 01 May 2016 20:14:47 +0000
+
 pbuilder (0.224) unstable; urgency=medium
 
   [ Mattia Rizzolo ]
