@@ -483,7 +483,7 @@ function remove_packages () {
     done
     if [ "${#toremove[@]}" -gt 0 ]; then
         log.i "Removing [${toremove[@]}] from the chroot..."
-        $CHROOTEXEC apt-get --purge remove "${toremove[@]}"
+        $CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" --purge remove "${toremove[@]}"
     fi
 }
 
