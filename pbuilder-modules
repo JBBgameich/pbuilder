@@ -334,7 +334,7 @@ function mountproc () {
         if mkdir -p "$BUILDPLACE/$mnt" &&
             mount $MOUNTPARAMS "$mnt" "$BUILDPLACE/$mnt"; then
             # successful.
-            mounted[${#mounted[@]}]="$mnt"
+            mounted[${#mounted[@]}]="$BUILDPLACE/$mnt"
         else
             # this part of code is the only part which is supposed to fail.
             # When unsuccessful, backtrack / umount and abort.
