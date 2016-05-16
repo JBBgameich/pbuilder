@@ -13,6 +13,7 @@ else
 	sed "s#http://httpredir.debian.org/debian#http://archive.ubuntu.com/ubuntu#g" -i debian/pbuilder.config
 	sed "s#http://httpredir.debian.org/debian#http://archive.ubuntu.com/ubuntu#g" -i pbuilderrc
 	sed "s/#DISTRIBUTION=sid/DISTRIBUTION=yakkety/" -i pbuilderrc
+	sed 's/COMPONENTS="main"/COMPONENTS="main universe"/' -i pbuilderrc
 endif
 	dh_clean
 
