@@ -514,7 +514,7 @@ function copy_local_configuration () {
 function extractbuildplace () {
     # after calling this function, umountproc, and cleanbuildplace
     # needs to be called. Please trap it after calling this function.
-
+    local TAR=tar
     if [ "${INTERNAL_BUILD_UML}" != "yes" -a ! \( "${PRESERVE_BUILDPLACE}" = "yes" -a -d "$BUILDPLACE" \) ]; then
         cleanbuildplace
         log.i "Building the build Environment"
@@ -527,7 +527,10 @@ function extractbuildplace () {
             log.e "failed to find $BASETGZ, have you done <pbuilder create> to create your base tarball yet?"
             exit 1
         fi
-        if ! (cd "$BUILDPLACE" && tar -x --use-compress-program "$COMPRESSPROG" -p -f "$BASETGZ"); then
+        if [ "$EATMYDATA" = "yes" ]; then
+            TAR="eatmydata tar"
+        fi
+        if ! (cd "$BUILDPLACE" && $TAR -x --use-compress-program "$COMPRESSPROG" -p -f "$BASETGZ"); then
             log.e "failed to extract $BASETGZ to $BUILDPLACE"
             exit 1
         fi
@@ -571,6 +574,16 @@ function extractbuildplace () {
             log.w "Could not create compatibility symlink because /tmp/buildd exists and it is not a directory"
         fi
     fi
+
+    if [ "$EATMYDATA" = "yes" ]; then
+        if $CHROOTEXEC /sbin/ldconfig -p | grep -q libeatmydata && $CHROOTEXEC which eatmydata > /dev/null 2>&1 ; then
+            log.i "using eatmydata during job"
+            CHROOTEXEC="chroot $BUILDPLACE eatmydata"
+        else
+            log.w "eatmydata is not (yet) installed inside the chroot, not using it."
+        fi
+    fi
+
     executehooks "H"
 }
 

@@ -24,6 +24,7 @@ Depends: debootstrap | cdebootstrap,
          wget,
          ${misc:Depends}
 Recommends: devscripts,
+            eatmydata,
             fakeroot,
             net-tools | iproute2,
             sudo

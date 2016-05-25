@@ -58,6 +58,15 @@ else
     REMOVEPACKAGES="$REMOVEPACKAGES ccache"
 fi
 
+if [ "$EATMYDATA" = "yes" ]; then
+    # the eatmydata binary is going nowhere anytime soon, while the libeatmydata1
+    # binary is shaped like a shared library, so the name might change, etc.
+    # Install this package instead, it's cheap enough.
+    EXTRAPACKAGES="$EXTRAPACKAGES eatmydata"
+else
+    REMOVEPACKAGES="$REMOVEPACKAGES eatmydata"
+fi
+
 if [ "$DEBDELTA" = "yes" ]; then
     EXTRAPACKAGES="$EXTRAPACKAGES debdelta python-apt xdelta3"
 else

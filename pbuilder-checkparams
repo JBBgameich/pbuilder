@@ -327,9 +327,6 @@ BASEBUILDPLACE="$BUILDPLACE"
 if [ "${INTERNAL_BUILD_UML}" != "yes" -a "${PRESERVE_BUILDPLACE}" != "yes" ]; then
     BUILDPLACE="$BUILDPLACE/$$"
 fi
-if [ -z "${CHROOTEXEC}" ]; then
-    CHROOTEXEC="chroot $BUILDPLACE "
-fi
 
 # sanity check of LOGLEVEL
 case "$LOGLEVEL" in
@@ -340,6 +337,22 @@ case "$LOGLEVEL" in
         exit 1
         ;;
 esac
+
+# set up CHROOTEXEC
+if [ -z "${CHROOTEXEC}" ]; then
+    CHROOTEXEC="chroot $BUILDPLACE "
+    if [ "$EATMYDATA" = "yes" ]; then
+        if /sbin/ldconfig -p | grep libeatmydata >/dev/null 2>&1 ; then
+            if ! which eatmydata > /dev/null 2>&1 ; then
+                log.w "the eatmydata binary is not installed on the host, not using it."
+                EATMYDATA=no
+            fi
+        else
+            log.w "libeatmydata is not installed on the host, not using it."
+            EATMYDATA=no
+        fi
+    fi
+fi
 
 # handle 'experimental' specially. -- required for raw pbuilder (create/update) only.
 case "$PBUILDER_OPERATION" in

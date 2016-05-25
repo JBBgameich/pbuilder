@@ -362,6 +362,7 @@ Copyright 2002-2007  Junichi Uekawa <dancer@debian.org>
 --echo:        echo mode, do nothing. (--force-version required for most operation)
 --force-version: skip version check.
 --continue-fail: continue even when failed.
+--eatmydata    wrap the chroots commands with eatmydata
 
 EOF
 }

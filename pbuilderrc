@@ -44,6 +44,7 @@ APTCACHEHARDLINK="yes"
 REMOVEPACKAGES=""
 #HOOKDIR="/usr/lib/pbuilder/hooks"
 HOOKDIR=""
+EATMYDATA=no
 # NB: this var is private to pbuilder; ccache uses "CCACHE_DIR" instead
 # CCACHEDIR="/var/cache/pbuilder/ccache"
 CCACHEDIR=""
