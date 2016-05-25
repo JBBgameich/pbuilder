@@ -224,7 +224,7 @@ function umountproc () {
         reversed="$mnt $reversed"
     done
     for mnt in $reversed; do
-        umount_one "$mnt"
+        umount_one "${mnt#*:}"
     done
     if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
         umount_one "$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2)"
@@ -271,6 +271,7 @@ function umountproc () {
 # Also create a policy-rc.d script if it doesn't already exist.
 function mountproc () {
     local -a mounted
+    local mnt mntpoint
     if [ "$USEPROC" = "yes" ]; then
         log.i "mounting /proc filesystem"
         mkdir -p "$BUILDPLACE/proc"
@@ -330,9 +331,15 @@ function mountproc () {
     MOUNTPARAMS="-obind"
     [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] && MOUNTPARAMS="-t nullfs"
     for mnt in $BINDMOUNTS; do
-        log.i "Mounting $mnt"
-        if mkdir -p "$BUILDPLACE/$mnt" &&
-            mount $MOUNTPARAMS "$mnt" "$BUILDPLACE/$mnt"; then
+        mntpoint=${mnt#*:}
+        mnt=${mnt%%:*}
+        if [ "$mnt" = "$mntpoint" ]; then
+            log.i "Mounting $mnt"
+        else
+            log.i "Mounting $mnt to $mntpoint"
+        fi
+        if mkdir -p "$BUILDPLACE/$mntpoint" &&
+            mount -obind "$mnt" "$BUILDPLACE/$mntpoint"; then
             # successful.
             mounted[${#mounted[@]}]="$BUILDPLACE/$mnt"
         else
