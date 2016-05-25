@@ -96,28 +96,7 @@ mountproc
 $TRAP umountproc_cleanbuildplace_trap exit sighup
 $CHROOTEXEC apt-get -q "${APTGETOPT[@]}" update
 
-case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
-  *-aptitude)
-    EXTRAPACKAGES="$EXTRAPACKAGES aptitude"
-  ;;
-  *)
-    REMOVEPACKAGES="$REMOVEPACKAGES aptitude"
-  ;;
-esac
-
-if [ -n "$CCACHEDIR" ]; then
-    EXTRAPACKAGES="$EXTRAPACKAGES ccache"
-else
-    REMOVEPACKAGES="$REMOVEPACKAGES ccache"
-fi
-if [ "$EATMYDATA" = "yes" ]; then
-    # the eatmydata binary is going nowhere anytime soon, while the libeatmydata1
-    # binary is shaped like a shared library, so the name might change, etc.
-    # Install this package instead, it's cheap enough.
-    EXTRAPACKAGES="$EXTRAPACKAGES eatmydata"
-else
-    REMOVEPACKAGES="$REMOVEPACKAGES eatmydata"
-fi
+install_packages_for_optional_features
 
 if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi
 recover_aptcache

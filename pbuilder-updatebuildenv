@@ -42,36 +42,7 @@ log.i "upgrading packages"
 $CHROOTEXEC apt-get -q "${APTGETOPT[@]}" update
 
 
-# automatically add packages needed for optional features to the chroot
-case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
-  *-aptitude)
-    EXTRAPACKAGES="$EXTRAPACKAGES aptitude"
-  ;;
-  *)
-    REMOVEPACKAGES="$REMOVEPACKAGES aptitude"
-  ;;
-esac
-
-if [ -n "$CCACHEDIR" ]; then
-    EXTRAPACKAGES="$EXTRAPACKAGES ccache"
-else
-    REMOVEPACKAGES="$REMOVEPACKAGES ccache"
-fi
-
-if [ "$EATMYDATA" = "yes" ]; then
-    # the eatmydata binary is going nowhere anytime soon, while the libeatmydata1
-    # binary is shaped like a shared library, so the name might change, etc.
-    # Install this package instead, it's cheap enough.
-    EXTRAPACKAGES="$EXTRAPACKAGES eatmydata"
-else
-    REMOVEPACKAGES="$REMOVEPACKAGES eatmydata"
-fi
-
-if [ "$DEBDELTA" = "yes" ]; then
-    EXTRAPACKAGES="$EXTRAPACKAGES debdelta python-apt xdelta3"
-else
-    REMOVEPACKAGES="$REMOVEPACKAGES debdelta"
-fi
+install_packages_for_optional_features
 
 if [ -n "$REMOVEPACKAGES" ]; then remove_packages $REMOVEPACKAGES ; fi
 
