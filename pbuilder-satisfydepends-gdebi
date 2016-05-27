@@ -23,7 +23,7 @@
 set -e
 
 function checkbuilddep_internal () {
-    if ! [ -x gdebi ]; then
+    if [ ! -x "$(which gdebi 2> /dev/null)" ]; then
         echo "E: You need the gdebi-core package to resolve build-deps using gdebi" >&2
         exit 1
     fi
