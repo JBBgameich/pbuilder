@@ -22,6 +22,7 @@
 
 hooks=tmp/hooks
 DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
+SELINUX="$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2)"
 
 function showhelp () {
     cat <<EOF
@@ -226,8 +227,8 @@ function umountproc () {
     for mnt in $reversed; do
         umount_one "${mnt#*:}"
     done
-    if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
-        umount_one "$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2)"
+    if [ -n "$SELINUX" ]; then
+        umount_one "$SELINUX"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
         umount_one "dev/pts"
@@ -312,9 +313,8 @@ function mountproc () {
         mount -t devpts none "$BUILDPLACE/dev/pts" -onoexec,nosuid,gid=$TTYGRP,mode=$TTYMODE
         mounted[${#mounted[@]}]="$BUILDPLACE/dev/pts"
     fi
-    if [ -x /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
+    if [ -n "$SELINUX" ]; then
         log.i "mounting selinux filesystem"
-        local SELINUX="$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2)"
         mkdir -p "$BUILDPLACE/$SELINUX"
         mount --bind "$SELINUX" "$BUILDPLACE/$SELINUX"
         mount -o remount,ro,bind "$BUILDPLACE/$SELINUX"
