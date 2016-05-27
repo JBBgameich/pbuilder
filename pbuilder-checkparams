@@ -79,6 +79,10 @@ while [ -n "$1" ]; do
         export http_proxy="$2";
         shift; shift;
         ;;
+    --use-network)
+        USENETWORK="$2"
+        shift 2
+        ;;
     --distribution)
         DISTRIBUTION="$2";
         OVERRIDE_APTLINES_WARN=yes

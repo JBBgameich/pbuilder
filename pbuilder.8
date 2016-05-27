@@ -247,6 +247,16 @@ Specifies the http proxy URL. Something like
 should do.
 
 .TP
+.BI "\-\-use\-network [" "yes" "|" "no" "]"
+Specify
+.B yes
+when you do not want to disable network access during build.
+Network is not available on a Debian buildd, so you might
+want to keep the default of
+.BR no .
+Disabling network access currently only works on Linux.
+
+.TP
 .BI "\-\-aptcache [" "location of retrieved package files" "]"
 Specifies the location where the packages downloaded by apt should
 be cached. Use
