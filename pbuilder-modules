@@ -47,8 +47,11 @@ pbuilder clean
   Cleans the temporal build directory.
 
 pbuilder login
-pbuilder execute -- [command] [command-options]
-  Logs in to the build environment and execute command.
+  Opens a shell into the a throw-away chroot.
+
+pbuilder execute -- [script] [script options]
+  Logs into the build environment and execute "script".  The script is copied
+  into the chroot and invoked.
 
 pbuilder dumpconfig
   Dumps configuration information to stdout for debugging.
