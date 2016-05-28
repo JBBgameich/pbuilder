@@ -69,118 +69,118 @@ checkbuilddep_internal() {
     local APTFLAG="-o APT::Install-Recommends=false"
     echo " -> Attempting to parse the build-deps "
     for INSTALLPKGMULTI in $(get_build_deps | split_deps); do
-      echo " -> Considering build-dep $(echo "$INSTALLPKGMULTI" | tr "/" " ")"
-      SATISFIED="no"
-      for INSTALLPKG in $(split_alternates "$INSTALLPKGMULTI"); do
-	CURRENTREALPKGNAME=$(get_pkg_name "$INSTALLPKG")
-	if echo "$INSTALLPKG" | grep -q '\['; then
-	    if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
-		SATISFIED="yes"
-		echo "   -> This package is not for this architecture"
-		continue
-	    fi
-	fi
-	if echo "$INSTALLPKG" | grep -q '<'; then
-	    if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
-		SATISFIED="yes"
-		echo "   -> This package is not for the current build profiles"
-		continue
-	    fi
-	fi
-	if echo "$INSTALLPKG" | grep -q '('; then
-	    #echo "Debug: $INSTALLPKG"
-	    if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" $(get_dep_op_and_ver "$INSTALLPKG"); then
-	      echo "   -> Does not satisfy version, not trying"
-	      continue
-	    fi
-	fi
-	echo "   -> Trying $CURRENTREALPKGNAME"
+        echo " -> Considering build-dep $(echo "$INSTALLPKGMULTI" | tr "/" " ")"
+        SATISFIED="no"
+        for INSTALLPKG in $(split_alternates "$INSTALLPKGMULTI"); do
+            CURRENTREALPKGNAME=$(get_pkg_name "$INSTALLPKG")
+            if echo "$INSTALLPKG" | grep -q '\['; then
+                if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
+                    SATISFIED="yes"
+                    echo "   -> This package is not for this architecture"
+                    continue
+                fi
+            fi
+            if echo "$INSTALLPKG" | grep -q '<'; then
+                if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
+                    SATISFIED="yes"
+                    echo "   -> This package is not for the current build profiles"
+                    continue
+                fi
+            fi
+            if echo "$INSTALLPKG" | grep -q '('; then
+                #echo "Debug: $INSTALLPKG"
+                if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" $(get_dep_op_and_ver "$INSTALLPKG"); then
+                  echo "   -> Does not satisfy version, not trying"
+                  continue
+                fi
+            fi
+            echo "   -> Trying $CURRENTREALPKGNAME"
 
-	if apt_sim $APTFLAG $INSTALLPKGLIST $CURRENTREALPKGNAME >& /dev/null; then
-	    SATISFIED="yes"
-	    INSTALLPKGLIST="$INSTALLPKGLIST $CURRENTREALPKGNAME"
-	else
-	    echo "       -> Cannot install $CURRENTREALPKGNAME; apt errors follow:"
-	    if apt_sim $APTFLAG $INSTALLPKGLIST "$CURRENTREALPKGNAME"; then
-		:
-	    fi
-	    # package could not be found. -- looking for alternative.
-	    PROVIDED=""
-	    checkbuilddep_provides "$CURRENTREALPKGNAME"
-	    if [ -n "$PROVIDED" ]; then
-		# something provides this package
-		echo "     -> Considering $PROVIDED to satisfy the dependency "
-		if apt_sim $APTFLAG $INSTALLPKGLIST $PROVIDED >& /dev/null; then
-		    SATISFIED="yes";
-		    INSTALLPKGLIST="$INSTALLPKGLIST $PROVIDED"
-		else
-		    # show the error for diagnostic purposes
-		    echo "       -> Cannot install $PROVIDED; apt errors follow:"
-		    apt_sim $APTFLAG $INSTALLPKGLIST $PROVIDED || true
-		fi
-	    fi
-	fi
-	if [ "$SATISFIED" = "yes" ]; then
-	    break;
-	fi
-      done;
-      if [ "$SATISFIED" = "no" ]; then
-	  echo "E: Could not satisfy build-dependency." >&2
-	  if [ "$CONTINUE_FAIL" != "yes" ]; then
-	      exit 2
-	  fi
-      fi
+            if apt_sim $APTFLAG $INSTALLPKGLIST $CURRENTREALPKGNAME >& /dev/null; then
+                SATISFIED="yes"
+                INSTALLPKGLIST="$INSTALLPKGLIST $CURRENTREALPKGNAME"
+            else
+                echo "       -> Cannot install $CURRENTREALPKGNAME; apt errors follow:"
+                if apt_sim $APTFLAG $INSTALLPKGLIST "$CURRENTREALPKGNAME"; then
+                    :
+                fi
+                # package could not be found. -- looking for alternative.
+                PROVIDED=""
+                checkbuilddep_provides "$CURRENTREALPKGNAME"
+                if [ -n "$PROVIDED" ]; then
+                    # something provides this package
+                    echo "     -> Considering $PROVIDED to satisfy the dependency "
+                    if apt_sim $APTFLAG $INSTALLPKGLIST $PROVIDED >& /dev/null; then
+                        SATISFIED="yes";
+                        INSTALLPKGLIST="$INSTALLPKGLIST $PROVIDED"
+                    else
+                        # show the error for diagnostic purposes
+                        echo "       -> Cannot install $PROVIDED; apt errors follow:"
+                        apt_sim $APTFLAG $INSTALLPKGLIST $PROVIDED || true
+                    fi
+                fi
+            fi
+            if [ "$SATISFIED" = "yes" ]; then
+                break;
+            fi
+        done;
+    if [ "$SATISFIED" = "no" ]; then
+        echo "E: Could not satisfy build-dependency." >&2
+        if [ "$CONTINUE_FAIL" != "yes" ]; then
+            exit 2
+        fi
+    fi
     done;
-    
+
     # now actually install the packages
     echo " -> Installing $INSTALLPKGLIST"
     if ! $CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" install $APTFLAG $INSTALLPKGLIST; then
-	echo " -> Trying to fix apt error"
-	# Work around an apt bug which causes configure to fail.
-	if $CHROOTEXEC dpkg --configure --pending && $CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" install $APTFLAG $INSTALLPKGLIST; then
-	    echo " -> Apt bug workaround succeeded"
-	elif [ "$CONTINUE_FAIL" != "yes" ]; then
-	    echo "E: Unrecoverable error installing build-dependencies." >&2
-	    exit 1
-	fi
+        echo " -> Trying to fix apt error"
+        # Work around an apt bug which causes configure to fail.
+        if $CHROOTEXEC dpkg --configure --pending && $CHROOTEXEC apt-get -q -y "${APTGETOPT[@]}" install $APTFLAG $INSTALLPKGLIST; then
+            echo " -> Apt bug workaround succeeded"
+        elif [ "$CONTINUE_FAIL" != "yes" ]; then
+            echo "E: Unrecoverable error installing build-dependencies." >&2
+            exit 1
+        fi
     fi
 
     # start processing build-conflicts.
     for INSTALLPKG in $(get_build_conflicts | split_deps); do
-      CURRENTREALPKGNAME=$(get_pkg_name "$INSTALLPKG")
-      echo " -> Considering $CURRENTREALPKGNAME"
-      
-      if echo "$INSTALLPKG" | grep -q '\['; then
-	  # this package has arch-conflicts.
-	  if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
-	      echo "I: Ignoring other-arch"
-	      continue
-	  fi
-      fi
-      if echo "$INSTALLPKG" | grep -q '<'; then
-          # this package has build-profiles-conflicts.
-          if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
-              echo "I: Ignoring other-buildprofiles"
-              continue
-          fi
-      fi
-      if echo "$INSTALLPKG" | grep -q '('; then
-	  # this package has version-conflicts
-	  if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" $(get_dep_op_and_ver "$INSTALLPKG"); then
-	      echo "I: Satisfies version, not trying"
-	      continue
-	  fi
-      fi
+        CURRENTREALPKGNAME=$(get_pkg_name "$INSTALLPKG")
+        echo " -> Considering $CURRENTREALPKGNAME"
 
-      # if package exists, remove it.
-      if $CHROOTEXEC dpkg -s "$CURRENTREALPKGNAME" 2>&1 | grep -q ^Package:; then
-	  if ! $CHROOTEXEC apt-get -q -y remove "$CURRENTREALPKGNAME" ; then
-	      echo "E: Could not satisfy build-conflicts" >&2
-	      exit 1
-	  fi
-      else
-	  echo "I: $CURRENTREALPKGNAME package is not installed, no need to remove"
-      fi
+        if echo "$INSTALLPKG" | grep -q '\['; then
+            # this package has arch-conflicts.
+            if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
+                echo "I: Ignoring other-arch"
+                continue
+            fi
+        fi
+        if echo "$INSTALLPKG" | grep -q '<'; then
+            # this package has build-profiles-conflicts.
+            if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
+                echo "I: Ignoring other-buildprofiles"
+                continue
+            fi
+        fi
+        if echo "$INSTALLPKG" | grep -q '('; then
+            # this package has version-conflicts
+            if ! checkbuilddep_versiondeps "$CURRENTREALPKGNAME" $(get_dep_op_and_ver "$INSTALLPKG"); then
+                echo "I: Satisfies version, not trying"
+                continue
+            fi
+        fi
+
+        # if package exists, remove it.
+        if $CHROOTEXEC dpkg -s "$CURRENTREALPKGNAME" 2>&1 | grep -q ^Package:; then
+            if ! $CHROOTEXEC apt-get -q -y remove "$CURRENTREALPKGNAME" ; then
+                echo "E: Could not satisfy build-conflicts" >&2
+                exit 1
+            fi
+        else
+            echo "I: $CURRENTREALPKGNAME package is not installed, no need to remove"
+        fi
     done
     echo " -> Finished parsing the build-deps"
 }
