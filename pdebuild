@@ -106,7 +106,7 @@ if [ "${AUTO_DEBSIGN}" = "yes" ]; then
     elif [ -f "${BUILDRESULT}/${SOURCE_CHANGES}" ]; then
         DEBSIGN_PARAM[2]="${BUILDRESULT}/${SOURCE_CHANGES}"
     else
-        log.e "the .changes file can't be found, debsing not done"
+        log.e "the .changes file can't be found, debsign not done"
         exit 1
     fi
     debsign "${DEBSIGN_PARAM[@]}"
