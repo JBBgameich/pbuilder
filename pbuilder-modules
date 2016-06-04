@@ -22,7 +22,7 @@
 
 hooks=tmp/hooks
 DEB_BUILD_ARCH_OS=$(dpkg-architecture -qDEB_BUILD_ARCH_OS)
-SELINUX="$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2)"
+SELINUX="$(grep -m 1 ^selinuxfs /proc/mounts | cut -d ' ' -f 2 || : )"
 
 function showhelp () {
     cat <<EOF
