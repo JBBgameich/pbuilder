@@ -409,6 +409,14 @@ are many software which fail miserably when there is no
 .B /dev/pts
 being mounted.
 .TP
+.BI "USESYSFS=" "yes"
+Whether to mount a sysfs in
+.B /sys
+or not.  Has no effect on non-Linux hosts, where sysfs is not available.
+It is usually a good idea, since there are several software which require
+.B /sys
+being populated.
+.TP
 .BI "USENETWORK=" "no"
 Specify
 .B yes
