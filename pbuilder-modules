@@ -248,7 +248,7 @@ function umountproc () {
         fi
         umount_one "proc"
     fi
-    if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USESYSFS" = "yes" ]; then
+    if [ "$DEB_BUILD_ARCH_OS" != "hurd" ] && [ "$USESYSFS" = "yes" ]; then
         umount_one "sys"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "hurd" ]; then
@@ -301,10 +301,17 @@ function mountproc () {
         mount -t devfs /dev "$BUILDPLACE/dev"
         mounted[${#mounted[@]}]="$BUILDPLACE/dev"
     fi
-    if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USESYSFS" = "yes" ]; then
+    if [ "$DEB_BUILD_ARCH_OS" != "hurd" ] && [ "$USESYSFS" = "yes" ]; then
         log.i "mounting /sys filesystem"
         mkdir -p "$BUILDPLACE/sys" || true
-        mount -t sysfs -o nosuid,nodev,noexec sysfs "$BUILDPLACE/sys"
+        case "$DEB_BUILD_ARCH_OS" in
+            kfreebsd)
+                mount -t linsysfs linsysfs "$BUILDPLACE/sys"
+                ;;
+            *)
+                mount -t sysfs -o nosuid,nodev,noexec sysfs "$BUILDPLACE/sys"
+                ;;
+        esac
         mounted[${#mounted[@]}]="$BUILDPLACE/sys"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USERUNSHM" = "yes" ]; then
