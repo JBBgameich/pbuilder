@@ -1,6 +1,39 @@
 pbuilder (0.224+) UNRELEASED; urgency=medium
 
-  * debian/rules: change default ubuntu distribution to yakkety
+  [ Mattia Rizzolo ]
+  * debian/rules:
+    + change default ubuntu distribution to yakkety.
+    + enable universe by default in Ubuntu.  LP: #237591
+  * Add builtin eatmydata support (Closes: #606158)
+  * Add a USESYSFS option (defaulting to yes) to mount a sysfs filesystem in
+    /sys.  Closes: #773767
+  * Strip leading path from when calling external programs.  They are all in
+    PATH, so let the shell finding them instead of calling them directly with
+    the full path, so exiting things can be done.  Closes: #635698
+  * modules:
+    + take care of saving the mount point instead of the device name when
+      bind-mounting.  This avoids umounting of unrelated mount points in case
+      of errors.  LP: #1156636
+    + support specifying BINDMOUNTS destination.  Thanks to Austin Phillips
+      <austin.phillips@ceos.com.au> for the initial patch.  Closes: #593100
+    + for selinux, only check for the precense of the selinux mount, instead of
+      using selinuxenabled.  Closes: #506917
+    + in the help message be more clear about what the `execute` command is for.
+      Closes: #805494
+  * pbuilder.8: use BUILDDIR instead of the old /tmp/buildd.
+  * create/update:
+    + move the code picking extra packages to install for optional features in
+      a common function in modules.
+  * checkparams: add a "--use-network yes|no" cmdline flag.  Closes: #823408
+  * satisfydepends-funcs:
+    + nicer formatting of the --help output, with a "Debugging options" section.
+    + document the --internal-chrootexec option.  Closes: #635697
+
+  [ James Clarke ]
+  * pdebuild: fix typo in error message (debsign, not debsing).
+  * modules:
+    + pass -q, -y and APTGETOPT to apt-get in remove_packages.
+    + add linsysfs support for KFreeBSD.
 
  -- Mattia Rizzolo <mattia@debian.org>  Sun, 01 May 2016 20:14:47 +0000
 
