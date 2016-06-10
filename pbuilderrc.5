@@ -410,9 +410,9 @@ are many software which fail miserably when there is no
 being mounted.
 .TP
 .BI "USESYSFS=" "yes"
-Whether to mount a sysfs in
+Whether to mount a sysfs (linsysfs for KFreeBSD) in
 .B /sys
-or not.  Has no effect on non-Linux hosts, where sysfs is not available.
+or not.  Has no effect on GNU/Hurd hosts, where sysfs is not available.
 It is usually a good idea, since there are several software which require
 .B /sys
 being populated.
