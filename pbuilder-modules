@@ -1,7 +1,7 @@
 #! /bin/bash
 #   pbuilder -- personal Debian package builder
 #   Copyright © 2001-2009 Junichi Uekawa <dancer@debian.org>
-#               2015      Mattia Rizzolo <mattia@debian.org>
+#               2015-2016 Mattia Rizzolo <mattia@debian.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -308,8 +308,12 @@ function mountproc () {
             kfreebsd)
                 mount -t linsysfs linsysfs "$BUILDPLACE/sys"
                 ;;
-            *)
+            linux)
                 mount -t sysfs -o nosuid,nodev,noexec sysfs "$BUILDPLACE/sys"
+                ;;
+            *)
+                log.e "Unknown DEB_BUILD_ARCH_OS, can't mount /sys"
+                exit 1
                 ;;
         esac
         mounted[${#mounted[@]}]="$BUILDPLACE/sys"
