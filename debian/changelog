@@ -1,4 +1,4 @@
-pbuilder (0.224+) UNRELEASED; urgency=medium
+pbuilder (0.225) unstable; urgency=medium
 
   [ Mattia Rizzolo ]
   * debian/rules:
@@ -35,7 +35,7 @@ pbuilder (0.224+) UNRELEASED; urgency=medium
     + pass -q, -y and APTGETOPT to apt-get in remove_packages.
     + add linsysfs support for KFreeBSD.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 01 May 2016 20:14:47 +0000
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 12 Jun 2016 12:50:16 +0000
 
 pbuilder (0.224) unstable; urgency=medium
 
