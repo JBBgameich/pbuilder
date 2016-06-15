@@ -55,6 +55,13 @@ function checkbuilddep_internal () {
 		continue
 	    fi
 	fi
+	if echo "$INSTALLPKG" | grep -q '<'; then
+	    if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
+		SATISFIED="yes"
+		echo "   -> This package is not for the current build profiles"
+		continue
+	    fi
+	fi
 
 	CURRENT_APT_COMMAND="$(versioneddep_to_aptcmd "$INSTALLPKG")"
 
@@ -147,6 +154,13 @@ function checkbuilddep_internal () {
 	  # this package has arch-conflicts.
 	  if checkbuilddep_archdeps "$INSTALLPKG" "$ARCH"; then
 	      echo "I: Ignoring other-arch"
+	      continue
+	  fi
+      fi
+      if echo "$INSTALLPKG" | grep -q '<'; then
+	  # this package has build-profiles-conflicts.
+	  if checkbuilddep_restrictiondeps "$INSTALLPKG" "$DEB_BUILD_PROFILES"; then
+	      echo "I: Ignoring other-buildprofiles"
 	      continue
 	  fi
       fi
