@@ -349,11 +349,11 @@ if [ -z "${CHROOTEXEC}" ]; then
         if /sbin/ldconfig -p | grep libeatmydata >/dev/null 2>&1 ; then
             if ! which eatmydata > /dev/null 2>&1 ; then
                 log.w "the eatmydata binary is not installed on the host, not using it."
-                EATMYDATA=no
+                EATMYDATA=not-available
             fi
         else
             log.w "libeatmydata is not installed on the host, not using it."
-            EATMYDATA=no
+            EATMYDATA=not-available
         fi
     fi
 fi
