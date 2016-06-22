@@ -515,7 +515,11 @@ function remove_packages () {
     local toremove=()
     for pkg in "$@"; do
         if (dpkg -s "$pkg" 2>&1)>/dev/null ; then
-            toremove+=("$pkg")
+            if (_contains ${EXTRAPACKAGES[@]} "$pkg" || _contains ${EXTRAPACKAGES[@]} "${pkg}-"); then
+                log.d "not removing $pkg as it's also explicitely listed in EXTRAPACKAGES"
+            else
+                toremove+=("$pkg")
+            fi
         else
             log.d "not removing $pkg as not installed"
         fi
