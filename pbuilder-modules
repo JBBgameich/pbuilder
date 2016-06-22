@@ -521,7 +521,7 @@ function copy_local_configuration () {
     fi
     if [ "$#" -eq 0 ]; then
         local tocopy=(hosts hostname mailname resolv.conf)
-    else tocopy=("$@") ; fi
+    else local tocopy=("$@") ; fi
     if [ "$USENETWORK" = "yes" ]; then
         local tocopy[${#tocopy[@]}]=resolv.conf
     fi
