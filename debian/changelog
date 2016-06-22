@@ -1,3 +1,25 @@
+pbuilder (0.225.1) UNRELEASED; urgency=medium
+
+  [ James Clarke ]
+  * satisfydepends-experimental: Add support for build profiles.
+
+  [ Michael Gilbert ]
+  * modules: let tar automatically determine decompression program.
+    This makes possible to switch compression of the tarball by just chaning the
+    COMPRESSIONPROG option and run `pbuilder update`, and makes possible to use
+    uncompressed tarballs by using cat(1) as a "compression program".
+    Closes: #731099
+
+  [ Mattia Rizzolo ]
+  * pbuilder.8: document new --compressprog details.
+  * pbuilderrc.5: document new --compressprog details.
+  * modules:
+    + don't remove eatmydata from the chroot if it's not available outside.
+    + don't remove packages explicitely listed in EXTRAPACKAGES.
+    + Closes: #827206
+
+ -- James Clarke <jrtc27@jrtc27.com>  Wed, 22 Jun 2016 12:15:35 +0000
+
 pbuilder (0.225) unstable; urgency=medium
 
   [ Mattia Rizzolo ]
