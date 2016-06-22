@@ -137,6 +137,18 @@ log.d() {
     esac
 }
 
+# call like `_contains $list $value`, returns 0 if $value is in $list, 1 otherwise
+_contains() {
+    local n=$#
+    local value=${!n}
+    for ((i=1; i < $#; i++)) {
+        if [ "${!i}" == "${value}" ]; then
+            return 0
+        fi
+    }
+    return 1
+}
+
 # test whether a directory is empty
 # fails if "$*" exists but isn't a directory
 # fails and outputs garbage if "$*" doesn't actually exist
