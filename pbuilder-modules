@@ -621,7 +621,7 @@ function extractbuildplace () {
     if [ "$EATMYDATA" = "yes" ]; then
         if $CHROOTEXEC /sbin/ldconfig -p | grep -q libeatmydata && $CHROOTEXEC which eatmydata > /dev/null 2>&1 ; then
             log.i "using eatmydata during job"
-            CHROOTEXEC="chroot $BUILDPLACE eatmydata"
+            CHROOTEXEC="$CHROOTEXEC eatmydata"
         else
             log.w "eatmydata is not (yet) installed inside the chroot, not using it."
         fi
