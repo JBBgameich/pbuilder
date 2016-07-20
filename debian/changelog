@@ -1,3 +1,10 @@
+pbuilder (0.225.2) unstable; urgency=high
+
+  [ James Clarke ]
+  * modules: Don't trash CHROOTEXEC when using eatmydata.  Closes: #831823
+
+ -- Mattia Rizzolo <mattia@debian.org>  Wed, 20 Jul 2016 07:49:08 +0000
+
 pbuilder (0.225.1) unstable; urgency=medium
 
   [ James Clarke ]
