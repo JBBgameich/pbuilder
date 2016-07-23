@@ -42,43 +42,7 @@ cleanup() {
 
 test_getdscfilesNormal () {
 
-    cat > "$DEBIAN_CONTROL" << EOF
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-Format: 3.0 (quilt)
-Source: libeatmydata
-Binary: eatmydata, libeatmydata1
-Architecture: any all
-Version: 82-6
-Maintainer: Modestas Vainius <modax@debian.org>
-Uploaders: Mattia Rizzolo <mattia@mapreri.org>
-Homepage: https://launchpad.net/libeatmydata
-Standards-Version: 3.9.6
-Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libeatmydata.git
-Vcs-Git: git://anonscm.debian.org/collab-maint/libeatmydata.git
-Build-Depends: autotools-dev, debhelper (>= 9), strace [!hurd-any !kfreebsd-any]
-Package-List:
- eatmydata deb utils optional arch=all
- libeatmydata1 deb utils optional arch=any
-Checksums-Sha1:
- c8d3cd2d9a872302c8a1494813565639bd4c2aa8 407977 libeatmydata_82.orig.tar.gz
- 4a76697591072662acee1e25d7f86c1f6ac503dd 43484 libeatmydata_82-6.debian.tar.xz
-Checksums-Sha256:
- 0b675f58069f912727cee5eb75f9ff1a6a8300fe7e3fe4fc6bdd03b7c2c15b29 407977 libeatmydata_82.orig.tar.gz
- 3b5aede6617ed161211aee6f421d6af3c1ae22a4f4d11dc6545138359d7eea2c 43484 libeatmydata_82-6.debian.tar.xz
-Files:
- 56a4d342f209ab75a9ee360236e3e5bc 407977 libeatmydata_82.orig.tar.gz
- 06c197d3d4142b546e836d72fbe4b895 43484 libeatmydata_82-6.debian.tar.xz
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iD8DBQFUfLA320zMSyow1ykRAkRxAJ4zYyuUByiYq31sxbrB902PybqADwCfd/Gd
-SPXUusVdt4obPwG2sauWLlc=
-=e9Vj
------END PGP SIGNATURE-----
-EOF
+    cat "$TESTDATA_DIR/dsc1" > "$DEBIAN_CONTROL"
     getdscfiles "$DEBIAN_CONTROL"
 }
 
@@ -94,7 +58,7 @@ trap cleanup sigpipe sighup exit
 # FIXME move to build dir also because we have to hardoce /tmp/ on the result below
 DEBIAN_CONTROL="$(mktemp)"
 
-expect_output "$DEBIAN_CONTROL /tmp/libeatmydata_82.orig.tar.gz /tmp/libeatmydata_82-6.debian.tar.xz" test_getdscfilesNormal
+expect_output "$DEBIAN_CONTROL /tmp/haskell-concrete-typerep_0.1.0.2.orig.tar.gz /tmp/haskell-concrete-typerep_0.1.0.2-2.debian.tar.gz" test_getdscfilesNormal
 expect_output "$DEBIAN_CONTROL /tmp/golang-xmpp-dev_0.0~git20140304.orig.tar.gz /tmp/golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz" test_getdscfilesWithoutNL
 
 testlib_summary
