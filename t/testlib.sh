@@ -27,6 +27,8 @@ fi
 
 # set PBUILDER_TEST_VERBOSE to get the full output of tests
 
+TESTDATA_DIR="${BASH_SOURCE%/*}/data"
+
 TESTLIB_FAILS=0
 TESTLIB_TESTS=0
 
