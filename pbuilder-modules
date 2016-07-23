@@ -85,6 +85,7 @@ pbuilder main options:
 pdebuild-specific pbuilder options:
  --auto-debsign
  --debsign-k [keyid]
+ --pbuilder [builder]
 
 For the full documentation see the manual pages pbuilder(8) and pbuilderrc(5).
 EOF
