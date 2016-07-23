@@ -216,7 +216,7 @@ executehooks "B"
 if [ -d "${BUILDRESULT}" ]; then
     chown "${BUILDRESULTUID}:${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
     chgrp "${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
-    for FILE in "${BUILDPLACE}$BUILDDIR"/*; do
+    for FILE in $(get822files "changes" "${BUILDPLACE}$BUILDDIR"/*.changes) ; do
         if [ -f "${FILE}" ]; then
             cp -p "${FILE}" "${BUILDRESULT}" || true
         fi
