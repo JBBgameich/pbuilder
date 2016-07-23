@@ -79,9 +79,11 @@ d
 : store
 H
 : loop
+$ b skip
 n
 /^#/ b loop
 /^[ \t]/ b store
+: skip
 x
 # output on single line
 s/\n//g

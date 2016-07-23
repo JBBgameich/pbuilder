@@ -44,6 +44,25 @@ Build-Depends: wrong build depends, line
 Description: test
  other things
  wow
+# EOL comment
+EOF
+    get_build_deps
+}
+
+test_get_build_deps_source_para_only() {
+    local BINARY_ARCH="$1"
+    cat <<EOF >"$DEBIAN_CONTROL"
+Source: foo
+Build-Depends: bar
+EOF
+    get_build_deps
+}
+
+test_get_build_deps_one_line_trailing_comment() {
+    local BINARY_ARCH="all"
+    cat << EOF >"$DEBIAN_CONTROL"
+Build-Depends: blabla
+# EOL comment
 EOF
     get_build_deps
 }
@@ -104,6 +123,8 @@ expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-d
     test_get_build_deps "binary"
 expect_output "autotools-dev (>= 1.2), debhelper, quilt (<< 12:0), libwxgtk2.8-dev, test [amd64 i386], test1, test2 [!i386 !amd64], test3 | test4, test5" \
     test_get_build_deps "all"
+expect_output "bar" test_get_build_deps_source_para_only "any"
+expect_output "blabla" test_get_build_deps_one_line_trailing_comment
 
 
 expect_fail checkbuilddep_archdeps "foo [amd64]" "amd64"
