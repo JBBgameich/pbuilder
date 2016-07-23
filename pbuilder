@@ -160,8 +160,8 @@ case "$1" in
         trap umountproc_cleanbuildplace_trap exit sighup
         executehooks "F"
         log.i "start dump config"
-        log.i "set"
-        set
+        log.i "(set -o posix; set)"
+        (set -o posix; set)
         log.i "env"
         env
         log.i "end dump config"
