@@ -41,16 +41,18 @@ cleanup() {
 }
 
 test_getdscfilesNormal () {
-
     cat "$TESTDATA_DIR/dsc1" > "$DEBIAN_CONTROL"
-    getdscfiles "$DEBIAN_CONTROL"
+    get822files dsc "$DEBIAN_CONTROL"
 }
 
 test_getdscfilesWithoutNL () {
-
     cat "$TESTDATA_DIR/dsc2_withoutNL" > "$DEBIAN_CONTROL"
-    getdscfiles "$DEBIAN_CONTROL"
+    get822files dsc "$DEBIAN_CONTROL"
+}
 
+test_getchangesfilesNormal () {
+    cat "$TESTDATA_DIR/changes1" > "$DEBIAN_CONTROL"
+    get822files changes "$DEBIAN_CONTROL"
 }
 
 trap cleanup sigpipe sighup exit
@@ -60,5 +62,6 @@ DEBIAN_CONTROL="$(mktemp)"
 
 expect_output "$DEBIAN_CONTROL /tmp/haskell-concrete-typerep_0.1.0.2.orig.tar.gz /tmp/haskell-concrete-typerep_0.1.0.2-2.debian.tar.gz" test_getdscfilesNormal
 expect_output "$DEBIAN_CONTROL /tmp/golang-xmpp-dev_0.0~git20140304.orig.tar.gz /tmp/golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz" test_getdscfilesWithoutNL
+expect_output "$DEBIAN_CONTROL /tmp/pbuilder_0.225.2~bpo8+1.dsc /tmp/pbuilder_0.225.2~bpo8+1.tar.xz /tmp/pbuilder_0.225.2~bpo8+1_all.deb" test_getchangesfilesNormal
 
 testlib_summary

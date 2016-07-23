@@ -20,23 +20,30 @@
 
 # functions local to pbuilder-buildpackage
 
-getdscfiles () {
-    local DSCFILE="$1"
-    local DSCFILES=()
-    DSCFILES+=("$DSCFILE")
-    DSCFILES+=("$(cat "$DSCFILE" |
+get822files () {
+    # get list of files listed in the Files field of a .changes or .dsc (to
+    # be specified in the first parameter)
+    local type="$1"
+    local input="$2"
+    local files=("$2")
+    case $type in
+        changes) local field=5 ;;
+        dsc) local field=3 ;;
+        *) log.error "unexpected error in get822files()" ; exit 1 ;;
+    esac
+    files+=("$(cat "$input" |
         awk 'BEGIN{p=0}
              ! /^[ \t]/ {p=0}
              /^Files:/ {p=1}
              ! /^[ \t]*/ {p=0}
-             /^ / {if (p){print "'$(dirname "$DSCFILE")'/" $3}}' |
+             /^ / {if (p){print "'$(dirname "$input")'/" $'${field}'}}' |
         tr '\n' ' ' | sed -e 's/[[:space:]]*$//')")
     #  ↑↑↑ because we are really picky (and we have picky tests...)
-    echo "${DSCFILES[@]}"
+    echo "${files[@]}"
 }
 
 function copydsc () {
-    local DSCFILE=$(getdscfiles "$1")
+    local DSCFILE=$(get822files "dsc" "$1")
     local TARGET="$2"
     for FILE in ${DSCFILE[@]} ; do
     log.i "copying [$FILE]"
