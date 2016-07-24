@@ -156,9 +156,6 @@ case "$1" in
         export PBUILDER_OPERATION="dumpconfig"
         export PBCURRENTCOMMANDLINEOPERATION="$PBUILDER_OPERATION"
         . /usr/lib/pbuilder/pbuilder-checkparams
-        extractbuildplace
-        trap umountproc_cleanbuildplace_trap exit sighup
-        executehooks "F"
         log.i "start dump config"
         log.i "(set -o posix; set)"
         (set -o posix; set)
