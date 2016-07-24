@@ -96,22 +96,44 @@ EOF
 #  E: error message
 #  W: warning message
 #  I: informational message
+_log() {
+    set -u
+    term_supports_colors  # defines USECOLORS if not already set
+    local color="$1" ; shift
+    local red='\033[0;31m'
+    local yellow='\033[1;33m'
+    local blue='\033[0;34m'
+    local reset='\033[0m'
+    case "$USECOLORS" in
+        yes)
+            printf "${!color}${*}${reset}\n"
+            ;;
+        no)
+            printf "${*}\n"
+            ;;
+        *)
+            printf "malformed value of USECOLORS: [%s]\n" "$USECOLORS" >&2
+            exit 1
+            ;;
+    esac
+    set +u
+}
 function log() {
     case "$*" in
         "E: "*)
-            echo "$*" >&2
+            _log 'red' "$*" >&2
             ;;
         "W: "*)
-            echo "$*" >&2
+            _log 'yellow' "$*" >&2
             ;;
         "I: "*)
-            echo "$*"
+            _log 'reset' "$*"
             ;;
         "D: "*)
-            echo "$*"
+            _log 'blue' "$*"
             ;;
         *)
-            echo "malformed log message: $*"
+            echo "malformed log message: $*" >&2
             exit 1
             ;;
     esac
@@ -148,6 +170,12 @@ _contains() {
         fi
     }
     return 1
+}
+
+term_supports_colors() {
+    if [ -z ${USECOLORS:-} ] || [ "$USECOLORS" = "auto" ]; then
+        [ $(tput colors) -ge 8 ] && USECOLORS=yes || USECOLORS=no
+    fi
 }
 
 # test whether a directory is empty

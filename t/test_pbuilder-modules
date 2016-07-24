@@ -2,6 +2,7 @@
 
 TD="$(dirname "$0")"
 LOGLEVEL=I
+USECOLORS=no
 if [ -n "$PBUILDER_CHECKOUT" ]; then
     . "$TD/testlib.sh"
     . "$PBUILDER_CHECKOUT/pbuilder-modules"
@@ -32,6 +33,20 @@ W: warn
 E: error" test_log
 expect_stderr "W: warn
 E: error" test_log
+LOGLEVEL=D
+expect_output "D: debug
+I: info
+W: warn
+E: error" test_log
+USECOLORS=yes
+expect_output "$(printf "\033[0;34mD: debug\033[0m
+\033[0mI: info\033[0m
+\033[1;33mW: warn\033[0m
+\033[0;31mE: error\033[0m")" test_log
+
+# return to regular/stable output
+LOGLEVEL=I
+USECOLORS=no
 
 # test the non-copy case
 function test_conditional_cp_a() {

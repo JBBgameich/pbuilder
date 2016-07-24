@@ -7,6 +7,11 @@
 # I => errors, warnings and informational
 # D => all of the above and debug messages
 LOGLEVEL=I
+# if positive, some log messagges (errors, warnings, debugs) will be colored
+# auto => try automatically detection
+# yes  => always use colors
+# no   => never use colors
+USECOLORS=auto
 
 BASETGZ=/var/cache/pbuilder/base.tgz
 #EXTRAPACKAGES=""
