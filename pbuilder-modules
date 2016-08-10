@@ -873,7 +873,7 @@ function executehooks () {
     for fn in "$BUILDPLACE/$hooks/$prefix"[0-9][0-9]* ; do
        case "$fn" in
            "$BUILDPLACE/$hooks/$prefix"'[0-9][0-9]*')
-               log.w "no hooks of type ${prefix} found -- ignoring"
+               log.d "no hooks of type ${prefix} found -- ignoring"
                ;;
            *~)
                log.w "skipping an editor backup file $fn"
