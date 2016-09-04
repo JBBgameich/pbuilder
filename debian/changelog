@@ -1,6 +1,31 @@
 pbuilder (0.225.2+) UNRELEASED; urgency=medium
 
-  * t: move several inlines .dsc files into separate data files.
+  [ James Clarke ]
+  * pbuilder: Don't show functions in dumpconfig.
+
+  [ Mattia Rizzolo ]
+  * Support coloured output using ANSI control characters.
+    For now only debug, warning and error messages are coloured respectively in
+    blue, yellow and red, using regular font (non-bold, non-italic).
+    Possibly more changes, more colours,  shall appear in future!
+    The feature is enabled only if a terminal supporting colours is detected,
+    or if USECOLORS=yes is provided (=no to forcefully disable).
+    Closes: #398402
+  * t: move several inlined .dsc files into separate data files.
+  * satisfydepends-funcs: don't ignore the last line of a .dsc while parsing it.
+    Thanks to HW42 for providing the needed sed magic.  Closes: #635696
+  * modules:
+    + list --pbuilder of pdebuild option in --help output.  Closes: #503484
+    + executehooks: demote the "no hooks found" message to debug level.
+  * pbuilder.8:
+    + document dumpconfig and debuild in the synopsis.  Closes: #586715
+  * pbuilder: don't needlessly require a chroot to exist for `dumpconfig`.
+    Closes: #324000
+  * buildpackage-funcs:
+    + turn getdscfiles() into deb822files() to support retriving file list from
+      .changes files as well.
+  * buildpackage: copy out of the chroot only files explicitly listed in the
+    produced .changes.  Closes: #492312
 
  -- Mattia Rizzolo <mattia@debian.org>  Sat, 23 Jul 2016 10:53:14 +0000
 
