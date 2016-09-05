@@ -10,7 +10,8 @@ if [ -z "$TMPDIR" ]; then
     fi
 fi
 
-cp t/* "$TMPDIR"
+echo "Copying tests files..."
+cp -r t/* "$TMPDIR"
 export PBUILDER_TEST_VERBOSE="yes"
 "$TMPDIR"/runtests.sh
 
