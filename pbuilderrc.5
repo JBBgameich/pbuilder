@@ -226,6 +226,15 @@ debootstrap (use
 .B "$DEBOOTSTRAPOPTS"
 ). Use this to add (local) signed repositories. By default the
 debian-archive-keyring package inside the chroot is used.
+
+Keyrings are copied into
+.I "/etc/apt/trusted.gpg.d"
+in the chroot, which has been used by debian-archive-keyring since 2011.10.21
+in wheezy. For older chroots, use a
+.B G
+hook to run
+.B "apt\-key"
+manually.
 .TP
 .BI "DEBOOTSTRAP=" "debootstrap"
 Use this option to switch the implementation of

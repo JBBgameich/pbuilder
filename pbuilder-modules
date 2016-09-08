@@ -794,9 +794,17 @@ function conditional_cp_a() {
 function add_additional_aptkeyrings() {
 # To support package verification inside the repository we may have to import
 # additional keys.
+    local filename
+    local dest
     for KEY in "${APTKEYRINGS[@]}"; do
-        log.i "adding apt key file ${KEY}."
-        $CHROOTEXEC apt-key add - < "${KEY}" > /dev/null
+        filename="$(basename "${KEY}")"
+        if [ "${filename:(-4):4}" != ".gpg" ]; then
+            log.e "apt key file does not end in .gpg"
+            exit 1
+        fi
+        dest="${BUILDPLACE}/etc/apt/trusted.gpg.d/${filename}"
+        log.i "copying apt key file ${KEY} to ${dest}"
+        cp -n "${KEY}" "${dest}"
     done
 }
 
