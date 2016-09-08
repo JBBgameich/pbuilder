@@ -804,7 +804,11 @@ function add_additional_aptkeyrings() {
         fi
         dest="${BUILDPLACE}/etc/apt/trusted.gpg.d/${filename}"
         log.i "copying apt key file ${KEY} to ${dest}"
-        cp -n "${KEY}" "${dest}"
+        if [ -f "${dest}" ]; then
+            log.e "file ${dest} already exists"
+            exit 1
+        fi
+        cp "${KEY}" "${dest}"
     done
 }
 
