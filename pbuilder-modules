@@ -793,10 +793,11 @@ function conditional_cp_a() {
 }
 
 function add_additional_aptkeyrings() {
-# To support package verification inside the repository we may have to import
-# additional keys.
+    # To support package verification inside the repository we may have to
+    # import additional keys.
     local filename
     local dest
+    local KEY
     for KEY in "${APTKEYRINGS[@]}"; do
         filename="$(basename "${KEY}")"
         if [ "${filename:(-4):4}" != ".gpg" ]; then
