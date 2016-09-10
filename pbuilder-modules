@@ -805,6 +805,7 @@ function add_additional_aptkeyrings() {
             exit 1
         fi
         dest="${BUILDPLACE}/etc/apt/trusted.gpg.d/${filename}"
+        mkdir -p "${BUILDPLACE}/etc/apt/trusted.gpg.d"
         log.i "copying apt key file ${KEY} to ${dest}"
         if [ -f "${dest}" ]; then
             if cmp -s "${KEY}" "${dest}" ; then
