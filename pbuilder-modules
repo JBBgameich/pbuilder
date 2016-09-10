@@ -174,7 +174,8 @@ _contains() {
 
 term_supports_colors() {
     if [ -z ${USECOLORS:-} ] || [ "$USECOLORS" = "auto" ]; then
-        [ $(tput colors) -ge 8 ] && USECOLORS=yes || USECOLORS=no
+        local tputout="$(tput colors 2> /dev/null)"
+        [ ${tputout:-0} -ge 8 ] && USECOLORS=yes || USECOLORS=no
     fi
 }
 
