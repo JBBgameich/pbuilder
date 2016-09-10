@@ -1,6 +1,23 @@
 pbuilder (0.226+) UNRELEASED; urgency=medium
 
-  *
+  [ James Clarke ]
+  * modules: add_additional_aptkeyrings:
+    Copy keyrings to /etc/apt/trusted.gpg.d instead of using apt-key.
+    We can no longer rely on being able to use apt-key in a minimal chroot,
+    because gnupg has been demoted to a Recommends in apt. Instead, the
+    keyrings can be copied directly into /etc/apt/trusted.gpg.d.
+    Moreover, `apt-key` usage has been discuraged over the past years.
+    This means that using the APTKEYRINGS option of pbuilder won't actually
+    work with chroots older than squeeze (APT version 0.7.25.1)
+
+  [ Mattia Rizzolo ]
+  * modules:
+    + term_supports_colors: properly deal with tput not detecting a
+      colored-capable terminal (as within cron).  Closes: #837202
+    + add_additional_aptkeyrings: don't fail if the target keyring file is
+      already presetn, just warn if different.
+  * pbuilder.8, pbuilderrc.5: properly format so that no extra space is right
+    before a closing bracket.
 
  -- James Clarke <jrtc27@jrtc27.com>  Thu, 08 Sep 2016 23:55:46 +0100
 
