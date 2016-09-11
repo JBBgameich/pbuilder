@@ -1,4 +1,4 @@
-pbuilder (0.226+) UNRELEASED; urgency=medium
+pbuilder (0.226.1) unstable; urgency=medium
 
   [ James Clarke ]
   * modules: add_additional_aptkeyrings:
@@ -19,7 +19,7 @@ pbuilder (0.226+) UNRELEASED; urgency=medium
   * pbuilder.8, pbuilderrc.5: properly format so that no extra space is right
     before a closing bracket.
 
- -- James Clarke <jrtc27@jrtc27.com>  Thu, 08 Sep 2016 23:55:46 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 11 Sep 2016 07:14:18 +0000
 
 pbuilder (0.226) unstable; urgency=medium
 
