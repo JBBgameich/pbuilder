@@ -124,13 +124,6 @@ createbuilduser
 CCACHE_ENV=
 setup_ccache
 SUTOUSER="$CCACHE_ENV $SUTOUSER"
-log.i "Installing the build-deps"
-executehooks "D"
-trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup sigpipe
-checkbuilddep "$PACKAGENAME"
-save_aptcache
-trap umountproc_cleanbuildplace_trap exit sighup sigpipe
-
 log.i "Copying source file"
 copydsc "$PACKAGENAME" "${BUILDPLACE}$BUILDDIR"
 copyinputfile "${BUILDPLACE}$BUILDDIR"
@@ -148,6 +141,13 @@ else
     log.e "pbuilder: Failed extracting the source"
     exit 1;
 fi
+
+log.i "Installing the build-deps"
+executehooks "D"
+trap saveaptcache_umountproc_cleanbuildplace_trap exit sighup sigpipe
+checkbuilddep "$PACKAGENAME"
+save_aptcache
+trap umountproc_cleanbuildplace_trap exit sighup sigpipe
 
 binNMU
 
