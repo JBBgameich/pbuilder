@@ -118,7 +118,7 @@ if [ -f "${PBUILDER_BUILD_LOGFILE}" ]; then
     chgrp "${BUILDRESULTGID}" "${PBUILDER_BUILD_LOGFILE}"
 fi
 
-
+cross_build_setup
 recover_aptcache
 createbuilduser
 CCACHE_ENV=

@@ -36,6 +36,7 @@ OVERRIDE_APTLINES="no"
 OVERRIDE_APTLINES_WARN="" # set this if --override-config option should be set.
 BINARY_ARCH="any"  # can be one of 'any', 'all', 'binary'
 BIN_NMU="no"
+HOST_ARCH="${HOST_ARCH:-$ARCHITECTURE}"
 PBUILDER_BUILD_LOGFILE=
 PRESERVE_BUILDPLACE="no"
 unset EXTRA_CONFIGFILE || true
@@ -89,8 +90,24 @@ while [ -n "$1" ]; do
         shift; shift;
         ;;
     --architecture)
+        # if we were doing a native build before, still continue to be native
+        if [ "$ARCHITECTURE" = "$HOST_ARCH" ]; then
+            HOST_ARCH=$2
+        fi
         ARCHITECTURE="$2";
         shift; shift;
+        ;;
+    --host-arch)
+        HOST_ARCH="$2"
+        shift 2
+        ;;
+    --no-auto-cross)
+        if [ "$NO_AUTO_CROSS" = "yes" ]; then
+            NO_AUTO_CROSS="really-dont-mess-with-me"
+        else
+            NO_AUTO_CROSS=yes
+        fi
+        shift
         ;;
     --components)
         COMPONENTS="$2";

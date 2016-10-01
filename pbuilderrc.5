@@ -40,11 +40,16 @@ By default, this value is empty,
 allowing the usual configuration options
 to take effect.
 Setting this variable overrides other options.
+
 .TP
 .BI "ARCHITECTURE=" "`dpkg \-\-print\-architecture`"
-Specify the default distribution to use.
-This option only affects when doing
-.B "pbuilder create"
+Specifies the
+.B build architecture
+(as described in
+.BR dpkg\-architecture (1)).
+It'll be the architecture used when creating the chroot, defaults to the
+ system one.  The supported values are the ones debootstrap supports.
+
 .TP
 .BI "AUTOCLEANAPTCACHE=" "yes"
 Always run with

@@ -902,6 +902,8 @@ function executehooks () {
                    log.i "user script $fn starting"
                    BUILDDIR="$BUILDDIR" \
                    DISTRIBUTION="$DISTRIBUTION" \
+                   BUILD_ARCH="$ARCHITECTURE" \
+                   HOST_ARCH="$HOST_ARCH" \
                        $CHROOTEXEC "/$hooks/$(basename "$fn")"
                    log.i "user script $fn finished"
                else

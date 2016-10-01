@@ -68,6 +68,8 @@ function checkbuilddep () {
     esac
     if \
         ("$PBUILDERSATISFYDEPENDSCMD" \
+            --build-arch "$ARCHITECTURE" \
+            --host-arch "$HOST_ARCH" \
             --control "$control" \
             --chroot "${BUILDPLACE}" \
             --internal-chrootexec "${CHROOTEXEC}" \
@@ -204,6 +206,34 @@ $package ($version+b$BINNMU_VERSION) $DISTRIBUTION; urgency=low, binary-only=yes
 EOF
     cat "$tmpcl" >> "$cl"
     rm "$tmpcl"
+}
+
+cross_build_setup () {
+    if [[ "$ARCHITECTURE" = "$HOST_ARCH" ]]; then
+        # native build, nothing interesting to do here
+        return
+    fi
+    log.i "Doing a cross-architecture build"
+    log.i "Build architecture: $ARCHITECTURE"
+    log.i "Host architecture: $HOST_ARCH"
+
+    if [ "${NO_AUTO_CROSS:-}" != "really-dont-mess-with-me" ]; then
+        log.i "Setting up the environment for a cross build..."
+        if [[ "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" != *-apt ]]; then
+            log.e "Cross building is possible only with the APT dependency resolver"
+            exit 1
+        fi
+        $CHROOTEXEC dpkg --add-architecture "$HOST_ARCH"
+        EXTRAPACKAGES="${EXTRAPACKAGES:+"$EXTRAPACKAGES" }crossbuild-essential-$HOST_ARCH libc-dev:$HOST_ARCH libstdc++-6-dev:$HOST_ARCH"
+        DEBBUILDOPTS="${DEBBUILDOPTS:+"$DEBBUILDOPTS" }--host-arch $HOST_ARCH"
+        if [ "${NO_AUTO_CROSS:-}" != "yes" ]; then
+            export DEB_BUILD_OPTIONS="${DEB_BUILD_OPTIONS:+"$DEB_BUILD_OPTIONS" }nocheck"
+            export DEB_BUILD_PROFILES="${DEB_BUILD_PROFILES:+"$DEB_BUILD_PROFILES" }nocheck cross"
+        fi
+    else
+        log.w "Doing a cross build, but not setting up the environment as instructed"
+        return
+    fi
 }
 
 function _find_additional_buildresults() {

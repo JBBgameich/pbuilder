@@ -220,8 +220,39 @@ or
 
 .TP
 .BI "\-\-architecture [" "architecture" "]"
-Specifies the architecture to use when creating the chroot, defaults to the
+Specifies the
+.B build architecture
+(as described in
+.BR dpkg\-architecture (1)).
+It'll be the architecture used when creating the chroot, defaults to the
 system one.  The supported values are the ones debootstrap supports.
+
+.TP
+.BI "\-\-host-arch [" "architecture" "]"
+Specifies the
+.B host architecture
+(as described in
+.BR dpkg\-architecture (1)).
+Defaults to the build architecture.
+Use this flag if you are interested in doing a cross architecture build.
+pbuilder will make sure the environment is correctly set up, including adding
+.I nocheck
+to
+.B DEB_BUILD_OPTIONS
+and
+.BR DEB_BUILD_PROFILES .
+
+.TP
+.B \-\-no\-auto\-cross
+Suppress automatic addition of
+.I nocheck
+to
+.B DEB_BUILD_OPTIONS
+and
+.B DEB_BUILD_PROFILES
+in case of cross-building.  All the other configuration (adding the architecture
+to dpkg, installing the cross toolchain, passing --host-arch to dpkg-buildpackage,
+etc) is done nonetheless; specify this flag twice to prevent that from happening too.
 
 .TP
 .BI "\-\-components [" "components" "]"

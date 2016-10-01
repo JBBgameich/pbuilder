@@ -58,6 +58,10 @@ function checkbuilddep_internal () {
             ;;
     esac
 
+    if [[ "$BUILD_ARCH" != "$HOST_ARCH" ]]; then
+        APTGETOPT[${#APTGETOPT[@]}]="--host-architecture=$HOST_ARCH"
+    fi
+
     $CHROOTEXEC apt-get \
         -y \
         "${APTGETOPT[@]}" \
@@ -76,6 +80,7 @@ pbuilder-satisfydepends -- satisfy dependencies
 --chroot <chroot>:  operate inside this chroot
 --binary-all:       include binary-all
 --binary-arch:      include binary-arch only
+--host-arch <arch>: perform a cross-build targetting this architecture
 --echo:             echo mode, do nothing.
 
 EOF
