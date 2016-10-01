@@ -46,6 +46,7 @@ PKGLIB_SCRIPTS += \
 	pbuilder-loadconfig \
 	pbuilder-modules \
 	pbuilder-runhooks \
+	pbuilder-satisfydepends-apt \
 	pbuilder-satisfydepends-aptitude \
 	pbuilder-satisfydepends-checkparams \
 	pbuilder-satisfydepends-classic \

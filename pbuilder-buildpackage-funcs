@@ -60,9 +60,13 @@ function checkbuilddep () {
         all) BUILDOPT="--binary-indep";;
         *) ;;
     esac
+    case "$(readlink -e "$PBUILDERSATISFYDEPENDSCMD")" in
+        *-apt) local control="$BUILDDIR/$(basename "$1")" ;;
+        *) local control="$1" ;;
+    esac
     if \
         ("$PBUILDERSATISFYDEPENDSCMD" \
-            --control "$1" \
+            --control "$control" \
             --chroot "${BUILDPLACE}" \
             --internal-chrootexec "${CHROOTEXEC}" \
             "${BUILDOPT}" \
