@@ -201,7 +201,7 @@ EOF
 }
 
 function export_additional_buildresults() {
-    for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do
+    for FILE in ${ADDITIONAL_BUILDRESULTS[@]}; do
         log.i "Trying to save additional result ${FILE}"
         cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
     done
