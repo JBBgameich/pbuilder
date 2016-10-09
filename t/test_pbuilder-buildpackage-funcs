@@ -35,8 +35,8 @@ fi
 DEBIAN_CONTROL=""
 
 cleanup() {
-    if [ -n "$DEBIAN_CONTROL" ]; then
-        rm -f "$DEBIAN_CONTROL"
+    if [ -n "${TEMP_DIR:-}" ]; then
+        rm -rf "$TEMP_DIR"
     fi
 }
 
@@ -57,11 +57,12 @@ test_getchangesfilesNormal () {
 
 trap cleanup sigpipe sighup exit
 
-# FIXME move to build dir also because we have to hardoce /tmp/ on the result below
-DEBIAN_CONTROL="$(mktemp)"
+# FIXME move to build dir also because we have to hardoce $TEMP_DIR/ on the result below
+TEMP_DIR="$(mktemp -d)"
+DEBIAN_CONTROL="$(mktemp -p "$TEMP_DIR")"
 
-expect_output "$DEBIAN_CONTROL /tmp/haskell-concrete-typerep_0.1.0.2.orig.tar.gz /tmp/haskell-concrete-typerep_0.1.0.2-2.debian.tar.gz" test_getdscfilesNormal
-expect_output "$DEBIAN_CONTROL /tmp/golang-xmpp-dev_0.0~git20140304.orig.tar.gz /tmp/golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz" test_getdscfilesWithoutNL
-expect_output "$DEBIAN_CONTROL /tmp/pbuilder_0.225.2~bpo8+1.dsc /tmp/pbuilder_0.225.2~bpo8+1.tar.xz /tmp/pbuilder_0.225.2~bpo8+1_all.deb" test_getchangesfilesNormal
+expect_output "$DEBIAN_CONTROL $TEMP_DIR/haskell-concrete-typerep_0.1.0.2.orig.tar.gz $TEMP_DIR/haskell-concrete-typerep_0.1.0.2-2.debian.tar.gz" test_getdscfilesNormal
+expect_output "$DEBIAN_CONTROL $TEMP_DIR/golang-xmpp-dev_0.0~git20140304.orig.tar.gz $TEMP_DIR/golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz" test_getdscfilesWithoutNL
+expect_output "$DEBIAN_CONTROL $TEMP_DIR/pbuilder_0.225.2~bpo8+1.dsc $TEMP_DIR/pbuilder_0.225.2~bpo8+1.tar.xz $TEMP_DIR/pbuilder_0.225.2~bpo8+1_all.deb" test_getchangesfilesNormal
 
 testlib_summary
