@@ -544,7 +544,7 @@ function remove_packages () {
     local pkg
     local toremove=()
     for pkg in "$@"; do
-        if (dpkg -s "$pkg" 2>&1)>/dev/null ; then
+        if ($CHROOTEXEC dpkg -s "$pkg" 2>&1)>/dev/null ; then
             if (_contains ${EXTRAPACKAGES[@]} "$pkg" || _contains ${EXTRAPACKAGES[@]} "${pkg}-"); then
                 log.d "not removing $pkg as it's also explicitely listed in EXTRAPACKAGES"
             else
