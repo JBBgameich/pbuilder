@@ -5,7 +5,7 @@ Maintainer: Debian pbuilder maintenance team <pbuilder-maint@lists.alioth.debian
 Uploaders: Mattia Rizzolo <mattia@debian.org>
 Build-Depends: dblatex,
                debconf | debconf-2.0,
-               debhelper (>= 9),
+               debhelper (>= 10),
                docbook-xsl,
                ldp-docbook-xsl,
                po-debconf,
