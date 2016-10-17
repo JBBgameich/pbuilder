@@ -2,15 +2,17 @@ Source: pbuilder
 Section: devel
 Priority: extra
 Maintainer: Debian pbuilder maintenance team <pbuilder-maint@lists.alioth.debian.org>
-Uploaders: Mattia Rizzolo <mattia@debian.org>
-Build-Depends: dblatex,
-               debconf | debconf-2.0,
-               debhelper (>= 10),
-               docbook-xsl,
-               ldp-docbook-xsl,
-               po-debconf,
-               po4a,
-               xsltproc
+Uploaders:
+ Mattia Rizzolo <mattia@debian.org>,
+Build-Depends:
+ dblatex,
+ debconf | debconf-2.0,
+ debhelper (>= 10),
+ docbook-xsl,
+ ldp-docbook-xsl,
+ po-debconf,
+ po4a,
+ xsltproc,
 Standards-Version: 3.9.8
 Vcs-Git: https://anonscm.debian.org/git/pbuilder/pbuilder.git
 Vcs-Browser: https://anonscm.debian.org/git/pbuilder/pbuilder.git
@@ -19,17 +21,20 @@ Testsuite: autopkgtest
 Package: pbuilder
 Architecture: all
 Multi-Arch: foreign
-Depends: debootstrap | cdebootstrap,
-         dpkg-dev (>= 1.17.0),
-         wget,
-         ${misc:Depends}
-Recommends: devscripts,
-            eatmydata,
-            fakeroot,
-            net-tools | iproute2,
-            sudo
-Suggests: cowdancer,
-          gdebi-core
+Depends:
+ debootstrap | cdebootstrap,
+ dpkg-dev (>= 1.17.0),
+ wget,
+ ${misc:Depends},
+Recommends:
+ devscripts,
+ eatmydata,
+ fakeroot,
+ net-tools | iproute2,
+ sudo,
+Suggests:
+ cowdancer,
+ gdebi-core,
 Homepage: http://pbuilder.alioth.debian.org
 Description: personal package builder for Debian packages
  pbuilder constructs a chroot system, and builds a package inside the
