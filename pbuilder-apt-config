@@ -62,7 +62,7 @@ guess_dist_arch_archive() {
       buzz|rex|bo|hamm|slink|potato|woody|sarge|etch|lenny|squeeze|wheezy|jessie|stretch|buster)
         echo "debian-archive"
       ;;
-      lucid|precise|trusty|vivid|wily|xenial)
+      precise|trusty|xenial|yakkety|zesty)
         case "$arch" in
           amd64|i386)
             echo "ubuntu"
@@ -75,7 +75,7 @@ guess_dist_arch_archive() {
           ;;
         esac
       ;;
-      warty|hoary|breezy|edgy|feisty|gutsy|dapper|hardy|intrepid|jaunty|karmic|maverick|natty|oneiric|quantal|raring|saucy|utopic)
+      warty|hoary|breezy|edgy|feisty|gutsy|dapper|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|quantal|raring|saucy|utopic|vivid|wily)
         echo "ubuntu-old"
       ;;
       *)
