@@ -171,7 +171,7 @@ function binNMU() {
         BINNMU_VERSION=1
     fi
     local arch=$($CHROOTEXEC dpkg-architecture -qDEB_HOST_ARCH)
-    local date=$(date -R)
+    local date=$(date -R ${BINNMU_TIMESTAMP:+-d "${BINNMU_TIMESTAMP}})
     log.i "Doing a binNMU, version $BINNMU_VERSION for $DISTRIBUTION/$arch to '$BINNMU_MESSAGE'"
     local cl=$(ls "$BUILDPLACE"/"$BUILDDIR"/*/debian/changelog)
     local tmpcl=$(mktemp pbuilder.tmpchangelog.XXXXXXXXXXX)

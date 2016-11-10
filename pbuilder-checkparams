@@ -233,6 +233,10 @@ while [ -n "$1" ]; do
         BINNMU_VERSION="$2"
         shift; shift;
         ;;
+    --bin-nmu-timestamp)
+        BINNMU_TIMESTAMP="$2"
+        shift 2
+        ;;
     --preserve-buildplace)
         PRESERVE_BUILDPLACE="yes"
         shift;
