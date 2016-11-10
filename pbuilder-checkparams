@@ -36,7 +36,6 @@ OVERRIDE_APTLINES="no"
 OVERRIDE_APTLINES_WARN="" # set this if --override-config option should be set.
 BINARY_ARCH="any"  # can be one of 'any', 'all', 'binary'
 BIN_NMU="no"
-HOST_ARCH="${HOST_ARCH:-$ARCHITECTURE}"
 PBUILDER_BUILD_LOGFILE=
 PRESERVE_BUILDPLACE="no"
 unset EXTRA_CONFIGFILE || true
@@ -90,10 +89,6 @@ while [ -n "$1" ]; do
         shift; shift;
         ;;
     --architecture)
-        # if we were doing a native build before, still continue to be native
-        if [ "$ARCHITECTURE" = "$HOST_ARCH" ]; then
-            HOST_ARCH=$2
-        fi
         ARCHITECTURE="$2";
         shift; shift;
         ;;
@@ -346,6 +341,9 @@ done
 log.d "cmdline: ${PBUILDER_OPERATION} ${CMDLINE}"
 
 BUILDPLACE=${BUILDPLACE?"Build root directory is not defined"}
+
+# if HOST_ARCH is not defined at this point, we are doing a native build
+HOST_ARCH=${HOST_ARCH:-${ARCHITECTURE}}
 
 # the default is to add a PID in the buildplace specified in the config file.
 BASEBUILDPLACE="$BUILDPLACE"
