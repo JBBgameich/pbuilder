@@ -1,6 +1,29 @@
 pbuilder (0.226.1+) UNRELEASED; urgency=medium
 
-  * WIP
+  [ Mattia Rizzolo ]
+  * buildpackage:
+    + copy the source into the chroot before satisfying the build-deps.
+      This allows for very easy use of `apt-get build-dep`.
+  * Add an APT based resolver.  Closes: #707825
+    This is named pbuilder-satisfydepends-apt; it requires apt >= 1.2.2 inside
+    the chroot to work, otherwise it'll just fail.  I recommend moving to this
+    instead of any other for those who can (probably the default will change at
+    some point in the future, after the stretch release).
+  * buildpackage-funcs:
+    + allow to specify the timestamp for a binNMU changelog.  Closes: #843867
+    + add a _find_additional_buildresults() function to do proper match of file
+      names passed through ADDITIONAL_BUILDRESULT.  Closes: #837813
+  * pbuilderrc.5:
+    + better example for ADDITIONAL_BUILDRESULTS.
+      Thanks to Andreas Henriksson for the suggestion.
+  * modules:
+    + remove_packages: check for package existence in the chroot, not in the
+      host.  Closes: #840146; LP: #1640892
+  * Debian packaging: bump debhelper compat level to 10.
+
+  [ James Clarke ]
+  * pbuilder-apt-config: Add yakkety and zesty; retire lucid, vivid and wily.
+  * debian/rules: Change default Ubuntu DISTRIBUTION to zesty.
 
  -- Mattia Rizzolo <mattia@debian.org>  Sat, 01 Oct 2016 22:14:04 +0000
 
