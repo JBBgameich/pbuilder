@@ -216,7 +216,7 @@ function _find_additional_buildresults() {
             if [ -e "$f" ]; then
                 echo "$f"
             else
-                log.w "file [$f] not found"
+                log.w "file [$file] not found"
             fi
         done
     done
@@ -225,7 +225,7 @@ function _find_additional_buildresults() {
 function export_additional_buildresults() {
     local file
     for file in _find_additional_buildresults; do
-        log.i "Trying to save additional result '${FILE}'"
+        log.i "Trying to save additional result '${file}'"
         cp -a "${file}" "${BUILDRESULT}" || true
     done
 }
