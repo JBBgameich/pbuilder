@@ -1,7 +1,7 @@
 #! /bin/bash
 #   pbuilder -- personal Debian package builder
 #   Copyright © 2001-2007 Junichi Uekawa <dancer@debian.org>
-#               2015      Mattia Rizzolo <mattia@debian.org>
+#               2015-2016 Mattia Rizzolo <mattia@debian.org>
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
 ###############################################################################
 
 # functions local to pbuilder-buildpackage
+
+. "${BASH_SOURCE%/*}/pbuilder-modules"
 
 get822files () {
     # get list of files listed in the Files field of a .changes or .dsc (to
@@ -204,9 +206,26 @@ EOF
     rm "$tmpcl"
 }
 
+function _find_additional_buildresults() {
+    local file f
+    local root="${BUILDPLACE}${BUILDDIR}/*"
+    for file in "${ADDITIONAL_BUILDRESULTS[@]}"; do
+        log.d "checking [$file]..."
+        echo "$root/$file" | perl -ne 'print "$_\n" foreach glob($_)' | \
+        while read f ; do
+            if [ -e "$f" ]; then
+                echo "$f"
+            else
+                log.w "file [$f] not found"
+            fi
+        done
+    done
+}
+
 function export_additional_buildresults() {
-    for FILE in "${ADDITIONAL_BUILDRESULTS[@]}"; do
-        log.i "Trying to save additional result ${FILE}"
-        cp -a "${BUILDPLACE}$BUILDDIR/"*"/${FILE}" "${BUILDRESULT}" || true
+    local file
+    for file in _find_additional_buildresults; do
+        log.i "Trying to save additional result '${FILE}'"
+        cp -a "${file}" "${BUILDRESULT}" || true
     done
 }

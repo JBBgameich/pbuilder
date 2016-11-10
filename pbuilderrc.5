@@ -472,8 +472,16 @@ software which fail miserably when there is no
 .B /proc
 being mounted.
 .TP
-.BI "ADDITIONAL_BUILDRESULTS=" "(foo bar*)"
+.BI "ADDITIONAL_BUILDRESULTS=" "(foo \(dqbar*\(dq \(dqbaz\(rs biz\(dq)"
 Array of additional files to copy out of the build area.
+.br
+In case a wildcard is needed (e.g.
+.BR *.changes )
+quote it to have the wildcard escaped and not expanded at configuration load time,
+but instead expanded at run time when the additional build artifacts are exported.
+Spaces in file names needs to be escaped by using a \(rs or a wildcard to match
+the space.
+
 .TP
 .BI "CONFDIR=" "/etc/pbuilder/conf_files"
 .B pbuilder
