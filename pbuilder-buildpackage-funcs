@@ -224,6 +224,7 @@ cross_build_setup () {
             exit 1
         fi
         $CHROOTEXEC dpkg --add-architecture "$HOST_ARCH"
+        # preinstall libc-dev and libstdc++-dev 'cause https://bugs.debian.org/815172
         EXTRAPACKAGES="${EXTRAPACKAGES:+"$EXTRAPACKAGES" }crossbuild-essential-$HOST_ARCH libc-dev:$HOST_ARCH libstdc++-6-dev:$HOST_ARCH"
         DEBBUILDOPTS="${DEBBUILDOPTS:+"$DEBBUILDOPTS" }--host-arch $HOST_ARCH"
         if [ "${NO_AUTO_CROSS:-}" != "yes" ]; then
