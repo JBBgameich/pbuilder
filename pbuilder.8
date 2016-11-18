@@ -446,6 +446,13 @@ Multiple options are delimited with spaces,
 like \-\-debbuildopts "\-j100 \-E"
 
 .TP
+.BI "\-\-profiles [" "profile1[,profile2]" "]"
+Comma-separated list of build profiles to use during the build.  It overrides
+a possible
+.I DEB_BUILD_PROFILES
+environment variable already defined.
+
+.TP
 .BI "\-\-logfile [" "file to log" "]"
 Specifies the logfile to create.
 The messages generated during execution will be written to the specified file,

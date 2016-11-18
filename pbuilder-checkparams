@@ -191,6 +191,10 @@ while [ -n "$1" ]; do
         DEBBUILDOPTS="${2:+${DEBBUILDOPTS:+$DEBBUILDOPTS }$2}";
         shift; shift;
         ;;
+    --profiles)
+        export DEB_BUILD_PROFILES="${2//,/ }"
+        shift 2
+        ;;
     --logfile)
         log.i "Logging to $2"
         exec > >(tee "$2") 2>&1
