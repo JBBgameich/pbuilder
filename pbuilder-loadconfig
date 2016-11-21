@@ -24,11 +24,11 @@ for RCFILE in \
     "$PBUILDER_PKGDATADIR"/pbuilderrc \
     "$PBUILDER_SYSCONFDIR"/pbuilderrc \
     "$HOME"/.pbuilderrc; do
-    if [ -f "$RCFILE" ]; then 
-	. "$RCFILE"
+    # log() is not available
+    if [ -e "$RCFILE" ]; then
+        . "$RCFILE" || ( echo "E: $RCFILE could not be loaded" >&2 ; exit 1 )
     else
-	# log() is not available
-	echo "W: $RCFILE does not exist" >&2
+        echo "W: $RCFILE does not exist" >&2
     fi
     # deprecated in v0.216
     if [ -n "$PKGNAME_LOGFILE_EXTENTION" ] ; then
