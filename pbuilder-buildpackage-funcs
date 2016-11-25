@@ -255,7 +255,7 @@ function _find_additional_buildresults() {
 
 function export_additional_buildresults() {
     local file
-    for file in _find_additional_buildresults; do
+    for file in $(_find_additional_buildresults); do
         log.i "Trying to save additional result '${file}'"
         cp -a "${file}" "${BUILDRESULT}" || true
     done
