@@ -100,16 +100,16 @@ _log() {
     set -u
     term_supports_colors  # defines USECOLORS if not already set
     local color="$1" ; shift
-    local red='\033[0;31m'
-    local yellow='\033[1;33m'
-    local blue='\033[0;34m'
-    local reset='\033[0m'
+    local red=$'\033[0;31m'
+    local yellow=$'\033[1;33m'
+    local blue=$'\033[0;34m'
+    local reset=$'\033[0m'
     case "$USECOLORS" in
         yes)
-            printf "${!color}${*}${reset}\n"
+            printf "%s%s%s\n" "${!color}" "${*}" "${reset}"
             ;;
         no)
-            printf "${*}\n"
+            printf "%s\n" "${*}"
             ;;
         *)
             printf "malformed value of USECOLORS: [%s]\n" "$USECOLORS" >&2
