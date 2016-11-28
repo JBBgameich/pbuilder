@@ -1,14 +1,40 @@
 pbuilder (0.226.1+) UNRELEASED; urgency=medium
 
+  [ James Clarke ]
+  * pbuilder-apt-config: Add yakkety and zesty; retire lucid, vivid and wily.
+  * debian/rules: Change default Ubuntu DISTRIBUTION to zesty.
+
   [ Mattia Rizzolo ]
-  * buildpackage:
-    + copy the source into the chroot before satisfying the build-deps.
-      This allows for very easy use of `apt-get build-dep`.
   * Add an APT based resolver.  Closes: #707825
     This is named pbuilder-satisfydepends-apt; it requires apt >= 1.2.2 inside
     the chroot to work, otherwise it'll just fail.  I recommend moving to this
     instead of any other for those who can (probably the default will change at
     some point in the future, after the stretch release).
+  * Add initial cross build support.  Closes: #801799
+    + Add a new --host-arch command line option (setting non-public HOST_ARCH
+      variable) to set the *host* architecture; if not specified it defaults to
+      the build architecture.
+    + --architecture/ARCHITECTURE is used to specify the *build* architecture;
+      it defaults to the architecture of the host as reported by dpkg.
+    + Some automatic setup is done to allow cross building (at `build` time):
+      - the host architecture is added to dpkg's list of architectures;
+      - crossbuild-essential-$HOST_ARCH, libc-dev:$HOST_ARCH and
+        libstdc++-6-dev:$HOST_ARCH are preinstalled (the latter two due to
+        bug #815172 in build-essential);
+      - `--host-arch $HOST_ARCH` is passed to dpkg-buildpackage;
+      - 'nocheck' is added to DEB_BUILD_OPTIONS;
+      - 'nocheck cross' is added to DEB_BUILD_PROFILES.
+    + A new --no-auto-cross can be used to override partially or all of the
+      above automatism; see pbuilder(8) for more.
+    + The dependency statisfiers now receive BUILD_ARCH and HOST_ARCH variables
+      (through --(host|build)-arch options used when call them).
+    + The only dependency satisfier allowed when cross building is the APT one,
+      as that's the only one supporting --host-arch at the moment.
+    This implementation is still *experimental*, details may vary across the
+    next releases, expecially the part relative to what's is automatically done.
+  * buildpackage:
+    + copy the source into the chroot before satisfying the build-deps.
+      This allows for very easy use of `apt-get build-dep`.
   * buildpackage-funcs:
     + allow to specify the timestamp for a binNMU changelog.  Closes: #843867
     + add a _find_additional_buildresults() function to do proper match of file
@@ -16,14 +42,22 @@ pbuilder (0.226.1+) UNRELEASED; urgency=medium
   * pbuilderrc.5:
     + better example for ADDITIONAL_BUILDRESULTS.
       Thanks to Andreas Henriksson for the suggestion.
+  * pbuilder.8:
+    + document that now BUILD_ARCH and HOST_ARCH variables are being passed to
+      hook scripts.
   * modules:
     + remove_packages: check for package existence in the chroot, not in the
       host.  Closes: #840146; LP: #1640892
+    + _log(): properly pass arguments to printf.
+      Thanks to Thorsten Glaser <tg@mirbsd.de> for noticing.  Closes: #845438
+  * loadconfig:
+    + be more honest about why it's not possible to load a conf file, instead
+      of just saying "it doesn't exist".  Also, fail in case the file exists,
+      but can't be loaded.  Closes: #844560
+  * checkparams:
+    + add a --profile option to specify build profiles to build with.
+      Closes: #844700
   * Debian packaging: bump debhelper compat level to 10.
-
-  [ James Clarke ]
-  * pbuilder-apt-config: Add yakkety and zesty; retire lucid, vivid and wily.
-  * debian/rules: Change default Ubuntu DISTRIBUTION to zesty.
 
  -- Mattia Rizzolo <mattia@debian.org>  Sat, 01 Oct 2016 22:14:04 +0000
 
