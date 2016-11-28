@@ -1,4 +1,4 @@
-pbuilder (0.226.1+) UNRELEASED; urgency=medium
+pbuilder (0.227) unstable; urgency=medium
 
   [ James Clarke ]
   * pbuilder-apt-config: Add yakkety and zesty; retire lucid, vivid and wily.
@@ -60,7 +60,7 @@ pbuilder (0.226.1+) UNRELEASED; urgency=medium
       Closes: #844700
   * Debian packaging: bump debhelper compat level to 10.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sat, 01 Oct 2016 22:14:04 +0000
+ -- Mattia Rizzolo <mattia@debian.org>  Mon, 28 Nov 2016 16:59:15 +0100
 
 pbuilder (0.226.1) unstable; urgency=medium
 
