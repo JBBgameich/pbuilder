@@ -31,12 +31,13 @@ pbuilder (0.226.1+) UNRELEASED; urgency=medium
     + The only dependency satisfier allowed when cross building is the APT one,
       as that's the only one supporting --host-arch at the moment.
     This implementation is still *experimental*, details may vary across the
-    next releases, expecially the part relative to what's is automatically done.
+    next releases, especially the part relative to what's is automatically done.
   * buildpackage:
     + copy the source into the chroot before satisfying the build-deps.
       This allows for very easy use of `apt-get build-dep`.
   * buildpackage-funcs:
-    + allow to specify the timestamp for a binNMU changelog.  Closes: #843867
+    + Add a --bin-nmu-timestamp option to specify the timestamp for a binNMU
+      changelog.  Closes: #843867
     + add a _find_additional_buildresults() function to do proper match of file
       names passed through ADDITIONAL_BUILDRESULT.  Closes: #837813
   * pbuilderrc.5:
@@ -767,7 +768,7 @@ pbuilder (0.209) unstable; urgency=low
 pbuilder (0.208) unstable; urgency=low
 
   [ Guido Günther ]
-  * Allow to copy additional files out of the build
+  * Make possible to copy additional files out of the build
     directory (closes: 652634)
 
   [ Junichi Uekawa ]
@@ -1015,7 +1016,7 @@ pbuilder (0.196) unstable; urgency=low
 
   [ Loïc Minier ]
   * Add comments to check target.
-  * Use GNU-style vars for system directories, allow to set them from the
+  * Use GNU-style vars for system directories, allow one to set them from the
     env, and let them be prefixed with a PBUILDER_ROOT directory to allow
     relocation.
   * Add helpers to relocate pbuilder in testsuite.
