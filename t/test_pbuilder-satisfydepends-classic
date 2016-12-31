@@ -4,11 +4,10 @@
 #done
 
 TD="$(dirname "$0")"
+. "$TD/testlib.sh"
 if [ -n "$PBUILDER_CHECKOUT" ]; then
-    . "$TD/testlib.sh"
     PBUILDER_SATISFYDEPENDS_CLASSIC="$PBUILDER_CHECKOUT/pbuilder-satisfydepends-classic"
 else
-    . "$TD/testlib.sh"
     PBUILDER_SATISFYDEPENDS_CLASSIC="$PBUILDER_TEST_PKGLIBDIR/pbuilder-satisfydepends-classic"
 fi
 

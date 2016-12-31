@@ -2,11 +2,10 @@
 # testsuite for testlib
 
 TD="$(dirname "$0")"
+. "$TD/testlib.sh"
 if [ -n "$PBUILDER_CHECKOUT" ]; then
-    . "$TD/testlib.sh"
     . "$PBUILDER_CHECKOUT/pbuilder-modules"
 else
-    . "$TD/testlib.sh"
     . "$PBUILDER_TEST_PKGLIBDIR/pbuilder-modules"
 fi
 

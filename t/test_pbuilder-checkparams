@@ -3,11 +3,10 @@
 # testsuite for pbuilder-checkparams
 
 TD="$(dirname "$0")"
+. "$TD/testlib.sh"
 if [ -n "$PBUILDER_CHECKOUT" ]; then
-    . "$TD/testlib.sh"
     PBUILDER_CHECKPARAMS="$PBUILDER_CHECKOUT/pbuilder-checkparams"
 else
-    . "$TD/testlib.sh"
     PBUILDER_CHECKPARAMS="$PBUILDER_TEST_PKGLIBDIR/pbuilder-checkparams"
 fi
 

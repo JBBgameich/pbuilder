@@ -7,11 +7,10 @@ self="$(basename "$0")"
 recent_enough_ubuntu=xenial
 
 TD="$(dirname "$0")"
+. "$TD/testlib.sh"
 if [ -n "$PBUILDER_CHECKOUT" ]; then
-    . "$TD/testlib.sh"
     PBUILDER_APT_CONFIG="$PBUILDER_CHECKOUT/pbuilder-apt-config"
 else
-    . "$TD/testlib.sh"
     PBUILDER_APT_CONFIG="$PBUILDER_TEST_PKGLIBDIR/pbuilder-apt-config"
 fi
 

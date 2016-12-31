@@ -1,11 +1,10 @@
 #!/bin/bash
 
 TD="$(dirname "$0")"
+. "$TD/testlib.sh"
 if [ -n "$PBUILDER_CHECKOUT" ]; then
-    . "$TD/testlib.sh"
     PBUILDER_SATISFYDEPENDS_CHECKPARAMS="$PBUILDER_CHECKOUT/pbuilder-satisfydepends-checkparams"
 else
-    . "$TD/testlib.sh"
     PBUILDER_SATISFYDEPENDS_CHECKPARAMS="$PBUILDER_TEST_PKGLIBDIR/pbuilder-satisfydepends-checkparams"
 fi
 
