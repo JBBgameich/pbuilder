@@ -18,6 +18,10 @@ set -e
 # installed files (from PBUILDER_TEST_ROOT, which is a copy of PBUILDER_ROOT)
 PBUILDER_CHECKOUT="${PBUILDER_CHECKOUT:-}"
 
+if [ -d .git -a -z "$PBUILDER_CHECKOUT" ]; then
+    PBUILDER_CHECKOUT=.
+fi
+
 if [ -z "$PBUILDER_CHECKOUT" ]; then
     # these currently don't need to be exported
     PBUILDER_TEST_ROOT="${PBUILDER_ROOT:-}"
