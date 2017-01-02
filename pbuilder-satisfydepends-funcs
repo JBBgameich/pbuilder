@@ -55,27 +55,37 @@ checkbuilddep_versiondeps() {
 get_source_control_field() {
     local field="$1"
 
-    sed -n -e "s/^$field://i" -e '
-t store
+    sed -n '
+# Skip PGP header
 /^-----BEGIN PGP SIGNED MESSAGE-----$/ {
     : pgploop
     n
-    /^$/ d
+    /^$/ b leadloop
     b pgploop
 }
+
+# Skip empty lines/comments
 : leadloop
 /^[ \t]*$/ {
     n
-    /^$/ d
     b leadloop
 }
 /^#/ {
     n
-    /^$/ d
     b leadloop
 }
-/^$/q
-d
+
+# First line of source paragraph
+: sourceloop
+# Strip field name from line if present
+s/^'"$field"'://i
+# If field present, print normalised contents
+t store
+# Otherwise, check for end of paragraph or ignore
+/^[ \t]*$/q
+n
+b sourceloop
+
 : store
 H
 : loop
@@ -106,7 +116,9 @@ s/(\(>>\|>=\|>\|==\|=\|<=\|<<\|<\|!=\) *\([^)]*\))/(\1 \2)/g
 # normalize space at beginning and end of line
 s/^ *//
 s/ *$//
-p' \
+p
+n
+b sourceloop' \
         "$DEBIAN_CONTROL"
 }
 
