@@ -29,8 +29,8 @@ export PBUILDER_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder
 function checkbuilddep_internal () {
 
     # check whether apt is new enough
-    if dpkg --compare-versions $($CHROOTEXEC dpkg-query -W -f '${Version}' apt) lt 1.2.2 ; then
-        log.e "APT is not new enough to be used within this dependency resolver."
+    if dpkg --compare-versions $($CHROOTEXEC dpkg-query -W -f '${Version}' apt) lt 1.4~beta3 ; then
+        log.e "APT is not new enough to be used by this dependency resolver."
         log.e "Please switch to a different resolver."
         exit 1
     fi
@@ -49,6 +49,7 @@ function checkbuilddep_internal () {
             APTGETOPT[${#APTGETOPT[@]}]='--arch-only'
             ;;
         "all")
+            APTGETOPT[${#APTGETOPT[@]}]='--indep-only'
             ;;
         "any")
             ;;
