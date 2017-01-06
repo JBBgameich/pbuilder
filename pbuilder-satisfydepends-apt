@@ -23,7 +23,6 @@ set -e
 
 export PBUILDER_PKGLIBDIR="${PBUILDER_PKGLIBDIR:-$PBUILDER_ROOT/usr/lib/pbuilder}"
 
-. "$PBUILDER_PKGLIBDIR"/pbuilder-modules
 . "$PBUILDER_PKGLIBDIR"/pbuilder-satisfydepends-funcs
 
 function checkbuilddep_internal () {
