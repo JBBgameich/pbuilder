@@ -497,6 +497,11 @@ effect.
 Use this option rather than using \fB\-\-debbuildopts \-A\fR.
 
 .TP
+.BI "\-\-source\-only\-changes
+Specify to generate an additional .changes file for a source-only upload,
+whilst still producing a full .changes file for any binary packages built.
+
+.TP
 .BI "\-\-bin\-nmu [" "changelog message" "]"
 Specify to build a binary-NMU instead of a standard package.
 This option takes the changelog message to pass to the binary-NMU package as parameter.

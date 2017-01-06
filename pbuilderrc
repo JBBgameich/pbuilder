@@ -64,6 +64,10 @@ PBUILDERROOTCMD="sudo -E"
 # use cowbuilder for pdebuild
 #PDEBUILD_PBUILDER="cowbuilder"
 
+# Whether to generate an additional .changes file for a source-only upload,
+# whilst still producing a full .changes file for any binary packages built.
+SOURCE_ONLY_CHANGES=no
+
 # additional build results to copy out of the package build area
 #ADDITIONAL_BUILDRESULTS=(xunit.xml .coverage)
 

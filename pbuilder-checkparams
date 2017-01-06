@@ -233,6 +233,10 @@ while [ -n "$1" ]; do
         DEBBUILDOPTS="${DEBBUILDOPTS} -A"
         shift
         ;;
+    --source-only-changes)
+        SOURCE_ONLY_CHANGES="yes"
+        shift;
+        ;;
     --bin-nmu)
         BIN_NMU="yes"
         BINARY_ARCH="binary"

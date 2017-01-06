@@ -405,6 +405,12 @@ The default is now "aptitude".
 Array of flags to give to pbuilder\-satisfydepends.
 
 .TP
+.BI "SOURCE_ONLY_CHANGES=" "no"
+Specify whether to generate an additional .changes file for a source-only
+upload, whilst still producing a full .changes file for any binary packages
+built.
+
+.TP
 .BI "ALLOWUNTRUSTED=" "no"
 Allow untrusted (no key installed) and unsigned repositories.
 .BI Warning:
