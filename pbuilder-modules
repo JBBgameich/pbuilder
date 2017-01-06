@@ -849,6 +849,60 @@ function install_packages_for_optional_features() {
     fi
 }
 
+function get822field() {
+    local field="$1"
+    local file="$2"
+
+    sed -n '
+# Skip PGP header
+/^-----BEGIN PGP SIGNED MESSAGE-----$/ {
+    : pgploop
+    n
+    /^$/ b leadloop
+    b pgploop
+}
+
+# Skip empty lines/comments
+: leadloop
+/^[ \t]*$/ {
+    n
+    b leadloop
+}
+/^#/ {
+    n
+    b leadloop
+}
+
+# First line of paragraph
+: paraloop
+# Strip field name from line if present
+s/^'"$field"': *//i
+# If field present, print contents
+# Note the h; t loop; here rather than t store; so that there is no leading
+# newline in the hold space. This will store unmatched lines in the hold space,
+# but that does not matter as the first matched line will overwrite it.
+h
+t loop
+# Otherwise, check for end of paragraph or ignore
+/^[ \t]*$/q
+n
+b paraloop
+
+: store
+H
+: loop
+$ b done
+n
+/^#/ b loop
+/^[ \t]/ b store
+: done
+x
+p
+n
+b paraloop' \
+    "$file"
+}
+
 #==========================================================================
 # hooks stuff
 
