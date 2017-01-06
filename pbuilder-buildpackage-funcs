@@ -54,6 +54,49 @@ function copydsc () {
     done
 }
 
+function dsc_get_basename() {
+    local dscfile="$1"
+    local with_revision="$2"
+
+    local src=$(get822field "Source" "$dscfile")
+    local source_version=$(get822field "Version" "$dscfile")
+
+    # Parse version string
+    local epoch
+    local version
+    local revision
+    case "$source_version" in
+        *:*)
+            epoch=${source_version%%:*}
+            source_version=${source_version#*:}
+            ;;
+        *)
+            ;;
+    esac
+    case "$source_version" in
+        *-*)
+            version=${source_version%-*}
+            revision=${source_version##*-}
+            ;;
+        *)
+            version=$source_version
+            ;;
+    esac
+
+    local vs
+    if [ "$with_revision" = "yes" -a -z "${revision:-}" ]; then
+        with_revision=no
+    fi
+    # Epoch always omitted
+    case "$with_revision" in
+        yes) vs="${version}-${revision}" ;;
+        no)  vs="${version}" ;;
+        *)   log.error "unexpected with_revision: $with_revision" ; exit 1 ;;
+    esac
+
+    echo "${src}_${vs}"
+}
+
 function checkbuilddep () {
     # call satisfydepends
     local BUILDOPT="--binary-all"

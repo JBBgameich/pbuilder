@@ -54,6 +54,30 @@ test_getchangesfilesNormal () {
     get822files changes "$DEBIAN_CONTROL"
 }
 
+test_dsc_get_basename_normal_with_revision() {
+    dsc_get_basename "$TESTDATA_DIR/dsc1" yes
+}
+
+test_dsc_get_basename_normal_without_revision() {
+    dsc_get_basename "$TESTDATA_DIR/dsc1" no
+}
+
+test_dsc_get_basename_epoch_with_revision() {
+    dsc_get_basename "$TESTDATA_DIR/dsc3_epoch" yes
+}
+
+test_dsc_get_basename_epoch_without_revision() {
+    dsc_get_basename "$TESTDATA_DIR/dsc3_epoch" no
+}
+
+test_dsc_get_basename_native_with_revision() {
+    dsc_get_basename "$TESTDATA_DIR/dsc4_native" yes
+}
+
+test_dsc_get_basename_native_without_revision() {
+    dsc_get_basename "$TESTDATA_DIR/dsc4_native" no
+}
+
 setup_extraresults () {
     mkdir -p "$TEMP_DIR/fake-pkg/debian"
     touch "$TEMP_DIR/file_with_*_asterisk"
@@ -88,6 +112,13 @@ BUILDDIR=''
 expect_output "$DEBIAN_CONTROL $TEMP_DIR/haskell-concrete-typerep_0.1.0.2.orig.tar.gz $TEMP_DIR/haskell-concrete-typerep_0.1.0.2-2.debian.tar.gz" test_getdscfilesNormal
 expect_output "$DEBIAN_CONTROL $TEMP_DIR/golang-xmpp-dev_0.0~git20140304.orig.tar.gz $TEMP_DIR/golang-xmpp-dev_0.0~git20140304-1.debian.tar.xz" test_getdscfilesWithoutNL
 expect_output "$DEBIAN_CONTROL $TEMP_DIR/pbuilder_0.225.2~bpo8+1.dsc $TEMP_DIR/pbuilder_0.225.2~bpo8+1.tar.xz $TEMP_DIR/pbuilder_0.225.2~bpo8+1_all.deb" test_getchangesfilesNormal
+
+expect_output "haskell-concrete-typerep_0.1.0.2-2" test_dsc_get_basename_normal_with_revision
+expect_output "haskell-concrete-typerep_0.1.0.2" test_dsc_get_basename_normal_without_revision
+expect_output "openssh_7.4p1-5" test_dsc_get_basename_epoch_with_revision
+expect_output "openssh_7.4p1" test_dsc_get_basename_epoch_without_revision
+expect_output "cowdancer_0.82" test_dsc_get_basename_native_with_revision
+expect_output "cowdancer_0.82" test_dsc_get_basename_native_without_revision
 
 setup_extraresults
 expect_output "$TEMP_DIR/fake-pkg/../file with spaces.changes
