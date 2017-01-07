@@ -140,22 +140,22 @@ function log() {
 }
 
 log.e() {
-    case "$LOGLEVEL" in
+    case "${LOGLEVEL-I}" in
         D|I|W|E) log "E: $*" ;;
     esac
 }
 log.w() {
-    case "$LOGLEVEL" in
+    case "${LOGLEVEL-I}" in
         D|I|W) log "W: $*" ;;
     esac
 }
 log.i() {
-    case "$LOGLEVEL" in
+    case "${LOGLEVEL-I}" in
         D|I) log "I: $*" ;;
     esac
 }
 log.d() {
-    case "$LOGLEVEL" in
+    case "${LOGLEVEL-I}" in
         D) log "D: $*" ;;
     esac
 }
