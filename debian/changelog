@@ -1,6 +1,18 @@
 pbuilder (0.227+) UNRELEASED; urgency=medium
 
-  * wip.
+  [ Mattia Rizzolo ]
+  * pbuilder.8: Fix a typo and add a missing word.
+    Thanks to Unit193 for spotting and reporting
+  * t/testlib: Autodetect if this is running from a git checkout and
+    automatically set PBUILDER_CHECKOUT
+  * satifydepends-apt: Use the new --indep-only flag from APT 1.4~beta3 when
+    performing an indep-only build
+  * modules: Use default value of I if LOGLEVEL is undefined
+
+  [ James Clarke ]
+  * satisfydepends-funcs: Make get_source_control_field() more robust.
+    This includes fixing comments or blank lines just before a field causing
+    the field to be ignored.  Closes: #847944; LP: #1632980
 
  -- Mattia Rizzolo <mattia@debian.org>  Sat, 03 Dec 2016 00:48:56 +0100
 
