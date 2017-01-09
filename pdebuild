@@ -50,49 +50,49 @@ export BUILDRESULTGID=$(id -g)
 
 if [ "${USE_PDEBUILD_INTERNAL}" = 'yes' ]; then
     ${PBUILDERROOTCMD} \
-	${PDEBUILD_PBUILDER} \
-	--execute \
-	${EXTRA_CONFIGFILE[@]/#/--configfile } \
-	--bindmounts $(readlink -f ..) \
-	"$@" \
-	-- \
-	/usr/lib/pbuilder/pdebuild-internal \
-	${PWD} \
-	--debbuildopts "" \
-	--debbuildopts "${DEBBUILDOPTS}" \
-	--uid "${BUILDRESULTUID}" \
-	--gid "${BUILDRESULTGID}" \
-	--pbuildersatisfydepends "$PBUILDERSATISFYDEPENDSCMD"
+        ${PDEBUILD_PBUILDER} \
+        --execute \
+        ${EXTRA_CONFIGFILE[@]/#/--configfile } \
+        --bindmounts $(readlink -f ..) \
+        "$@" \
+        -- \
+        /usr/lib/pbuilder/pdebuild-internal \
+        ${PWD} \
+        --debbuildopts "" \
+        --debbuildopts "${DEBBUILDOPTS}" \
+        --uid "${BUILDRESULTUID}" \
+        --gid "${BUILDRESULTGID}" \
+        --pbuildersatisfydepends "$PBUILDERSATISFYDEPENDSCMD"
     if [ -d "${BUILDRESULT}" ]; then
-	for files in $(sed -rn '/^Files:/,${s/^ .* ([^ ]+)$/\1/p}' ../${CHANGES}); do
-	    conditional_cp_a ../"$files" "${BUILDRESULT}"
-	done
-	conditional_cp_a ../${CHANGES} "${BUILDRESULT}"
-	for files in "${ADDITIONAL_BUILDRESULTS[@]}"; do
-	    log.i "Trying to save additional result ${files}"
-	    conditional_cp_a "${files}" "${BUILDRESULT}" || true
+        for files in $(sed -rn '/^Files:/,${s/^ .* ([^ ]+)$/\1/p}' ../${CHANGES}); do
+            conditional_cp_a ../"$files" "${BUILDRESULT}"
+        done
+        conditional_cp_a ../${CHANGES} "${BUILDRESULT}"
+        for files in "${ADDITIONAL_BUILDRESULTS[@]}"; do
+            log.i "Trying to save additional result ${files}"
+            conditional_cp_a "${files}" "${BUILDRESULT}" || true
         done
     else
-	log.e "BUILDRESULT=[$BUILDRESULT] is not a directory."
-	exit 1
+        log.e "BUILDRESULT=[$BUILDRESULT] is not a directory."
+        exit 1
     fi
 else
     if ! dpkg-checkbuilddeps -B ; then
-	log.w "Unmet build-dependency in source"
+        log.w "Unmet build-dependency in source"
     fi
     echo "dpkg-buildpackage -S -d -us -uc -r${BUILDSOURCEROOTCMD} $DEBBUILDOPTS" | \
-	perl -pe 's/(^|\s|=|'\'')-[AbBFgG]('\''|\s|$)/$1$2/g' | \
-	perl -pe 's/(^|\s|=)['\'']['\''](\s|$)/$1$2/g' | \
-	/bin/bash
+        perl -pe 's/(^|\s|=|'\'')-[AbBFgG]('\''|\s|$)/$1$2/g' | \
+        perl -pe 's/(^|\s|=)['\'']['\''](\s|$)/$1$2/g' | \
+        /bin/bash
     ${PBUILDERROOTCMD} \
-	${PDEBUILD_PBUILDER} \
-	--build \
-	${EXTRA_CONFIGFILE[@]/#/--configfile } \
-	--buildresult "${BUILDRESULT}" \
-	--debbuildopts "" \
-	--debbuildopts "${DEBBUILDOPTS}" \
-	"$@" \
-	../"${PKG_SOURCENAME}_${PKG_VERSION}".dsc
+        ${PDEBUILD_PBUILDER} \
+        --build \
+        ${EXTRA_CONFIGFILE[@]/#/--configfile } \
+        --buildresult "${BUILDRESULT}" \
+        --debbuildopts "" \
+        --debbuildopts "${DEBBUILDOPTS}" \
+        "$@" \
+        ../"${PKG_SOURCENAME}_${PKG_VERSION}".dsc
 fi
 
 # do signing with optional key specifier
