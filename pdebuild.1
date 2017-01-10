@@ -27,7 +27,8 @@ appear later take precedence.
 .TP
 .BI "\-\-buildsourceroot [" "fakeroot" "]"
 The command used to gain root privilege for 
-invoking dpkg-buildpackage
+invoking
+.B "debian/rules clean"
 
 .TP
 .BI "\-\-pbuilderroot [" "sudo -E" "]"
@@ -78,6 +79,8 @@ The configuration file is used, and passed on to
 .TP
 .BI "\-\-debbuildopts [" "options to pass to dpkg-buildpackage" "]"
 
+.B "Deprecated; please pass this as a pbuilder option instead"
+
 The space-delimited list of options are passed to dpkg-buildpackage.
 This option appends to pbuilder option
 .B "\-\-debbuildopts"
@@ -86,8 +89,10 @@ string.
 
 Multiple options are delimited with spaces.
 
-Note that for pdebuild, debbuildopts needs to be specified as a pdebuild
-option in the command-line, not as a pbuilder option.
+Note that for pdebuild,
+.B "dpkg-source"
+is used to build the source package which is given to pbuilder. This option has
+no effect on the arguments used to build this source package.
 
 .TP
 .BI "\-\-use\-pdebuild\-internal"
@@ -130,9 +135,7 @@ See pbuilder(8) for a full list of options.
 
 There is an exception that
 .B "\-\-buildresult"
-and
-.B "\-\-debbuildopts"
-need to be specified as pdebuild options before the 
+needs to be specified as a pdebuild option before the
 .B "\-\-"
 in order to be effective.
 
@@ -163,23 +166,17 @@ $ pwd
 $ ls debian/rules
 debian/rules
 $ pdebuild
-W: /home/dancer/.pbuilderrc does not exist
-dpkg-buildpackage: source package is cowdancer
-dpkg-buildpackage: source version is 0.26
-dpkg-buildpackage: source changed by Junichi Uekawa <dancer@debian.org>
-dpkg-buildpackage: source version without epoch 0.26
- fakeroot debian/rules clean
-dh_testdir
-dh_testroot
-rm \-f build-stamp configure-stamp
-/usr/bin/make clean
-make[1]: Entering directory `/home/dancer/DEBIAN/cowdancer/cowdancer'
-rm \-f *~ *.o *.lo libcowdancer.so cow-shell cowbuilder
-make[1]: Leaving directory `/home/dancer/DEBIAN/cowdancer/cowdancer'
-dh_clean
- dpkg-source \-b cowdancer
-dpkg-source: warning: source directory `./cowdancer' is not <sourcepackage>-<upstreamversion> `cowdancer-0.26'
-dpkg-source: building cowdancer in cowdancer_0.26.tar.gz
+dh clean
+   dh_testdir
+   dh_auto_clean
+   dh_autoreconf_clean
+   dh_clean
+	.
+	.
+	.
+dpkg-source: info: using source format '3.0 (native)'
+dpkg-source: info: building cowdancer in cowdancer_0.84.tar.xz
+dpkg-source: info: building cowdancer in cowdancer_0.84.dsc
 	.
 	.
 	.

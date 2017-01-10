@@ -38,6 +38,7 @@ PKG_VERSION=$(dpkg-parsechangelog|sed -n 's/^Version: \(.*:\|\)//p')
 ARCHITECTURE="${ARCHITECTURE:-$(dpkg-architecture -qDEB_HOST_ARCH)}"
 CHANGES="${PKG_SOURCENAME}_${PKG_VERSION}_${ARCHITECTURE}.changes"
 SOURCE_CHANGES="${PKG_SOURCENAME}_${PKG_VERSION}_source.changes"
+DSC="${PKG_SOURCENAME}_${PKG_VERSION}.dsc"
 
 if [ -z "${PBUILDER_BUILD_LOGFILE}" ]; then
     PBUILDER_BUILD_LOGFILE="../${PKG_SOURCENAME}_${PKG_VERSION}_${ARCHITECTURE}.build"
@@ -80,10 +81,16 @@ else
     if ! dpkg-checkbuilddeps -B ; then
         log.w "Unmet build-dependency in source"
     fi
-    echo "dpkg-buildpackage -S -d -us -uc -r${BUILDSOURCEROOTCMD} $DEBBUILDOPTS" | \
-        perl -pe 's/(^|\s|=|'\'')-[AbBFgG]('\''|\s|$)/$1$2/g' | \
-        perl -pe 's/(^|\s|=)['\'']['\''](\s|$)/$1$2/g' | \
-        /bin/bash
+    dpkg-source --before-build .
+    "${BUILDSOURCEROOTCMD}" debian/rules clean
+    dpkg-source -b .
+    if ! [ "../${DSC}" -ef "${BUILDRESULT}/${DSC}" ]; then
+        log.i "Generating source changes file for original dsc"
+        dpkg-genchanges -S > "../${SOURCE_CHANGES}"
+    else
+        log.i "Generated dsc will be overwritten by build result; not generating changes file"
+    fi
+    dpkg-source --after-build .
     ${PBUILDERROOTCMD} \
         ${PDEBUILD_PBUILDER} \
         --build \
