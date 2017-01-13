@@ -471,12 +471,23 @@ Network is not available on a Debian buildd, so you might
 want to keep the default.
 Disabling network access currently only works on Linux.
 .TP
-.BI "USERUNSHM=" "yes"
+.BI "USESHM=" "yes"
 Specify
 .B yes
 when it is desired to mount
-.B /run/shm
+.B /dev/shm
 mount point. It is usually a good idea in order to work with software that expect shm to work.
+.br
+.B /run/shm
+will be configured as a symbolic link to
+.BR /dev/shm .
+.br
+This option used to be named
+.BR USERUNSHM ,
+for compatibility purpose the old name is still supported, and if set it'll
+override any
+.BR USESHM .
+
 .TP
 .BI "USE_PDEBUILD_INTERNAL=" "yes"
 When this option is set to

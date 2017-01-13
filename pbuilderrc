@@ -27,12 +27,12 @@ BUILD_HOME=/nonexistent
 MIRRORSITE=http://httpredir.debian.org/debian
 #OTHERMIRROR="deb http://www.home.com/updates/ ./"
 #export http_proxy=http://your-proxy:8080/
+USESHM=yes
 USEPROC=yes
 USEDEVFS=no
 USEDEVPTS=yes
 USESYSFS=yes
 USENETWORK=no
-USERUNSHM=yes
 BUILDRESULT=/var/cache/pbuilder/result/
 
 # specifying the distribution forces the distribution on "pbuilder update"

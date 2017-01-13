@@ -36,4 +36,9 @@ for RCFILE in \
         echo "W: PKGNAME_LOGFILE_EXTENTION will be removed at some point, please update your config!"
         PKGNAME_LOGFILE_EXTENSION="$PKGNAME_LOGFILE_EXTENTION"
     fi
+    # deprecated in v0.228
+    if [ -n "${USERUNSHM-}" ]; then
+        # wait some more before warning about this deprecation
+        USESHM="$USERUNSHM"
+    fi
 done

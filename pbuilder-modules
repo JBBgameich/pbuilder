@@ -281,8 +281,8 @@ function umountproc () {
     if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] || [ "$USEDEVFS" = "yes" ]; then
         umount_one "dev"
     fi
-    if [ "$USERUNSHM" = "yes" ] && [ "$DEB_BUILD_ARCH_OS" != "hurd" ]; then
-        umount_one "run/shm"
+    if [ "$USESHM" = "yes" ]; then
+        umount_one "dev/shm"
     fi
     if [ "$USEPROC" = "yes" ]; then
         if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ -e "$BUILDPLACE/proc/sys/fs/binfmt_misc/status" ]; then
@@ -360,11 +360,16 @@ function mountproc () {
         esac
         mounted[${#mounted[@]}]="$BUILDPLACE/sys"
     fi
-    if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USERUNSHM" = "yes" ]; then
-        log.i "mounting /run/shm filesystem"
-        mkdir -p "$BUILDPLACE/run/shm" || true
-        mount -t tmpfs tmpfs "$BUILDPLACE/run/shm"
-        mounted[${#mounted[@]}]="$BUILDPLACE/run/shm"
+    if [ "$USESHM" = "yes" ]; then
+        log.i "creating /{dev,run}/shm"
+        rm -df "$BUILDPLACE/dev/shm" "$BUILDPLACE/run/shm"
+        mkdir -p "$BUILDPLACE/dev/shm"
+        chmod 777 "$BUILDPLACE/dev/shm"
+        # old releases might not have /run.  We create it nonetheless, can't harm
+        mkdir -p "$BUILDPLACE/run"
+        ln -s /dev/shm "$BUILDPLACE/run/shm"
+        mount -t tmpfs tmpfs "$BUILDPLACE/dev/shm"
+        mounted[${#mounted[@]}]="$BUILDPLACE/dev/shm"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
         log.i "mounting /dev/pts filesystem"
