@@ -721,7 +721,7 @@ function create_basetgz() {
     if [ -h "$BUILDPLACE/tmp/buildd" ] && [ "$(readlink -f "$BUILDPLACE/tmp/buildd")" = "${BUILDPLACE}$BUILDDIR" ]; then
         rm "$BUILDPLACE/tmp/buildd"
     fi
-        if ! tar -c --use-compress-program "$COMPRESSPROG" -f "${BASETGZ}.tmp" ./* ; then
+        if ! tar -c --use-compress-program "$COMPRESSPROG" -f "${BASETGZ}.tmp" --exclude ./sys/* --exclude ./proc/* ./* ; then
             log.e "failed building base tarball"
             rm -f "${BASETGZ}.tmp"
             exit 1;
