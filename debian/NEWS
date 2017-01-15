@@ -1,3 +1,18 @@
+pbuilder (0.228) unstable; urgency=medium
+
+  Pbuilder changes its behavior regarding SHM handling: it'll now mount a
+  tmpfs in /dev/shm and set /run/shm as a symbolic link to the former.
+  Also the USERUNSHM variable is deprecated in favour of USESHM (but any
+  definition of the former will override the latter).
+
+  This will happen regardless of the Debian version of the chroot, and of
+  the architecture used, as it ought to be harmless if unused.
+  Administrators are suggested to drop any workaround in place to overcome
+  this deficiency in pbuilder, such as bind-mounting /dev/shm from the
+  host, to avoid situations like over-mounting.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 11:46:08 +0100
+
 pbuilder (0.224) unstable; urgency=medium
 
   Pbuilder won't set 'APT::Default-Release = "experimental"' for experimental
