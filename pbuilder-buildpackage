@@ -250,7 +250,6 @@ if [ -d "${BUILDRESULT}" ]; then
     chown "${BUILDRESULTUID}:${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
     chgrp "${BUILDRESULTGID}" "${BUILDPLACE}$BUILDDIR/"*
     if [ "${SOURCE_ONLY_CHANGES}" = "yes" ]; then
-        cp -p "${SOURCE_CHANGES_FILE}" "${BUILDRESULT}"
         FILES=$( ( get822files "changes" "$ARCH_CHANGES_FILE" && get822files "changes" "$SOURCE_CHANGES_FILE" ) | sort -u)
     else
         FILES=$(get822files "changes" "$ARCH_CHANGES_FILE")
