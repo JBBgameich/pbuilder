@@ -1,20 +1,54 @@
 pbuilder (0.227+) UNRELEASED; urgency=medium
 
   [ Mattia Rizzolo ]
-  * pbuilder.8: Fix a typo and add a missing word.
-    Thanks to Unit193 for spotting and reporting
-  * t/testlib: Autodetect if this is running from a git checkout and
-    automatically set PBUILDER_CHECKOUT
-  * satifydepends-apt: Use the new --indep-only flag from APT 1.4~beta3 when
-    performing an indep-only build
-  * modules: Use default value of I if LOGLEVEL is undefined
+  * modules:
+    + Use default value of I if LOGLEVEL is undefined (fixes missing output
+      from pbuilder-satisfydepends-apt).
+    + create_basetgz(): explicitly exclude /sys/* and /proc/* from being saved
+      in the tarball.  Closes: #56033
+    + mount a tmpfs on /dev/shm by default, and set up a symlink
+      /run/shm → /dev/shm.
+      This also renames the configuration variable USERUNSHM into USESHM
+      (deprecating the former).
+      This will happen regardless of the Debian version of the chroot, and of
+      the architecture used, as it ought to be harmless if unused.
+      Administrators are suggested to drop any workaround in place to overcome
+      this deficiency in pbuilder, such as bind-mounting /dev/shm from the
+      host, to avoid situations like over-mounting.
+      Closes: #591291, #717022, #773765
+  * pbuilder.8:
+    + Fix a typo and add a missing word.
+      Thanks to Unit193 for spotting and reporting.
+  * pbuilderrc.5:
+    + correct default for CCACHEDIR, which is not enabled by default.
+  * satifydepends-apt:
+    + Use the new --indep-only flag from APT 1.4~beta3 when performing an
+      indep-only build.  This bumps the required apt version inside the chroot.
+  * d/NEWS: Add news entry for the SHM behaviour change
+  * t:
+    + testlib: Autodetect if this is running from a git checkout and
+      automatically set PBUILDER_CHECKOUT.
 
   [ James Clarke ]
-  * satisfydepends-funcs: Make get_source_control_field() more robust.
-    This includes fixing comments or blank lines just before a field causing
-    the field to be ignored.  Closes: #847944; LP: #1632980
+  * modules:
+    + add a get822field() function.
+  * buildpackage-funcs:
+    + add a dsc_get_basename() function returning $srcname-$version, as tools
+      expects it.
+  * satisfydepends-funcs:
+    + split get_build_depends_field() out of get_source_control_field().
+      get_source_control_field() now only wraps the new get822field(), whilst
+      the logic to clean up and normalize the package list is moved into
+      get_build_depends_field(). Change get_build_deps() and
+      get_build_conflicts() to use this new function.
+    + Make get_source_control_field() more robust.
+      This includes fixing comments or blank lines just before a field causing
+      the field to be ignored.  Closes: #847944; LP: #1632980
+  * Add new --source-only-changes option, and relate SOURCE_ONLY_CHANGES
+    config variable, to ask pbuilder to also produce a _sources.changes file,
+    suitable for a source only upload.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sat, 03 Dec 2016 00:48:56 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 12:01:27 +0100
 
 pbuilder (0.227) unstable; urgency=medium
 
