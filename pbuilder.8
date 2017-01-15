@@ -251,8 +251,9 @@ to
 and
 .B DEB_BUILD_PROFILES
 in case of cross-building.  All the other configuration (adding the architecture
-to dpkg, installing the cross toolchain, passing --host-arch to dpkg-buildpackage,
-etc) is done nonetheless; specify this flag twice to prevent that from happening too.
+to dpkg, updating the apt cache, installing the cross toolchain, passing
+\-\-host\-arch to dpkg-buildpackage, etc) is done nonetheless; specify this
+flag twice to prevent that from happening too.
 
 .TP
 .BI "\-\-components [" "components" "]"
