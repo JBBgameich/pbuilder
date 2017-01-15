@@ -350,9 +350,6 @@ log.d "cmdline: ${PBUILDER_OPERATION} ${CMDLINE}"
 
 BUILDPLACE=${BUILDPLACE?"Build root directory is not defined"}
 
-# if HOST_ARCH is not defined at this point, we are doing a native build
-HOST_ARCH=${HOST_ARCH:-${ARCHITECTURE}}
-
 # the default is to add a PID in the buildplace specified in the config file.
 BASEBUILDPLACE="$BUILDPLACE"
 if [ "${INTERNAL_BUILD_UML}" != "yes" -a "${PRESERVE_BUILDPLACE}" != "yes" ]; then
@@ -384,6 +381,12 @@ if [ -z "${CHROOTEXEC}" ]; then
         fi
     fi
 fi
+
+# if ARCHITECTURE is still not defined, get the data out of the chroot
+ARCHITECTURE="${ARCHITECTURE:-$($CHROOTEXEC dpkg-architecture -qDEB_BUILD_ARCH)}"
+
+# if HOST_ARCH is not defined at this point, we are doing a native build
+HOST_ARCH=${HOST_ARCH:-${ARCHITECTURE}}
 
 # handle 'experimental' specially. -- required for raw pbuilder (create/update) only.
 case "$PBUILDER_OPERATION" in
