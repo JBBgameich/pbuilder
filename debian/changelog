@@ -8,17 +8,17 @@ pbuilder (0.227+) UNRELEASED; urgency=medium
       in the tarball.  Closes: #560332
     + mount a tmpfs on /dev/shm by default, and set up a symlink
       /run/shm → /dev/shm.
-      This also renames the configuration variable USERUNSHM into USESHM
+      This also renames the configuration variable USERUNSHM to USESHM
       (deprecating the former).
-      This will happen regardless of the Debian version of the chroot, and of
-      the architecture used, as it ought to be harmless if unused.
-      Administrators are suggested to drop any workaround in place to overcome
-      this deficiency in pbuilder, such as bind-mounting /dev/shm from the
-      host, to avoid situations like over-mounting.
+      This will happen regardless of the Debian version of the chroot and the
+      architecture used, as it ought to be harmless if unused.  Administrators
+      are suggested to drop any workarounds in place to overcome this
+      deficiency in pbuilder, such as bind-mounting /dev/shm from the host, to
+      avoid situations like over-mounting.
       Closes: #591291, #717022, #773765
-    + cross_build_setup(): run apt-get after enabling the foreign architecture
-      in dpkg.  Otherwise apt won't know a thing about the foreign
-      architectures, and won't be able to install anything.
+    + cross_build_setup(): run `apt-get update` after adding the foreign
+      architecture in dpkg.  Otherwise apt won't know a thing about the
+      foreign architectures, and won't be able to install anything.
     + extractbuildplace(): if ARCHITECTURE is not set, finalize it and
       HOST_ARCH right after chroot extraction, using the native architecture
       of the chroot.
@@ -30,7 +30,10 @@ pbuilder (0.227+) UNRELEASED; urgency=medium
   * satifydepends-apt:
     + Use the new --indep-only flag from APT 1.4~beta3 when performing an
       indep-only build.  This bumps the required apt version inside the chroot.
-  * d/NEWS: Add news entry for the SHM behaviour change
+  * d/NEWS:
+    + Add news entry for the SHM behaviour change
+    + Add news entry for pdebuild switching from dpkg-buildpackage -S to
+      calling dpkg-source directly.
   * t:
     + testlib: Autodetect if this is running from a git checkout and
       automatically set PBUILDER_CHECKOUT.
@@ -39,26 +42,27 @@ pbuilder (0.227+) UNRELEASED; urgency=medium
   * modules:
     + add a get822field() function.
   * buildpackage-funcs:
-    + add a dsc_get_basename() function returning $srcname-$version, as tools
-      expects it.
+    + add a dsc_get_basename() function returning the standard
+      $srcname-$version as expected by other tools.
   * satisfydepends-funcs:
     + split get_build_depends_field() out of get_source_control_field().
-      get_source_control_field() now only wraps the new get822field(), whilst
-      the logic to clean up and normalize the package list is moved into
-      get_build_depends_field(). Change get_build_deps() and
-      get_build_conflicts() to use this new function.
+      get_source_control_field() is now only a wrapper around the new
+      get822field(), whilst the logic to clean up and normalize the dependency
+      list is moved into get_build_depends_field(). Change get_build_deps()
+      and get_build_conflicts() to use this new function.
     + Make get_source_control_field() more robust.
       This includes fixing comments or blank lines just before a field causing
       the field to be ignored.  Closes: #847944; LP: #1632980
-  * Add new --source-only-changes option, and relate SOURCE_ONLY_CHANGES
+  * Add new --source-only-changes option, and related SOURCE_ONLY_CHANGES
     config variable, to ask pbuilder to also produce a _sources.changes file,
     suitable for a source only upload.
   * pdebuild:
     + Use dpkg-source instead of dpkg-buildpackage to build the source package.
       This will avoid generating a .changes that can't be used in the case
       the source package is rebuilt (as the rebuilt source package is not
-      guaranteed to be the same as the original one).  Although, if the parent
-      directory is not BUILDRESULT _sources.changes will still be generated.
+      guaranteed to be the same as the original one).  Although, if
+      BUILDRESULT is not the parent directory, the _sources.changes will still
+      be generated.
 
  -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 19:23:58 +0100
 
