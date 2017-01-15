@@ -1,24 +1,23 @@
 pbuilder (0.228) unstable; urgency=medium
 
-  * Pbuilder changes its behavior regarding SHM handling: it'll now mount a
-    tmpfs in /dev/shm and set /run/shm as a symbolic link to the former.
-    Also the USERUNSHM variable is deprecated in favour of USESHM (but any
-    definition of the former will override the latter).
+  Pbuilder changes its behavior regarding SHM handling: it'll now mount a
+  tmpfs in /dev/shm and set /run/shm as a symbolic link to the former.
+  Also the USERUNSHM variable is deprecated in favour of USESHM (but any
+  definition of the former will override the latter).
+  This will happen regardless of the Debian version of the chroot and the
+  architecture used, as it ought to be harmless if unused.  Administrators
+  are suggested to drop any workarounds in place to overcome this deficiency
+  in pbuilder, such as bind-mounting /dev/shm from the host, to avoid
+  situations like over-mounting.
 
-    This will happen regardless of the Debian version of the chroot and the
-    architecture used, as it ought to be harmless if unused.  Administrators
-    are suggested to drop any workarounds in place to overcome this deficiency
-    in pbuilder, such as bind-mounting /dev/shm from the host, to avoid
-    situations like over-mounting.
+  Pdebuild now uses dpkg-source directly to generate the dsc to pass to
+  pbuilder rather than dpkg-buildpackage -S, therefore DEBBUILDOPTS no
+  longer affect this.  It will also no longer generate a source changes file
+  if BUILDRESULT is the parent directory, since the dsc will be overwritten
+  when copying back the build results, possibly invalidating the previous
+  changes file; please use pbuilder's new --source-only-changes option.
 
-  * Pdebuild now uses dpkg-source directly to generate the dsc to pass to
-    pbuilder rather than dpkg-buildpackage -S, therefore DEBBUILDOPTS no
-    longer affect this. It will also no longer generate a source changes file
-    if BUILDRESULT is the parent directory, since the dsc will be overwritten
-    when copying back the build results; please use pbuilder's new
-    --source-only-changes option.
-
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 11:46:08 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 20:52:02 +0100
 
 pbuilder (0.224) unstable; urgency=medium
 
