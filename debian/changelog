@@ -5,7 +5,7 @@ pbuilder (0.227+) UNRELEASED; urgency=medium
     + Use default value of I if LOGLEVEL is undefined (fixes missing output
       from pbuilder-satisfydepends-apt).
     + create_basetgz(): explicitly exclude /sys/* and /proc/* from being saved
-      in the tarball.  Closes: #56033
+      in the tarball.  Closes: #560332
     + mount a tmpfs on /dev/shm by default, and set up a symlink
       /run/shm → /dev/shm.
       This also renames the configuration variable USERUNSHM into USESHM
