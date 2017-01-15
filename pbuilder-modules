@@ -662,6 +662,10 @@ function extractbuildplace () {
         fi
     fi
 
+    # finalize ARCHITECTURE and HOST_ARCH if those aren't set
+    ARCHITECTURE="${ARCHITECTURE:-"$($CHROOTEXEC dpkg-architecture -qDEB_BUILD_ARCH)"}"
+    HOST_ARCH="${HOST_ARCH:-"${ARCHITECTURE}"}"
+
     executehooks "H"
 }
 
