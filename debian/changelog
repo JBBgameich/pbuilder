@@ -16,6 +16,12 @@ pbuilder (0.227+) UNRELEASED; urgency=medium
       this deficiency in pbuilder, such as bind-mounting /dev/shm from the
       host, to avoid situations like over-mounting.
       Closes: #591291, #717022, #773765
+    + cross_build_setup(): run apt-get after enabling the foreign architecture
+      in dpkg.  Otherwise apt won't know a thing about the foreign
+      architectures, and won't be able to install anything.
+    + extractbuildplace(): if ARCHITECTURE is not set, finalize it and
+      HOST_ARCH right after chroot extraction, using the native architecture
+      of the chroot.
   * pbuilder.8:
     + Fix a typo and add a missing word.
       Thanks to Unit193 for spotting and reporting.
@@ -54,7 +60,7 @@ pbuilder (0.227+) UNRELEASED; urgency=medium
       guaranteed to be the same as the original one).  Although, if the parent
       directory is not BUILDRESULT _sources.changes will still be generated.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 16:04:39 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 15 Jan 2017 19:23:58 +0100
 
 pbuilder (0.227) unstable; urgency=medium
 
