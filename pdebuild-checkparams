@@ -43,7 +43,8 @@ while [ -n "$1" ]; do
 	    ;;
 	--debbuildopts)
         # deprecated since v0.228
-        # wait some more before nagging about its deprecation
+        DEBBUILDOPTS="${2:+$DEBBUILDOPTS $2}";
+        log.i "Passing --debbuildopts as a pdebuild option is deprecated; pass it after '--'."
 	    shift; shift;
 	    ;;
 	--configfile)
