@@ -281,7 +281,7 @@ function umountproc () {
     if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] || [ "$USEDEVFS" = "yes" ]; then
         umount_one "dev"
     fi
-    if [ "$USESHM" = "yes" ]; then
+    if [ "$DEB_BUILD_ARCH_OS" != "hurd" ] && [ "$USESHM" = "yes" ]; then
         umount_one "dev/shm"
     fi
     if [ "$USEPROC" = "yes" ]; then
@@ -368,8 +368,14 @@ function mountproc () {
         # old releases might not have /run.  We create it nonetheless, can't harm
         mkdir -p "$BUILDPLACE/run"
         ln -s /dev/shm "$BUILDPLACE/run/shm"
-        mount -t tmpfs tmpfs "$BUILDPLACE/dev/shm"
-        mounted[${#mounted[@]}]="$BUILDPLACE/dev/shm"
+        # /dev gets bind-mounted on hurd. In theory this is before that, but
+        # debootstrap will already have mounted it during chroot creation.
+        # This seems to cause /hurd/tmpfs to crash, but we can just use the
+        # host's /dev/shm.
+        if [ "$DEB_BUILD_ARCH_OS" != "hurd" ]; then
+            mount -t tmpfs tmpfs "$BUILDPLACE/dev/shm"
+            mounted[${#mounted[@]}]="$BUILDPLACE/dev/shm"
+        fi
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
         log.i "mounting /dev/pts filesystem"
