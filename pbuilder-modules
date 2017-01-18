@@ -364,7 +364,7 @@ function mountproc () {
         log.i "creating /{dev,run}/shm"
         rm -df "$BUILDPLACE/dev/shm" "$BUILDPLACE/run/shm"
         mkdir -p "$BUILDPLACE/dev/shm"
-        chmod 777 "$BUILDPLACE/dev/shm"
+        chmod 1777 "$BUILDPLACE/dev/shm"
         # old releases might not have /run.  We create it nonetheless, can't harm
         mkdir -p "$BUILDPLACE/run"
         ln -s /dev/shm "$BUILDPLACE/run/shm"
