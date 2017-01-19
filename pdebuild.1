@@ -79,8 +79,6 @@ The configuration file is used, and passed on to
 .TP
 .BI "\-\-debbuildopts [" "options to pass to dpkg-buildpackage" "]"
 
-.B "Deprecated; please pass this as a pbuilder option instead"
-
 The space-delimited list of options are passed to dpkg-buildpackage.
 This option appends to pbuilder option
 .B "\-\-debbuildopts"
@@ -92,7 +90,11 @@ Multiple options are delimited with spaces.
 Note that for pdebuild,
 .B "dpkg-source"
 is used to build the source package which is given to pbuilder. This option has
-no effect on the arguments used to build this source package.
+no effect on the arguments used to build this source package, but will control
+whether the
+.B "clean"
+target is run first as usual, and any options for dpkg-genchanges will be
+passed on.
 
 .TP
 .BI "\-\-use\-pdebuild\-internal"
