@@ -918,6 +918,32 @@ b paraloop' \
     "$file"
 }
 
+function get_changes_options() {
+    local changes_options
+    local arg
+    for arg in $DEBBUILDOPTS; do
+        # De-escape arg. $(echo $arg) on its own doesn't perform quote
+        # expansion, since quote expansion operates on the *original* word.
+        eval arg="$arg"
+        case $arg in
+            -s[iad]|-v*|-m*|-e*|-C*)
+                changes_options="${changes_options:+$changes_options }'$arg'"
+                ;;
+            --changes-option=*)
+                changes_options="${changes_options:+$changes_options }'${arg#--changes-option=}'"
+                ;;
+            # dpkg-genchanges doesn't support the long form of some options
+            --release-by=*)
+                changes_options="${changes_options:+$changes_options }-m'${arg#--release-by=}'"
+                ;;
+            --build-by=*)
+                changes_options="${changes_options:+$changes_options }-e'${arg#--build-by=}'"
+                ;;
+        esac
+    done
+    echo "${changes_options:-}"
+}
+
 #==========================================================================
 # hooks stuff
 
