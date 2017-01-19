@@ -82,7 +82,9 @@ else
         log.w "Unmet build-dependency in source"
     fi
     dpkg-source --before-build .
-    "${BUILDSOURCEROOTCMD}" debian/rules clean
+    if should_clean_source; then
+        "${BUILDSOURCEROOTCMD}" debian/rules clean
+    fi
     dpkg-source -b .
     if ! [ "../${DSC}" -ef "${BUILDRESULT}/${DSC}" ]; then
         log.i "Generating source changes file for original dsc"
