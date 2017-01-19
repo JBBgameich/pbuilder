@@ -944,6 +944,26 @@ function get_changes_options() {
     echo "${changes_options:-}"
 }
 
+function should_clean_source() {
+    local noclean=0
+    local arg
+    for arg in $DEBBUILDOPTS; do
+        # De-escape arg. $(echo $arg) on its own doesn't perform quote
+        # expansion, since quote expansion operates on the *original* word.
+        eval arg="$arg"
+        case $arg in
+            --pre-clean)
+                noclean=0
+                ;;
+            -nc|--no-pre-clean)
+                noclean=1
+                ;;
+        esac
+    done
+    # Exit code, not boolean, so inverted meaning
+    return $noclean
+}
+
 #==========================================================================
 # hooks stuff
 
