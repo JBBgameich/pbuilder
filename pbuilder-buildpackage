@@ -164,7 +164,7 @@ ENV_PREFIX="env PATH=\"$PATH\" HOME=\"$BUILD_HOME\""
 DPKG_COMMANDLINE="$ENV_PREFIX dpkg-buildpackage -us -uc $DEBBUILDOPTS"
 
 if [ "${SOURCE_ONLY_CHANGES}" = "yes" ]; then
-    DPKG_COMMANDLINE="$DPKG_COMMANDLINE && $ENV_PREFIX dpkg-genchanges -S > ../${CHANGES_BASENAME}_source.changes"
+    DPKG_COMMANDLINE="$DPKG_COMMANDLINE && $ENV_PREFIX dpkg-genchanges -S $(get_changes_options) > ../${CHANGES_BASENAME}_source.changes"
 fi
 
 # https://launchpad.net/bugs/816556
