@@ -1,4 +1,4 @@
-pbuilder (0.228+) UNRELEASED; urgency=medium
+pbuilder (0.228.1) unstable; urgency=medium
 
   [ Mattia Rizzolo ]
   * checkparams: reinstate support for --debbuildopts in pdebuild itself.
@@ -11,7 +11,7 @@ pbuilder (0.228+) UNRELEASED; urgency=medium
     + Add new get_changes_options() function.
       This extracts options for dpkg-genchanges from DEBBUILDOPTS.
     + Add should_clean_source function.
-      This extracs -nc/--(no-)pre-clean from DEBBUILDOPTS.
+      This extracts -nc/--(no-)pre-clean from DEBBUILDOPTS.
   * buildpackage:
     + Use new get_changes_options function when generating _source.changes.
   * pdebuild:
@@ -23,7 +23,7 @@ pbuilder (0.228+) UNRELEASED; urgency=medium
   * pdebuild.1: Document un-deprecation of --debbuildopts.
   * pbuilderrc.5: Document that USESHM is ignored on hurd.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sat, 21 Jan 2017 16:09:32 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sat, 21 Jan 2017 23:43:21 +0100
 
 pbuilder (0.228) unstable; urgency=medium
 
