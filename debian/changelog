@@ -1,8 +1,29 @@
 pbuilder (0.228+) UNRELEASED; urgency=medium
 
-  * wip.
+  [ Mattia Rizzolo ]
+  * checkparams: reinstate support for --debbuildopts in pdebuild itself.
+    Closes: #851640
 
- -- Mattia Rizzolo <mattia@debian.org>  Tue, 17 Jan 2017 11:29:22 +0100
+  [ James Clarke ]
+  * modules:
+    + Don't mount a tmpfs on /dev/shm on hurd.
+    + Set sticky bit on /dev/shm.
+    + Add new get_changes_options() function.
+      This extracts options for dpkg-genchanges from DEBBUILDOPTS.
+    + Add should_clean_source function.
+      This extracs -nc/--(no-)pre-clean from DEBBUILDOPTS.
+  * buildpackage:
+    + Use new get_changes_options function when generating _source.changes.
+  * pdebuild:
+    + Use new get_changes_options function when generating the _source.changes.
+    + Check the should_clean_source function before cleaning.  Closes: #851880
+  * checkparams: Un-deprecate --debbuildopts being passed before --.
+    This is needed in order to check for -nc/--pre-clean/--no-pre-clean, as
+    well as various options to pass to dpkg-genchanges.
+  * pdebuild.1: Document un-deprecation of --debbuildopts.
+  * pbuilderrc.5: Document that USESHM is ignored on hurd.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Sat, 21 Jan 2017 16:09:32 +0100
 
 pbuilder (0.228) unstable; urgency=medium
 
