@@ -4,6 +4,7 @@ Priority: extra
 Maintainer: Debian pbuilder maintenance team <pbuilder-maint@lists.alioth.debian.org>
 Uploaders:
  Mattia Rizzolo <mattia@debian.org>,
+ James Clarke <jrtc27@debian.org>,
 Build-Depends:
  dblatex,
  debconf | debconf-2.0,
