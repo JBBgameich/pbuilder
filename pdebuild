@@ -88,7 +88,9 @@ else
     dpkg-source -b .
     if ! [ "../${DSC}" -ef "${BUILDRESULT}/${DSC}" ]; then
         log.i "Generating source changes file for original dsc"
-        dpkg-genchanges -S $(get_changes_options) > "../${SOURCE_CHANGES}"
+        # get_changes_options single-quotes each element, so an eval is needed
+        # to reverse that.
+        eval dpkg-genchanges -S $(get_changes_options) > "../${SOURCE_CHANGES}"
     else
         log.i "Generated dsc will be overwritten by build result; not generating changes file"
     fi
