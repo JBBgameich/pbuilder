@@ -964,6 +964,41 @@ function should_clean_source() {
     return $noclean
 }
 
+function get_source_options() {
+    local source_options
+    local arg
+    for arg in $DEBBUILDOPTS; do
+        # De-escape arg. $(echo $arg) on its own doesn't perform quote
+        # expansion, since quote expansion operates on the *original* word.
+        eval arg="$arg"
+        case $arg in
+            -s[nsAkurKUR]|-z*|-Z*|-i*|-I*)
+                source_options="${source_options:+$source_options }'$arg'"
+                ;;
+            --source-option=*)
+                source_options="${source_options:+$source_options }'${arg#--source-option=}'"
+                ;;
+            # Pre-squeeze dpkg-source doesn't support the long forms.
+            # Since this is only used by pdebuild outside the chroot, it should
+            # be safe to keep the long forms, but it does no harm to keep
+            # backwards compatibility.
+            --compression-level=*)
+                source_options="${source_options:+$source_options }-z'${arg#--compression-level=}'"
+                ;;
+            --compression=*)
+                source_options="${source_options:+$source_options }-Z'${arg#--compression=}'"
+                ;;
+            --diff-ignore=*)
+                source_options="${source_options:+$source_options }-i'${arg#--diff-ignore=}'"
+                ;;
+            --tar-ignore=*)
+                source_options="${source_options:+$source_options }-I'${arg#--tar-ignore=}'"
+                ;;
+        esac
+    done
+    echo "${source_options:-}"
+}
+
 #==========================================================================
 # hooks stuff
 
