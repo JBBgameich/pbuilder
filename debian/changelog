@@ -1,3 +1,9 @@
+pbuilder (0.228.2+) UNRELEASED; urgency=medium
+
+  * WIP
+
+ -- James Clarke <jrtc27@debian.org>  Tue, 24 Jan 2017 14:18:13 +0000
+
 pbuilder (0.228.2) unstable; urgency=medium
 
   * pdebuild: Unquote changes options. Closes: #852264
