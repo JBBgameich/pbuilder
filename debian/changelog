@@ -8,8 +8,8 @@ pbuilder (0.228.2+) UNRELEASED; urgency=medium
 
 pbuilder (0.228.2) unstable; urgency=medium
 
-  * pdebuild: Unquote changes options. Closes: #852264
-  * d/control: Add myself to uploaders
+  * pdebuild: Unquote changes options.  Closes: #852264
+  * d/control: Add myself to uploaders.
 
  -- James Clarke <jrtc27@debian.org>  Mon, 23 Jan 2017 23:55:43 +0000
 
