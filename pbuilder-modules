@@ -412,7 +412,7 @@ function mountproc () {
             log.i "Mounting $mnt to $mntpoint"
         fi
         if mkdir -p "$BUILDPLACE/$mntpoint" &&
-            mount -obind "$mnt" "$BUILDPLACE/$mntpoint"; then
+            mount $MOUNTPARAMS "$mnt" "$BUILDPLACE/$mntpoint"; then
             # successful.
             mounted[${#mounted[@]}]="$BUILDPLACE/$mnt"
         else
