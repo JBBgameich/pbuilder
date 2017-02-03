@@ -1,3 +1,9 @@
+pbuilder (0.228.3+) UNRELEASED; urgency=medium
+
+  * WIP
+
+ -- James Clarke <jrtc27@debian.org>  Fri, 03 Feb 2017 15:59:47 +0000
+
 pbuilder (0.228.3) unstable; urgency=medium
 
   * pbuilder-modules: Add get_source_options function to extract options for
