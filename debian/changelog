@@ -5,10 +5,10 @@ pbuilder (0.228.3+) UNRELEASED; urgency=medium
 
   [ Mattia Rizzolo ]
   * buildpackage:
-    + rename internal variable SUBDIR_NAME in BUILDSUBDIR (the subdirectory of
+    + rename internal variable SUBDIR_NAME to BUILDSUBDIR (the subdirectory of
       BUILDDIR where the source will be unpacked).
-    + make possible to specify BUILDSUBDIR externally, i.e. through pbuilderrc.
-      Closes: #854255
+    + make it possible to specify BUILDSUBDIR externally, i.e. through
+      pbuilderrc.  Closes: #854255
   * pbuilderrc.5:
     + remove stale information: BUILDDIR is not (by default) the HOME of the
       build user anymore.
