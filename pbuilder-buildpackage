@@ -128,7 +128,7 @@ log.i "Copying source file"
 copydsc "$PACKAGENAME" "${BUILDPLACE}$BUILDDIR"
 copyinputfile "${BUILDPLACE}$BUILDDIR"
 
-SUBDIR_NAME="$(dsc_get_basename "$PACKAGENAME" "no" | tr '_' '-')"
+BUILDSUBDIR="$(dsc_get_basename "$PACKAGENAME" "no" | tr '_' '-')"
 
 log.i "Extracting source"
 if echo "chown $BUILDUSERNAME:$BUILDUSERNAME $BUILDDIR $BUILDDIR/*" | $CHROOTEXEC /bin/bash; then
@@ -137,7 +137,7 @@ else
     log.e "pbuilder: Failed chowning to $BUILDUSERNAME:$BUILDUSERNAME"
     exit 1;
 fi
-if echo "( cd $BUILDDIR; env PATH=\"$PATH\" dpkg-source -x $(basename "$PACKAGENAME") "$SUBDIR_NAME" )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
+if echo "( cd $BUILDDIR; env PATH=\"$PATH\" dpkg-source -x $(basename "$PACKAGENAME") "$BUILDSUBDIR" )" | $UNSHARE $CHROOTEXEC env $SUTOUSER ; then
     : # success
 else
     log.e "pbuilder: Failed extracting the source"
@@ -180,7 +180,7 @@ fi
     if [ -n "$TWICE" ]; then
         DPKG_COMMANDLINE="$DPKG_COMMANDLINE && $DPKG_COMMANDLINE"
     fi
-    DPKG_COMMANDLINE="cd ${BUILDDIR}/$SUBDIR_NAME/ && $DPKG_COMMANDLINE"
+    DPKG_COMMANDLINE="cd ${BUILDDIR}/$BUILDSUBDIR/ && $DPKG_COMMANDLINE"
     log.i "Running $DPKG_COMMANDLINE"
     echo "$DPKG_COMMANDLINE" | $UNSHARE $CHROOTEXEC env $SUTOUSER
 ) &
