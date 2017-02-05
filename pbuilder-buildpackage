@@ -129,7 +129,7 @@ copydsc "$PACKAGENAME" "${BUILDPLACE}$BUILDDIR"
 copyinputfile "${BUILDPLACE}$BUILDDIR"
 
 # don't allow empty values of BUILDSUBDIR
-if [ -z "${BUILDSUBDIR:-}" ]
+if [ -z "${BUILDSUBDIR:-}" ]; then
     BUILDSUBDIR="$(dsc_get_basename "$PACKAGENAME" "no")"
     BUILDSUBDIR="${BUILDSUBDIR//_/-/}"
 fi
