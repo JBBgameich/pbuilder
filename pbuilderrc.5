@@ -83,6 +83,12 @@ BINDMOUNTS="/home /mnt/test /home/joe/repo:/var/repo"
 .TP
 .BI "BUILDDIR=" "/build"
 The directory inside the chroot where the build happens.
+This directory will contain the build products; the source packages will be
+unpacked in a subdirectory therein contained, by default named
+.IR $srcpkg - $ver ,
+with
+.I $ver
+being the upstream part of the version, without epoch and debian revision.
 
 Attention! Some directories \(em such as
 .B /tmp
