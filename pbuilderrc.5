@@ -82,14 +82,12 @@ BINDMOUNTS="/home /mnt/test /home/joe/repo:/var/repo"
 .EE
 .TP
 .BI "BUILDDIR=" "/build"
-The directory inside the chroot where the build happens. This will also be the
-.B HOME
-of the build user.
+The directory inside the chroot where the build happens.
 
 Attention! Some directories \(em such as
 .B /tmp
-\(em are not safe to use since they can be world-writable, and external user can
-temper with the build process.
+\(em are not safe to use since they can be world-writable, and external users
+can temper with the build process.
 .TP
 .BI "BUILDPLACE=" "/var/cache/pbuilder/build/"
 The default place which the chroot is constructed.
