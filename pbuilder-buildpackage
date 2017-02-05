@@ -128,7 +128,7 @@ log.i "Copying source file"
 copydsc "$PACKAGENAME" "${BUILDPLACE}$BUILDDIR"
 copyinputfile "${BUILDPLACE}$BUILDDIR"
 
-BUILDSUBDIR="$(dsc_get_basename "$PACKAGENAME" "no" | tr '_' '-')"
+BUILDSUBDIR="${BUILDSUBDIR:-"$(dsc_get_basename "$PACKAGENAME" "no" | tr '_' '-')"}"
 
 log.i "Extracting source"
 if echo "chown $BUILDUSERNAME:$BUILDUSERNAME $BUILDDIR $BUILDDIR/*" | $CHROOTEXEC /bin/bash; then
