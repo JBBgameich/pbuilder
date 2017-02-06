@@ -1,4 +1,4 @@
-pbuilder (0.228.3+) UNRELEASED; urgency=medium
+pbuilder (0.228.4) unstable; urgency=medium
 
   [ James Clarke ]
   * modules: Fix bind-mounts on kFreeBSD.
@@ -15,7 +15,7 @@ pbuilder (0.228.3+) UNRELEASED; urgency=medium
     + document what will happen inside BUILDDIR, and where the unpacked source
       will be.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 05 Feb 2017 16:45:14 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Mon, 06 Feb 2017 20:16:31 +0100
 
 pbuilder (0.228.3) unstable; urgency=medium
 
