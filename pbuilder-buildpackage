@@ -131,7 +131,7 @@ copyinputfile "${BUILDPLACE}$BUILDDIR"
 # don't allow empty values of BUILDSUBDIR
 if [ -z "${BUILDSUBDIR:-}" ]; then
     BUILDSUBDIR="$(dsc_get_basename "$PACKAGENAME" "no")"
-    BUILDSUBDIR="${BUILDSUBDIR//_/-/}"
+    BUILDSUBDIR="${BUILDSUBDIR//_/-}"
 fi
 
 log.i "Extracting source"
