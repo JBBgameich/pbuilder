@@ -10,9 +10,7 @@ pbuilder (0.228) unstable; urgency=medium
   in pbuilder, such as bind-mounting /dev/shm from the host, to avoid
   situations like over-mounting.
 
-  Pdebuild now uses dpkg-source directly to generate the dsc to pass to
-  pbuilder rather than dpkg-buildpackage -S, therefore DEBBUILDOPTS no
-  longer affect this.  It will also no longer generate a source changes file
+  Pdebuild  will no longer generate a source changes file
   if BUILDRESULT is the parent directory, since the dsc will be overwritten
   when copying back the build results, possibly invalidating the previous
   changes file; please use pbuilder's new --source-only-changes option.
