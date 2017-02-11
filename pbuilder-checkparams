@@ -170,7 +170,7 @@ while [ -n "$1" ]; do
         shift; shift;
         ;;
     --extrapackages)
-        EXTRAPACKAGES="$2";
+        EXTRAPACKAGES="${EXTRAPACKAGES:+$EXTRAPACKAGES }$2";
         shift; shift;
         ;;
     --hookdir)
