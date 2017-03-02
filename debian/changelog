@@ -1,4 +1,4 @@
-pbuilder (0.228.4+) UNRELEASED; urgency=medium
+pbuilder (0.228.5) unstable; urgency=medium
 
   [ Thorsten Glaser ]
   * pbuilder-buildpackage: Look for the correct changes file when performing a
@@ -8,7 +8,7 @@ pbuilder (0.228.4+) UNRELEASED; urgency=medium
   * pbuilder-buildpackage-funcs: Only look in BUILDSUBDIR when performing a
     binNMU and when looking for additional build results.
 
- -- James Clarke <jrtc27@debian.org>  Thu, 02 Mar 2017 16:15:14 +0000
+ -- James Clarke <jrtc27@debian.org>  Thu, 02 Mar 2017 16:16:19 +0000
 
 pbuilder (0.228.4) unstable; urgency=medium
 
