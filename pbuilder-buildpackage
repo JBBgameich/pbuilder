@@ -155,13 +155,14 @@ checkbuilddep "$PACKAGENAME"
 save_aptcache
 trap umountproc_cleanbuildplace_trap exit sighup sigpipe
 
+# This potentially gets modified by binNMU so must come first
+CHANGES_BASENAME=$(dsc_get_basename "$PACKAGENAME" "yes")
+
 binNMU
 
 log.i "Building the package"
 
 executehooks "A"
-
-CHANGES_BASENAME=$(dsc_get_basename "$PACKAGENAME" "yes")
 
 ENV_PREFIX="env PATH=\"$PATH\" HOME=\"$BUILD_HOME\""
 DPKG_COMMANDLINE="$ENV_PREFIX dpkg-buildpackage -us -uc $DEBBUILDOPTS"

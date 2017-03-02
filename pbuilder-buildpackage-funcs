@@ -237,6 +237,7 @@ function binNMU() {
         log.w "No distribution provided, using the field from the last upload"
         DISTRIBUTION=$(dpkg-parsechangelog -l "$tmpcl" -c 1 --show-field Distribution)
     fi
+    CHANGES_BASENAME="$CHANGES_BASENAME+b$BINNMU_VERSION"
     DEBBUILDOPTS="${DEBBUILDOPTS} -e\"$BINNMU_MAINTAINER\" -m\"$BINNMU_MAINTAINER\""
     cat > "$cl" << EOF
 $package ($version+b$BINNMU_VERSION) $DISTRIBUTION; urgency=low, binary-only=yes
