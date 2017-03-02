@@ -220,7 +220,7 @@ function binNMU() {
     local arch=$($CHROOTEXEC dpkg-architecture -qDEB_HOST_ARCH)
     local date=$(date -R ${BINNMU_TIMESTAMP:+-d "${BINNMU_TIMESTAMP}"})
     log.i "Doing a binNMU, version $BINNMU_VERSION for $DISTRIBUTION/$arch to '$BINNMU_MESSAGE'"
-    local cl=$(ls "$BUILDPLACE"/"$BUILDDIR"/*/debian/changelog)
+    local cl=$(ls "$BUILDPLACE/$BUILDDIR/$BUILDSUBDIR"/debian/changelog)
     local tmpcl=$(mktemp pbuilder.tmpchangelog.XXXXXXXXXXX)
     if [ ! -f "$cl" ]; then
         log.e "Cannot open debian/changelog for binNMU version handling."
@@ -284,7 +284,7 @@ cross_build_setup () {
 
 function _find_additional_buildresults() {
     local file f
-    local root="${BUILDPLACE}${BUILDDIR}/*"
+    local root="${BUILDPLACE}${BUILDDIR}/${BUILDSUBDIR}"
     for file in "${ADDITIONAL_BUILDRESULTS[@]}"; do
         log.d "checking [$file]..."
         echo "$root/$file" | perl -ne 'print "$_\n" foreach glob($_)' | \
