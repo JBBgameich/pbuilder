@@ -276,6 +276,12 @@ function umountproc () {
         umount_one "$SELINUX"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
+        if mountpoint -q "$BUILDPLACE/dev/console"; then
+            umount_one "dev/console"
+        fi
+        if mountpoint -q "$BUILDPLACE/dev/ptmx"; then
+            umount_one "dev/ptmx"
+        fi
         umount_one "dev/pts"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "kfreebsd" ] || [ "$USEDEVFS" = "yes" ]; then
@@ -383,8 +389,38 @@ function mountproc () {
         TTYGRP=5
         TTYMODE=620
         [ -f /etc/default/devpts ] && . /etc/default/devpts
-        mount -t devpts none "$BUILDPLACE/dev/pts" -onoexec,nosuid,gid=$TTYGRP,mode=$TTYMODE
+        # Even wheezy has CONFIG_DEVPTS_MULTIPLE_INSTANCES=y, so no need to
+        # fall back to the old method with just /dev/ptmx.
+        mount -t devpts devpts "$BUILDPLACE/dev/pts" -o newinstance,noexec,nosuid,gid=$TTYGRP,mode=$TTYMODE,ptmxmode=0666
         mounted[${#mounted[@]}]="$BUILDPLACE/dev/pts"
+
+        # If /dev/ptmx is a symlink, it should be /dev/ptmx -> pts/ptmx
+        # and since ptmxmode is 0666, /dev/pts/ptmx will have mode 0666.
+        # However, if it is not a symlink, then any PTYs created inside the
+        # chroot will not be visible. We could delete /dev/ptmx and replace
+        # it with a symlink, but it's safer just to bind-mount it.
+        # This is based on the recommendations in
+        # Documentation/filesystems/devpts.txt
+        # (linux.git commit 784c4d8b1b1e66f8c45e8b889613f4982f525b2b)
+        if [ ! -L "$BUILDPLACE/dev/ptmx" ]; then
+            log.i "redirecting /dev/ptmx to /dev/pts/ptmx"
+            mount --bind "$BUILDPLACE/dev/pts/ptmx" "$BUILDPLACE/dev/ptmx"
+            mounted[${#mounted[@]}]="$BUILDPLACE/dev/ptmx"
+        fi
+
+        # If there is a controlling TTY, it must be available to the chroot.
+        # The standard practice (at least by lxc and systemd-nspawn) is to
+        # bind-mount it onto /dev/console.
+        if CURRENT_TTY="$(tty)"; then
+            # We need /dev/console to exist to be able to bind-mount onto it.
+            # Might as well make the proper device node rather than a file.
+            if [ ! -e "$BUILDPLACE/dev/console" ]; then
+                log.i "creating /dev/console"
+                mknod -m 600 "$BUILDPLACE/dev/console" c 5 1
+            fi
+            log.i "mounting $CURRENT_TTY over /dev/console"
+            mount --bind "$CURRENT_TTY" "$BUILDPLACE/dev/console"
+        fi
     fi
     if [ -n "$SELINUX" ]; then
         log.i "mounting selinux filesystem"
