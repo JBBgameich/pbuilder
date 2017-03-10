@@ -1,8 +1,25 @@
 pbuilder (0.228.5+) UNRELEASED; urgency=medium
 
-  * TODO
+  [ James Clarke ]
+  * modules: Use a new /dev/pts instance inside the chroot.
+    This allows for better isolation as the build process is no longer able
+    to see the host's PTYs, other than the controlling terminal (if there is
+    one).  By using a new instance, we can also control the permissions of
+    /dev/pts/ptmx, ensuring that the build process is always able to create
+    new PTYs, even if the host's has the default 000 mode.
+    Thanks to Simon McVittie <smcv@debian.org> for the thorough investigation.
+    Closes: #841935
 
- -- James Clarke <jrtc27@debian.org>  Mon, 06 Mar 2017 16:26:47 +0000
+  [ Mattia Rizzolo ]
+  * pbuilderrc.5:
+    + Update the details about the currently available dependency resolvers.
+  * debian/NEWS:
+    + Remove changes reverted in successive fixup uploads.
+  * checkparams:
+    + Make --extrapackages cumulative.  Specifying --extrapackages multiple
+      times will now add packages to the list.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 10 Mar 2017 14:33:53 +0100
 
 pbuilder (0.228.5) unstable; urgency=medium
 
