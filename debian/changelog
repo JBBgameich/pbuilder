@@ -1,4 +1,4 @@
-pbuilder (0.228.5+) UNRELEASED; urgency=medium
+pbuilder (0.228.6) unstable; urgency=medium
 
   [ James Clarke ]
   * modules: Use a new /dev/pts instance inside the chroot.
@@ -19,7 +19,7 @@ pbuilder (0.228.5+) UNRELEASED; urgency=medium
     + Make --extrapackages cumulative.  Specifying --extrapackages multiple
       times will now add packages to the list.
 
- -- Mattia Rizzolo <mattia@debian.org>  Fri, 10 Mar 2017 14:33:53 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 12 Mar 2017 16:23:59 +0100
 
 pbuilder (0.228.5) unstable; urgency=medium
 
