@@ -280,10 +280,10 @@ function umountproc () {
         umount_one "$SELINUX"
     fi
     if [ "$DEB_BUILD_ARCH_OS" = "linux" ] && [ "$USEDEVPTS" = "yes" ]; then
-        if mountpoint -q "$BUILDPLACE/dev/console"; then
+        if mount | grep -q -F " $(readlink -f "$BUILDPLACE")/dev/console"; then
             umount_one "dev/console"
         fi
-        if mountpoint -q "$BUILDPLACE/dev/ptmx"; then
+        if mount | grep -q -F " $(readlink -f "$BUILDPLACE")/dev/ptmx"; then
             umount_one "dev/ptmx"
         fi
         umount_one "dev/pts"
