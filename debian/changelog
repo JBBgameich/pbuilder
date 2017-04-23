@@ -8,6 +8,7 @@ pbuilder (0.228.7) unstable; urgency=medium
     Debian stretch); this means those two checks could fail when run with
     initscripts' mountpoint(1).
     Closes: #859766
+  * Remove now not needed dependency on util-linux|initscripts.
 
  -- Mattia Rizzolo <mattia@debian.org>  Sun, 23 Apr 2017 19:00:19 +0200
 
