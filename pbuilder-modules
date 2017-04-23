@@ -119,6 +119,7 @@ _log() {
     set +u
 }
 function log() {
+    set +x
     case "$*" in
         "E: "*)
             _log 'red' "$*" >&2
@@ -137,6 +138,9 @@ function log() {
             exit 1
             ;;
     esac
+    if [ "$PBUILDER_DEBUGMODE" = "yes" ]; then
+        set -x
+    fi
 }
 
 log.e() {
