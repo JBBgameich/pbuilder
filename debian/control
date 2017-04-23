@@ -25,7 +25,6 @@ Multi-Arch: foreign
 Depends:
  debootstrap | cdebootstrap,
  dpkg-dev (>= 1.17.0),
- util-linux (>= 2.26.2-4) | initscripts (<< 2.88dsf-59.1),
  wget,
  ${misc:Depends},
 Recommends:

@@ -9,7 +9,7 @@ pbuilder (0.228.7) unstable; urgency=medium
     initscripts' mountpoint(1).
     Closes: #859766
 
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 23 Apr 2017 18:48:53 +0200
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 23 Apr 2017 19:00:19 +0200
 
 pbuilder (0.228.6) unstable; urgency=medium
 
