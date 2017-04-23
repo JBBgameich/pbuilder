@@ -1,8 +1,15 @@
-pbuilder (0.228.6+) UNRELEASED; urgency=medium
+pbuilder (0.228.6+) unstable; urgency=medium
 
-  * WIP.
+  * modules: do not output debug for log().
+  * modules: use `mount|grep` instead of `mountpoint` to detect whether
+    /dev/ptmx and /dev/console are still mounted.
+    mountpoint(1) from initscripts as found in Debian jessie doesn't detect
+    mounts over regular files as the version in util-linux (present in
+    Debian stretch); this means those two checks could fail when run with
+    initscripts' mountpoint(1).
+    Closes: #859766
 
- -- Mattia Rizzolo <mattia@debian.org>  Sun, 12 Mar 2017 16:29:41 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 23 Apr 2017 18:43:34 +0200
 
 pbuilder (0.228.6) unstable; urgency=medium
 
