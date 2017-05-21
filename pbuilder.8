@@ -319,10 +319,9 @@ the
 .B "create"
 and
 .B "update"
-process are stored. Currently scripts are
-executed at only one point, on exit from the chrooted environment,
-just before either a create or a build regenerated the base.tgz
-file. The script names must be in the form
+process are stored.
+Scripts are executed inside the chroot.
+The script names must be in the form
 .B "X<digit><digit><whatever-else-you-want>"
 much like boot scripts. The scripts must be executable and may
 be either binaries or interpreted scripts. If it is a script
