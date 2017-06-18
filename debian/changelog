@@ -1,3 +1,13 @@
+pbuilder (0.228.8) UNRELEASED; urgency=medium
+
+  [ Daniel Shahaf ]
+  * pbuilder.8: specify that hooks are executed inside the chroot.
+
+  [ James Clarke ]
+  * TODO
+
+ -- James Clarke <jrtc27@debian.org>  Sun, 18 Jun 2017 17:46:07 +0100
+
 pbuilder (0.228.7) unstable; urgency=medium
 
   * modules: do not output debug for log().
