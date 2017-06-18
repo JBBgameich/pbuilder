@@ -961,10 +961,12 @@ b paraloop' \
 function get_changes_options() {
     local changes_options
     local arg
-    for arg in $DEBBUILDOPTS; do
-        # De-escape arg. $(echo $arg) on its own doesn't perform quote
-        # expansion, since quote expansion operates on the *original* word.
-        eval arg="$arg"
+    # Split and de-escape DEBBUILDOPTS. Can't iterate over it before
+    # de-escaping, as word splitting does not take quotes in the variable into
+    # account. Need eval as $(echo $DEBBUILDOPTS) on its own doesn't perform
+    # quote expansion, since quote expansion operates on the *original* word.
+    eval local args=($DEBBUILDOPTS)
+    for arg in "${args[@]}"; do
         case $arg in
             -s[iad]|-v*|-m*|-e*|-C*)
                 changes_options="${changes_options:+$changes_options }'$arg'"
@@ -987,10 +989,12 @@ function get_changes_options() {
 function should_clean_source() {
     local noclean=0
     local arg
-    for arg in $DEBBUILDOPTS; do
-        # De-escape arg. $(echo $arg) on its own doesn't perform quote
-        # expansion, since quote expansion operates on the *original* word.
-        eval arg="$arg"
+    # Split and de-escape DEBBUILDOPTS. Can't iterate over it before
+    # de-escaping, as word splitting does not take quotes in the variable into
+    # account. Need eval as $(echo $DEBBUILDOPTS) on its own doesn't perform
+    # quote expansion, since quote expansion operates on the *original* word.
+    eval local args=($DEBBUILDOPTS)
+    for arg in "${args[@]}"; do
         case $arg in
             --pre-clean)
                 noclean=0
@@ -1007,10 +1011,12 @@ function should_clean_source() {
 function get_source_options() {
     local source_options
     local arg
-    for arg in $DEBBUILDOPTS; do
-        # De-escape arg. $(echo $arg) on its own doesn't perform quote
-        # expansion, since quote expansion operates on the *original* word.
-        eval arg="$arg"
+    # Split and de-escape DEBBUILDOPTS. Can't iterate over it before
+    # de-escaping, as word splitting does not take quotes in the variable into
+    # account. Need eval as $(echo $DEBBUILDOPTS) on its own doesn't perform
+    # quote expansion, since quote expansion operates on the *original* word.
+    eval local args=($DEBBUILDOPTS)
+    for arg in "${args[@]}"; do
         case $arg in
             -s[nsAkurKUR]|-z*|-Z*|-i*|-I*)
                 source_options="${source_options:+$source_options }'$arg'"
