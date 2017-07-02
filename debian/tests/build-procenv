@@ -2,7 +2,7 @@
 set -e
 
 #---------------------------------------------------------------------
-# Creates a sbuild chroot, builds a package, installs the resulting
+# Creates a pbuilder chroot, builds a package, installs the resulting
 # .deb, then runs the command provided by the .deb.
 #---------------------------------------------------------------------
 
