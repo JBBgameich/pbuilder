@@ -4,15 +4,15 @@
 # run tests. Current directory is top of source-code.
 #
 # 2005, 2007 Junichi Uekawa
-# 
-set -e 
+#
+set -e
 
 BUILDDIR="${BUILDDIR:-/tmp/buildd}"
 
 echo "Installing the prerequisites"
 for PKG in $(ls "$BUILDDIR"/*.deb | sed -e's,.*/,,;s,_.*,,' ); do
-    apt-get install -y --force-yes "$PKG" || true 
-    apt-get remove -y "$PKG" || true 
+    apt-get install -y --force-yes "$PKG" || true
+    apt-get remove -y "$PKG" || true
 done
 # ignore the failures since they are not the prime interest
 

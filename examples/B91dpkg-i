@@ -19,7 +19,7 @@ dpkg -i "$BUILDDIR"/*.deb
 dpkg --purge $PKGNAMES
 
 # upgrade-remove check
-apt-get install -y "${APTGETOPT[@]}"  $PKGNAMES || true
+apt-get install -y "${APTGETOPT[@]}" $PKGNAMES || true
 dpkg -i "$BUILDDIR"/*.deb
 dpkg --remove $PKGNAMES
 

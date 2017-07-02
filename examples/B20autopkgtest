@@ -62,7 +62,7 @@ fi
 
 # runner/adt-run uses apt-utils's apt-ftparchive and
 # pbuilder's pbuilder-satisfydepends-classic
-apt-get install -y autopkgtest apt-utils pbuilder $newpid_name
+apt-get install -y "${APTGETOPT[@]}" autopkgtest apt-utils pbuilder $newpid_name
 
 # since autopkgtest 3.16 the --tmp-dir option is gone, make sure
 # we've --output-dir available though before using it

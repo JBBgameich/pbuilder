@@ -4,8 +4,9 @@
 # 343894: a script to run debc command, contributed from q-funk.
 
 BUILDDIR="${BUILDDIR:-/tmp/buildd}"
+
 apt-get install -y "${APTGETOPT[@]}" devscripts
-cd "$BUILDDIR"/*/debian
-cd ..
+cd "$BUILDDIR"/*/debian/..
+
 debc
 #EOF

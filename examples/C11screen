@@ -5,6 +5,8 @@
 
 export debian_chroot="pbuilder"
 BUILDDIR="${BUILDDIR:-/tmp/buildd}"
+
 apt-get install -y "${APTGETOPT[@]}" screen vim less
-cd "$BUILDDIR/*/debian/.."
+cd "$BUILDDIR"/*/debian/..
+
 screen </dev/tty > /dev/tty 2> /dev/tty

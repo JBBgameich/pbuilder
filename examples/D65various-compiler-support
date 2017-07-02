@@ -48,7 +48,7 @@ case "${CHOOSE_COMPILER}" in
         ;;
 esac
 
-apt-get -y install "${CHOOSE_COMPILER}" ${gxx_package} ${clang_package}
+apt-get install -y "${APTGETOPT[@]}" "${CHOOSE_COMPILER}" ${gxx_package} ${clang_package}
 
 if [ ! -x /usr/bin/"${CHOOSE_COMPILER}" ]; then
     echo >&2 "E: Package ${CHOOSE_COMPILER} does not contain compiler driver?"

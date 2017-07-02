@@ -12,7 +12,7 @@ case $OPERATION in
       ;;
 esac
 if ( $PROCEED == true ) then
-   shift 
+   shift
    sudo pbuilder $OPERATION \
       --basetgz $BASE_DIR/$DISTRIBUTION-base.tgz \
       --distribution $DISTRIBUTION \
