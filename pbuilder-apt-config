@@ -62,7 +62,7 @@ guess_dist_arch_archive() {
       buzz|rex|bo|hamm|slink|potato|woody|sarge|etch|lenny|squeeze|wheezy|jessie|stretch|buster)
         echo "debian-archive"
       ;;
-      precise|trusty|xenial|yakkety|zesty)
+      precise|trusty|xenial|yakkety|zesty|artful)
         case "$arch" in
           amd64|i386)
             echo "ubuntu"
