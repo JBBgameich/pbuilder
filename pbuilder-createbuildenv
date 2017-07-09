@@ -64,6 +64,22 @@ else
     exit 1
 fi
 
+if [ $ARCHITECTURE = $(dpkg-architecture -qDEB_HOST_ARCH) ]; then
+    echo "I: No qemu static package needed"
+elif [ $ARCHITECTURE = "amd64" ]; then
+    mkdir -p $BUILDPLACE/usr/bin
+    cp /usr/bin/qemu-x86_64-static $BUILDPLACE/usr/bin
+elif [ $ARCHITECTURE = "armhf" ]; then
+    mkdir -p $BUILDPLACE/usr/bin
+    cp /usr/bin/qemu-arm-static $BUILDPLACE/usr/bin
+elif [ $ARCHITECTURE = "arm64" ]; then
+    mkdir -p $BUILDPLACE/usr/bin
+    cp /usr/bin/qemu-aarch64-static /usr/bin/qemu-arm-static $BUILDPLACE/usr/bin
+elif [ $ARCHITECTURE = "mips" ]; then
+    mkdir -p $BUILDPLACE/usr/bin
+    cp /usr/bin/qemu-mips-static $BUILDPLACE/usr/bin
+fi
+
 # FIXME if the end-user passes another --include= to debootstrap in
 # DEBOOTSTRAPOPTS, it will override the --include=apt one and apt might not be
 # installed

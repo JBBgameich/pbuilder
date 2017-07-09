@@ -190,7 +190,7 @@ install:
 	$(foreach d,$(ALLDIRS),$(call install_dir_impl,$(d)))
 	$(INSTALL_DIRECTORY) $(DESTDIR)/var/cache/pbuilder/pbuilder-mnt
 	# install -aptitude flavour as the default satisfydepends
-	ln -sf pbuilder-satisfydepends-aptitude $(PKGLIBDIR)/pbuilder-satisfydepends
+	ln -sf pbuilder-satisfydepends-apt $(PKGLIBDIR)/pbuilder-satisfydepends
 	$(MAKE) -C pbuildd $@
 	$(MAKE) -C Documentation $@
 
