@@ -62,7 +62,7 @@ function checkbuilddep_internal () {
         APTGETOPT[${#APTGETOPT[@]}]="--host-architecture=$HOST_ARCH"
     fi
 
-    $CHROOTEXEC apt-get \
+    $CHROOTEXEC apt \
         -y \
         "${APTGETOPT[@]}" \
         build-dep \
